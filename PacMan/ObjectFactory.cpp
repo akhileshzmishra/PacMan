@@ -7,6 +7,8 @@
 //
 
 #include "ObjectFactory.hpp"
+#include "BluePrint.hpp"
+#include "MapDisplay.hpp"
 
 using namespace pacman;
 using namespace pacman::impl;
@@ -17,4 +19,12 @@ IMap* ObjectFactory::getMap(){
 
 IPlayer* ObjectFactory::getPlayer(){
     return nullptr;
+}
+
+IBluePrintPtr ObjectFactory::getNewBluePrint(){
+    return std::make_shared<BluePrint>();
+}
+
+MapDisplayPtr ObjectFactory::getMapDisplay(IBluePrintPtr ptr){
+    return std::make_shared<MapDisplay>(ptr);
 }

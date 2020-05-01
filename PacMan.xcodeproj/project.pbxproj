@@ -144,6 +144,8 @@
 		1EF1BCD4245B8E4D002CF1A5 /* IBaseFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IBaseFrame.h; path = PacMan/IBaseFrame.h; sourceTree = SOURCE_ROOT; };
 		1EF1BCD5245B8FA9002CF1A5 /* PacManFrame.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PacManFrame.cpp; sourceTree = "<group>"; };
 		1EF1BCD6245B8FA9002CF1A5 /* PacManFrame.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PacManFrame.hpp; sourceTree = "<group>"; };
+		1EF1BCD9245BB1C0002CF1A5 /* IBluePrint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IBluePrint.h; path = PacMan/interfaces/IBluePrint.h; sourceTree = SOURCE_ROOT; };
+		1EF1BCE6245BC5C7002CF1A5 /* IObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IObserver.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +223,7 @@
 				1EF1BCBF245B8677002CF1A5 /* PacManTexts.h */,
 				1EF1BCD5245B8FA9002CF1A5 /* PacManFrame.cpp */,
 				1EF1BCD6245B8FA9002CF1A5 /* PacManFrame.hpp */,
+				1EF1BCE6245BC5C7002CF1A5 /* IObserver.h */,
 			);
 			path = PacMan;
 			sourceTree = "<group>";
@@ -236,6 +239,7 @@
 				1EF1BCB1245B5DF8002CF1A5 /* ISquare.h */,
 				1EF1BCB5245B642B002CF1A5 /* IGift.h */,
 				1EF1BCD4245B8E4D002CF1A5 /* IBaseFrame.h */,
+				1EF1BCD9245BB1C0002CF1A5 /* IBluePrint.h */,
 			);
 			name = interfaces;
 			path = "New Group";

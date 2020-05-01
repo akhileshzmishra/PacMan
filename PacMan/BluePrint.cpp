@@ -38,4 +38,5 @@ void BluePrint::create(){
     };
     mRow = mMapPrint.size();
     mCol = mMapPrint[0].size();
+    mResolution = 4;
 }

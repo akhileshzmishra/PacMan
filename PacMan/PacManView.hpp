@@ -25,6 +25,7 @@ public:
     virtual ~PacManView();
 private:
     void createMap();
+    void destroyMap();
 };
     
 }}

@@ -17,20 +17,16 @@ mType(type),
 mOccupant(nullptr),
 mDimension(){
     mDimension.dimension = Settings::getInstance()->getSquareDimension();
+    SetSubject(Settings::getInstance());
 }
 
 void SingleSquare::display() {
+    if(getBaseFramePtr()){
+        getBaseFramePtr()->getWindow().draw(mRect);
+    }
     if(mCoin && mType == mapElements::Empty){
         mCoin->display();
     }
-    
-    if(getBaseFramePtr()){
-        getBaseFramePtr()->draw(this);
-    }
-}
-
-sf::Shape* SingleSquare::getShape(){
-    return &mRect;
 }
 
 void SingleSquare::setPosition(const Position& p){
@@ -38,7 +34,8 @@ void SingleSquare::setPosition(const Position& p){
     mRect.setPosition(p.x, p.y);
 }
 
-void SingleSquare::create(){
+void SingleSquare::createData(){
+    mDimension.dimension = Settings::getInstance()->getSquareDimension();
     if(mType >= 0 && mType < mapElements::Invalid){
         switch(mType){
             case mapElements::Wall:
@@ -48,29 +45,39 @@ void SingleSquare::create(){
                 createEmpty();
                 break;
             default:
-                createEmpty();
+                createWall();
                 break;
         }
     }
 }
 
-void SingleSquare::setBaseFrame(IBaseFrame*  ptr){
+void SingleSquare::create(){
+    setBaseFrame(Settings::getInstance()->getCopyBaseFrame());
+    createData();
+    Register(MainWindowDimensionChange);
+}
+
+void SingleSquare::destroy(){
+    DeRegister(MainWindowDimensionChange);
+    setBaseFrame(nullptr);
     if(mCoin){
-        mCoin->setBaseFrame(ptr);
+        mCoin->destroy();
     }
-    IDisplay::setBaseFrame(ptr);
+    mCoin = nullptr;
 }
 
 void SingleSquare::createEmpty(){
     mColor = Colors::EmptyColor;
     mRect.setSize(sf::Vector2f(mDimension.dimension.width, mDimension.dimension.length));
     mRect.setFillColor(sf::Color(mColor.red, mColor.green, mColor.blue));
+    mRect.setPosition(mDimension.centroid.x, mDimension.centroid.y);
 }
 
 void SingleSquare::createWall(){
     mColor = Colors::WallColor;
     mRect.setSize(sf::Vector2f(mDimension.dimension.width, mDimension.dimension.length));
     mRect.setFillColor(sf::Color(mColor.red, mColor.green, mColor.blue));
+    mRect.setPosition(mDimension.centroid.x, mDimension.centroid.y);
 }
 
 
@@ -80,6 +87,13 @@ void SingleSquare::setGift(IGiftPtr ptr){
 
 IGiftPtr SingleSquare::getGift(){
     return mCoin;
+}
+
+
+void SingleSquare::GetNotified(LiftData& data, const SettingsObservation& condition){
+    if(condition == MainWindowDimensionChange){
+        createData();
+    }
 }
 
 

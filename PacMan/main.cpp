@@ -7,8 +7,10 @@
 //
 #include "AllInterfaces.h"
 #include "PacManView.hpp"
+#include "Settings.hpp"
 
 int main(int argc, const char * argv[]) {
+    pacman::impl::Settings::getInstance()->start();
     pacman::impl::PacManView pacManView;
     pacManView.run();
     return 0;

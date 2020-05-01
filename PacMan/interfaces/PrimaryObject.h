@@ -12,20 +12,24 @@
 #include "IBaseFrame.h"
 namespace  pacman {
     class IPrimaryObject{
-        IBaseFrame*             mBaseFramePtr = nullptr;
+        IBaseFramePtr                  mBaseFramePtr;
     public:
         virtual bool canMove() = 0;
         virtual bool move() = 0;
         virtual void setPosition(const Position& p) = 0;
         virtual void setDirection(Directions d) = 0;
         virtual void setSpeed(size_t speed) = 0;
-        virtual void setBaseFrame(IBaseFrame*  ptr){
+        
+        void setBaseFrame(IBaseFramePtr  ptr){
             mBaseFramePtr = ptr;
         }
         
-        IBaseFrame* getBaseFramePtr(){
+        IBaseFramePtr getBaseFramePtr(){
             return mBaseFramePtr;
         }
+        
+        virtual void create() = 0;
+        virtual void destroy() = 0;
         
     };
 

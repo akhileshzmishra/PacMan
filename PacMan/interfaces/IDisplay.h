@@ -23,10 +23,6 @@ public:
     }
     virtual void display() = 0;
     
-    virtual sf::Shape* getShape(){
-        return nullptr;
-    }
-    
 };
 DECLARE_SHARED(IDisplay);
     

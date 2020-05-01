@@ -21,21 +21,16 @@ class PlayBoard: public IPlayBoard{
     MapDisplayPtr                             mDisplay;
     Enemies                                   mEnemies;
     IHeroPtr                                  mPlayer;
-    BluePrint                                 mBluePrint;
+    IBluePrintPtr                             mBluePrint;
     DimensionMarker                           mDimension;
     bool                                      mSetup = false;
 public:
     PlayBoard();
     GENERIC_GETTER_SETTER(SquareDim,   mDimension,    DimensionMarker);
     virtual void display() override;
-    virtual void setUp() override;
-    virtual void start() override;
-    virtual void end() override;
+    virtual void create() override;
+    virtual void destroy() override;
     virtual void setPosition(const Position& p) override;
-    virtual void setBaseFrame(IBaseFrame*  ptr) override;
-    
-private:
-    void create();
 };
 
 

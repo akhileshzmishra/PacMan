@@ -19,13 +19,13 @@ class MapDisplay: public IDisplay{
     typedef std::vector<SingleSquarePtr>      OneRow;
     typedef std::vector<OneRow>               RowCol;
     RowCol                                    mRowCol;
-    BluePrint&                                mPlan;
+    IBluePrintPtr                             mPlan;
     size_t                                    mRows;
     size_t                                    mCols;
     DimensionMarker                           mDimension;
     sf::RectangleShape                        mRect;
 public:
-    MapDisplay(BluePrint& plan);
+    MapDisplay(IBluePrintPtr plan);
     virtual void display() override;
     void setPosition(const Position& p)  override;
     virtual void setDirection(Directions d) override{
@@ -35,17 +35,14 @@ public:
         (void)speed;
     }
     
-    virtual void setBaseFrame(IBaseFrame*  ptr) override;
-    
-    virtual sf::Shape* getShape() override{
-        return &mRect;
-    }
+    virtual void create() override;
+    virtual void destroy() override;
     
     GENERIC_GETTER_SETTER(Rows,        mRows,         decltype(mRows));
     GENERIC_GETTER_SETTER(Cols,        mCols,         decltype(mCols));
     GENERIC_GETTER_SETTER(SquareDim,   mDimension,    DimensionMarker);
 private:
-    void create();
+    
     void moveTo(Position topLeft);
 };
 

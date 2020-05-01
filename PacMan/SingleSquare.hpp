@@ -13,13 +13,14 @@
 
 namespace pacman {namespace impl{
 
-class SingleSquare: public ISquare{
+class SingleSquare: public ISquare, public SettingObserver{
     int                                       mType;
     IPlayerPtr                                mOccupant;
     DimensionMarker                           mDimension;
     sf::RectangleShape                        mRect;
     ColorRGB                                  mColor;
     IGiftPtr                                  mCoin;
+    bool                                      mCreate = false;
 public:
     SingleSquare(int type = mapElements::Empty);
     virtual void display() override;
@@ -30,18 +31,18 @@ public:
     virtual void setGift(IGiftPtr ptr)override;
     virtual IGiftPtr getGift()override;
     
-    virtual sf::Shape* getShape() override;
-    
     virtual void create() override;
-    
-    virtual void setBaseFrame(IBaseFrame*  ptr) override;
+    virtual void destroy() override;
     
     GENERIC_GETTER_SETTER(Type,        mType,         decltype(mType));
     GENERIC_GETTER_SETTER(Occupant,    mOccupant,     IPlayerPtr);
     GENERIC_GETTER_SETTER(Dimension,   mDimension,    DimensionMarker);
+    
+    void GetNotified(LiftData& data, const SettingsObservation& condition) override;
 private:
     void createEmpty();
     void createWall();
+    void createData();
 };
 
 DECLARE_SHARED(SingleSquare);

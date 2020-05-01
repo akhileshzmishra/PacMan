@@ -7,9 +7,15 @@
 //
 
 #include "Settings.hpp"
+#include "BluePrint.hpp"
 
 using namespace pacman;
 using namespace pacman::impl;
+
+static const float WindowDim = 1080.0;
+static const float BorderDim = 2.0;
+static const float SquareDim = 10.0;
+static const float CoinDim = 15.0;
 
 Settings::Settings(){
     
@@ -20,36 +26,62 @@ Settings* Settings::getInstance(){
     return &settings;
 }
 
-
-Dimension Settings::getCoinDimension(){
-    static Dimension dim(4.0, 4.0);
-    return dim;
+void Settings::start(){
+    mBorders.length = mBorders.width = BorderDim;
+    mSquareDimension.length = mSquareDimension.width = SquareDim;
+    mWindowDimension.length = mWindowDimension.width = WindowDim;
+    mCoinDimension.length = mCoinDimension.width = CoinDim;
+    mBoardDimension.length = mWindowDimension.length - mBorders.length;
+    mBoardDimension.width = mWindowDimension.width - mBorders.width;
 }
 
-Dimension Settings::getSquareDimension(){
-    static Dimension dim(8.0, 8.0);
-    return dim;
+void Settings::calculate(){
+    if(mBluePrint){
+        size_t r = mBluePrint->getRow();
+        size_t c = mBluePrint->getCol();
+        if(r > 0 && c > 0){
+            mBoardDimension.length = mWindowDimension.length - mBorders.length;
+            mBoardDimension.width = mWindowDimension.width - mBorders.width;
+            float squarelength = std::min(mBoardDimension.length/c, mBoardDimension.width/r);
+            mSquareDimension.length = squarelength;
+            mSquareDimension.width = squarelength;
+        }
+        mTopLeft.x = 0.f;
+        mTopLeft.y = 0.f;
+    }
 }
 
-Dimension Settings::getBoardDimension(){
-    static Dimension dim(1080.0, 780.0);
-    return dim;
+void Settings::setWindowDimension(const Dimension& d){
+    mWindowDimension = d;
+    calculate();
+    pacman::impl::LiftData ldata;
+    ldata.dim = mWindowDimension;
+    NotifyToObservers(ldata, MainWindowDimensionChange);
 }
 
-Dimension Settings::getWindowDimension(){
-    static Dimension dim(1080, 1080);
-    return dim;
+const Dimension& Settings::getCoinDimension(){
+    return mCoinDimension;
 }
 
-Position Settings::getTopLeftMapPosition(){
-    static Position pos(10.0, 10.0);
-    return pos;
+const Dimension& Settings::getSquareDimension(){
+    return mSquareDimension;
+}
+
+const Dimension& Settings::getBoardDimension(){
+    return mBoardDimension;
+}
+
+const Dimension& Settings::getWindowDimension(){
+    return mWindowDimension;
+}
+
+const Position& Settings::getTopLeftMapPosition(){
+    return mTopLeft;
 }
 
 
-Dimension Settings::getBoardBorders(){
-    static Dimension dim(2.0, 2.0);
-    return dim;
+const Dimension& Settings::getBoardBorders(){
+    return mBorders;
 }
 
 ColorRGB Settings::getBoardColor(){

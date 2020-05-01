@@ -14,15 +14,20 @@ using namespace pacman::impl;
 
 PacManFrame::PacManFrame(){
     Dimension dim = Settings::getInstance()->getWindowDimension();
-    mWindow.create(sf::VideoMode(dim.length, dim.width), pacman::PACMAN_TITLE);
+    mWindow.create(sf::VideoMode(dim.length, dim.width, 32), pacman::PACMAN_TITLE);
+                   //, sf::Style::Titlebar | sf::Style::Close);
     mWindow.setVerticalSyncEnabled(true);
+    setTotalSizes();
 }
 
-void PacManFrame::draw(IDisplay* p){
-    auto shape = p->getShape();
-    if(shape){
-        mWindow.draw(*shape);
-    }
+void PacManFrame::setTotalSizes(){
+    auto siz = mWindow.getSize();
+    Settings::getInstance()->setWindowDimension(Dimension(siz.x, siz.y));
+    Settings::getInstance()->calculate();
+}
+
+sf::RenderWindow& PacManFrame::getWindow(){
+    return mWindow;
 }
 
 
@@ -34,18 +39,21 @@ void PacManFrame::run(){
                 ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape))){
                 mWindow.close();
             }
+            else if(event.type == sf::Event::Resized){
+                setTotalSizes();
+            }
             else{
                 
             }
         }
         displayAll();
+        mWindow.display();
     }
     destroy();
 }
 
 void PacManFrame::addToList(IDisplayPtr ptr){
     mDisplayList.push_back(ptr);
-    ptr->setBaseFrame(this);
 }
 
 void PacManFrame::destroy(){

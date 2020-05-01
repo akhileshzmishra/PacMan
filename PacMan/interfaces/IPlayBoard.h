@@ -14,10 +14,6 @@
 namespace  pacman {
     class IPlayBoard: public IDisplay{
     public:
-        virtual void setUp() = 0;
-        virtual void start() = 0;
-        virtual void end() = 0;
-        
         virtual void setDirection(Directions d) override{
             (void)d;
         }

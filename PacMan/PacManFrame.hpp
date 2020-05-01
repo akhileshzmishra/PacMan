@@ -13,12 +13,12 @@
 
 namespace pacman { namespace impl{
     typedef std::vector<IDisplayPtr>  DisplayList;
-    class PacManFrame: public IBaseFrame, std::enable_shared_from_this<PacManFrame>{
+    class PacManFrame: public IBaseFrame{
         sf::RenderWindow                mWindow;
         DisplayList                     mDisplayList;
     public:
         PacManFrame();
-        virtual void draw(IDisplay* p) override;
+        virtual sf::RenderWindow& getWindow() override;
         void run();
         
         void addToList(IDisplayPtr ptr);
@@ -27,6 +27,7 @@ namespace pacman { namespace impl{
         
     private:
         void displayAll();
+        void setTotalSizes();
     };
     
     DECLARE_SHARED(PacManFrame);

@@ -13,18 +13,19 @@ using namespace pacman;
 using namespace pacman::impl;
 
 
-MapDisplay::MapDisplay(BluePrint& plan):mPlan(plan){
-    create();
+MapDisplay::MapDisplay(IBluePrintPtr plan):
+mPlan(plan)
+{
 }
 
 void MapDisplay::display(){
+    if(getBaseFramePtr()){
+        //getBaseFramePtr()->getWindow().draw(mRect);
+    }
     for(size_t i = 0; i < mRows; i++){
         for(size_t j = 0; j < mCols; j++){
             mRowCol[i][j]->display();
         }
-    }
-    if(getBaseFramePtr()){
-        getBaseFramePtr()->draw(this);
     }
 }
 
@@ -39,6 +40,13 @@ void MapDisplay::setPosition(const Position& p) {
 void MapDisplay::moveTo(Position topLeft){
     Dimension sq = Settings::getInstance()->getSquareDimension();
     Dimension border = Settings::getInstance()->getBoardBorders();
+    mDimension.dimension.length = mCols*sq.length + border.length*2;
+    mDimension.dimension.width = mRows*sq.width + border.width*2;
+    mDimension.centroid = mDimension.dimension.length/2 + topLeft.x;
+    mDimension.centroid = mDimension.dimension.width/2 + topLeft.y;
+    mRect.setSize(sf::Vector2f(mDimension.dimension.length, mDimension.dimension.width));
+    //mRect.setFillColor(sf::Color::Black);
+    
     Position itr = topLeft;
     for(size_t i = 0; i < mRows; i++){
         itr.x = topLeft.x;
@@ -46,36 +54,44 @@ void MapDisplay::moveTo(Position topLeft){
             mRowCol[i][j]->setPosition(itr);
             itr.x += sq.length;
         }
-        itr.y = sq.width;
+        itr.y += sq.width;
     }
-    
+}
+
+void MapDisplay::create(){
+    Position topLeft = Settings::getInstance()->getTopLeftMapPosition();
+    setBaseFrame(Settings::getInstance()->getCopyBaseFrame());
+    Dimension sq = Settings::getInstance()->getSquareDimension();
+    Dimension border = Settings::getInstance()->getBoardBorders();
     mDimension.dimension.length = mCols*sq.length + border.length*2;
     mDimension.dimension.width = mRows*sq.width + border.width*2;
     mDimension.centroid = mDimension.dimension.length/2 + topLeft.x;
     mDimension.centroid = mDimension.dimension.width/2 + topLeft.y;
     mRect.setSize(sf::Vector2f(mDimension.dimension.length, mDimension.dimension.width));
-    mRect.setFillColor(sf::Color::Blue);
-}
-
-void MapDisplay::create(){
-    mRows = mPlan.getConstRefRow();
-    mCols = mPlan.getConstRefCol();
-    mRowCol = RowCol(mRows, OneRow(mCols, std::make_shared<SingleSquare>()));
-    Position topLeft = Settings::getInstance()->getTopLeftMapPosition();
-    for(size_t i = 0; i < mRows; i++){
-        for(size_t j = 0; j < mCols; j++){
-            mRowCol[i][j]->setType(mPlan.getValue(i, j));
-            mRowCol[i][j]->create();
+    if(mPlan){
+        mRows = mPlan->getRow();
+        mCols = mPlan->getCol();
+        mRowCol = RowCol(mRows, OneRow(mCols, std::make_shared<SingleSquare>()));
+        
+        Position itr = topLeft;
+        for(size_t i = 0; i < mRows; i++){
+            itr.x = topLeft.x;
+            for(size_t j = 0; j < mCols; j++){
+                mRowCol[i][j]->setPosition(itr);
+                itr.x += sq.length;
+                mRowCol[i][j]->setType(mPlan->getValue(i, j));
+                mRowCol[i][j]->create();
+            }
+            itr.y += sq.width;
         }
     }
-    moveTo(topLeft);
 }
 
-void MapDisplay::setBaseFrame(IBaseFrame*  ptr){
+void MapDisplay::destroy(){
     for(size_t i = 0; i < mRows; i++){
         for(size_t j = 0; j < mCols; j++){
-            mRowCol[i][j]->setBaseFrame(ptr);
+            mRowCol[i][j]->destroy();
         }
     }
-    IDisplay::setBaseFrame(ptr);
+    setBaseFrame(nullptr);
 }

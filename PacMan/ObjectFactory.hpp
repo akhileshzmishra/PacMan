@@ -12,13 +12,17 @@
 #include "AllInterfaces.h"
 
 namespace pacman {namespace impl{
+    
+class MapDisplay;
+DECLARE_SHARED(MapDisplay);
 
 class ObjectFactory{
     
 public:
     static IMap* getMap();
     static IPlayer* getPlayer();
-    
+    static IBluePrintPtr getNewBluePrint();
+    static MapDisplayPtr getMapDisplay(IBluePrintPtr ptr);
 };
         
 }}

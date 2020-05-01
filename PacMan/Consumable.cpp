@@ -14,13 +14,13 @@ using namespace pacman::impl;
 
 Consumable::Consumable(){
     mDim.dimension = Settings::getInstance()->getCoinDimension();
+    SetSubject(Settings::getInstance());
 }
 
 void Consumable::display(){
-    mColor = Colors::CoinColor;
-    mCircleDisplay.setRadius(mDim.dimension.length);
-    mCircleDisplay.setFillColor(sf::Color(mColor.red, mColor.green, mColor.blue));
-    mCircleDisplay.setPosition(mDim.centroid.x, mDim.centroid.y);
+    if(getBaseFramePtr()){
+        getBaseFramePtr()->getWindow().draw(mCircleDisplay);
+    }
 }
 
 
@@ -36,4 +36,27 @@ ZombieMakerConsumable::ZombieMakerConsumable(DimensionMarker& dim){
     setZombie(true);
 }
 
+void Consumable::createData(){
+    mColor = Colors::CoinColor;
+    mCircleDisplay.setRadius(mDim.dimension.length);
+    mCircleDisplay.setFillColor(sf::Color(mColor.red, mColor.green, mColor.blue));
+    mCircleDisplay.setPosition(mDim.centroid.x, mDim.centroid.y);
+}
+void Consumable::create(){
+    createData();
+    setBaseFrame(Settings::getInstance()->getCopyBaseFrame());
+    Register(MainWindowDimensionChange);
+}
+
+void Consumable::destroy(){
+    setBaseFrame(nullptr);
+    DeRegister(MainWindowDimensionChange);
+}
+
+void Consumable::GetNotified(LiftData& data, const SettingsObservation& condition){
+    if(condition == MainWindowDimensionChange){
+        mDim.dimension = Settings::getInstance()->getCoinDimension();
+        createData();
+    }
+}
 

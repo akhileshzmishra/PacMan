@@ -10,10 +10,11 @@
 #define Consumable_hpp
 
 #include "AllInterfaces.h"
+#include "Settings.hpp"
 
 namespace pacman {namespace impl{
 
-class Consumable: public IGift{
+class Consumable: public IGift, public SettingObserver{
     int                                       mValue = 5;
     DimensionMarker                           mDim;
     sf::CircleShape                           mCircleDisplay;
@@ -25,16 +26,18 @@ public:
         return mValue;
     }
     
+    virtual void create() override;
+    virtual void destroy() override;
+    
     bool makeZombie() override;
 
     void makeEmpty() override;
     
     void display()override;
     void setZombie(bool s)                 {mZombie = s;}
-    
-    sf::Shape* getShape() override{
-        return &mCircleDisplay;
-    }
+    void GetNotified(LiftData& data, const SettingsObservation& condition) override;
+private:
+    void createData();
 };
 
 

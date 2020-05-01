@@ -15,6 +15,10 @@
 #include <vector>
 #include <map>
 #include <memory>
+#include <cmath>
+#include <ctime>
+#include <cstdlib>
+#include "IObserver.h"
 
 #define GENERIC_GETTER(fnname, variable, type) \
 const type& getConstRef##fnname() { \
@@ -22,10 +26,13 @@ const type& getConstRef##fnname() { \
 } \
 type& getRef##fnname() { \
     return variable; \
+} \
+type getCopy##fnname() { \
+    return variable; \
 }
 
 #define GENERIC_SETTER(fnname, variable, type) \
-void set##fnname(const type& t) { \
+void set##fnname(const type t) { \
     variable = t; \
 }
 
@@ -43,7 +50,8 @@ type* get##fnname() { \
 }
 
 #define DECLARE_SHARED(className) \
-typedef std::shared_ptr<className> className##Ptr;
+typedef std::shared_ptr<className> className##Ptr; \
+typedef std::weak_ptr<className> className##WeakPtr;
 
 namespace pacman{
     

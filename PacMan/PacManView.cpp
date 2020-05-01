@@ -15,18 +15,32 @@ using namespace pacman;
 using namespace pacman::impl;
 
 PacManView::PacManView(){
-    mFrame = std::make_shared<PacManFrame>();
 }
 
 void PacManView::run(){
+    mFrame = std::make_shared<PacManFrame>();
+    auto frame = std::dynamic_pointer_cast<IBaseFrame>(mFrame);
+    if(frame){
+        Settings::getInstance()->setBaseFrame(frame);
+    }
     createMap();
-    mFrame->run();
+    if(mFrame){
+        mFrame->run();
+    }
+    destroyMap();
 }
 
 void PacManView::createMap(){
     mPlayBoard = std::make_shared<PlayBoard>();
-    mPlayBoard->setUp();
+    mPlayBoard->create();
     mFrame->addToList(mPlayBoard);
+}
+
+void PacManView::destroyMap(){
+    if(mPlayBoard){
+        mPlayBoard->destroy();
+        mPlayBoard = nullptr;
+    }
 }
 
 

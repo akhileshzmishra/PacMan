@@ -9,12 +9,15 @@
 #ifndef IBaseFrame_h
 #define IBaseFrame_h
 #include "CommonIncludes.h"
+#include "GraphicIncludes.h"
+
 namespace  pacman {
 class IDisplay;
 DECLARE_SHARED(IDisplay);
 class IBaseFrame{
 public:
-    virtual void draw(IDisplay* d) = 0;
+    virtual sf::RenderWindow& getWindow() = 0;
+    
 };
     
 DECLARE_SHARED(IBaseFrame);

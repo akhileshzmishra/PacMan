@@ -19,5 +19,6 @@
 #include "interfaces/IGift.h"
 #include "GraphicIncludes.h"
 #include "PacManTexts.h"
+#include "interfaces/IBluePrint.h"
 
 #endif /* AllInterfaces_h */

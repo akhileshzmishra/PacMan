@@ -13,19 +13,27 @@
 
 namespace pacman {namespace impl{
 
-class BluePrint{
+class BluePrint: public IBluePrint{
     VecVecInt                                 mMapPrint;
     size_t                                    mRow;
     size_t                                    mCol;
+    size_t                                    mResolution;
 public:
     BluePrint();
-    GENERIC_GETTER(Row, mRow, decltype(mRow));
-    GENERIC_GETTER(Col, mCol, decltype(mCol));
-    int getValue(size_t r, size_t c){
+    size_t getRow() override{
+        return mRow;
+    }
+    size_t getCol() override{
+        return mCol;
+    }
+    int getValue(size_t r, size_t c) override{
         if(r < mRow && c < mCol){
             return mMapPrint[r][c];
         }
         return -1;
+    }
+    size_t getResolution() override{
+        return mResolution;
     }
 private:
     void create();
