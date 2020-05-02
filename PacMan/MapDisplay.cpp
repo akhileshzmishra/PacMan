@@ -8,13 +8,15 @@
 
 #include "MapDisplay.hpp"
 #include "Settings.hpp"
+#include "ObjectFactory.hpp"
 
 using namespace pacman;
 using namespace pacman::impl;
 
 
 MapDisplay::MapDisplay(IBluePrintPtr plan):
-mPlan(plan)
+mPlan(plan),
+mGhostWorker(plan)
 {
     SetSubject(Settings::getInstance());
 }
@@ -35,6 +37,10 @@ void MapDisplay::setPosition(const Position& p) {
     calculatePositions();
 }
 
+Position MapDisplay::getPosition(){
+    return Position();
+}
+
 void MapDisplay::create(){
     setBaseFrame(Settings::getInstance()->getCopyBaseFrame());
     Register(SquareDimensionChange);
@@ -51,6 +57,13 @@ void MapDisplay::create(){
                 mRowCol[i][j]->setType(mPlan->getValue(i, j));
                 mRowCol[i][j]->setCoordinate(Coordinates((int)j, (int)i));
                 mRowCol[i][j]->create();
+    
+                if(mPlan->getValue(i, j) == mapElements::GhostPos){
+                    auto ghost = ObjectFactory::getGhost();
+                    mGhostWorker.addGhost(ghost);
+                    mRowCol[i][j]->setGhost(ghost);
+                }
+                
             }
         }
         calculatePositions();
@@ -67,20 +80,27 @@ void MapDisplay::destroy(){
     setBaseFrame(nullptr);
 }
 
+ISquarePtr MapDisplay::getSquare(Coordinates& c){
+    if(mRows >= c.row || mCols >= c.col){
+        return nullptr;
+    }
+    return mRowCol[c.row][c.col];
+}
+
 void MapDisplay::calculatePositions(){
     auto topLeft = Settings::getInstance()->getTopLeftMapPosition();
     auto square = Settings::getInstance()->getSquareDimension();
     mBBox.dimension = Settings::getInstance()->getBoardDimension();
-    mRect.setPosition(topLeft.x, topLeft.y);
+    mRect.setPosition(topLeft.row, topLeft.col);
     Position itr = topLeft;
     for(size_t i = 0; i < mRows; i++){
-        itr.x = topLeft.x;
+        itr.row = topLeft.row;
         for(size_t j = 0; j < mCols; j++){
             mRowCol[i][j]->setPosition(itr);
             mRowCol[i][j]->setSize(square);
-            itr.x += square.length;
+            itr.row += square.length;
         }
-        itr.y += square.width;
+        itr.col += square.width;
     }
 }
 

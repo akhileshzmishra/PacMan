@@ -17,8 +17,10 @@
 #include "interfaces/IPlayBoard.h"
 #include "interfaces/ISquare.h"
 #include "interfaces/IGift.h"
+#include "interfaces/IThreadWork.h"
 #include "GraphicIncludes.h"
 #include "PacManTexts.h"
 #include "interfaces/IBluePrint.h"
+#include "interfaces/IGhostMoveStrategy.h"
 
 #endif /* AllInterfaces_h */

@@ -27,19 +27,22 @@ class Ghost:public IGhost, public SettingObserver{
     size_t                          mCol;
     Dimension                       SQuareDimension;
     Position                        mNextSquarePos;
+    ISquarePtr                      mHoldingSquare;
 public:
     Ghost();
     virtual bool canMove() override;
     virtual void setDirection(Directions d) override{
         mDir = d;
     }
-    virtual void setCoordinate(Coordinates c);
     
     virtual bool move(const Position& p)override;
     virtual void setPosition(const Position& p)override;
+    virtual Position getPosition() override;
     virtual void setSpeed(size_t speed)override;
     virtual void create()override;
     virtual void destroy()override;
+    virtual void setCurrentSquare(ISquarePtr)override;
+    virtual ISquarePtr getCurrentSquare()override;
     
     virtual void live()override;
     virtual bool isZombie()override;
@@ -51,7 +54,6 @@ public:
     
 private:
     void createData();
-    bool getNext(Coordinates& next);
 };
 
 DECLARE_SHARED(Ghost);

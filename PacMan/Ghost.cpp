@@ -26,40 +26,21 @@ Ghost::Ghost(){
 }
 
 bool Ghost::canMove(){
-    return getNext(mMazePos);
-}
-
-void Ghost::setCoordinate(Coordinates c){
-    mMazePos = c;
-    Position p = Settings::getInstance()->getPositionFromCoordinates(c);
-    mHead.setPosition(p.x, p.y);
-}
-
-
-
-bool Ghost::getNext(Coordinates& next){
-    int altX = next.x + DeltaPos[(int)mDir][0]*mSpeed;
-    int altY = next.y + DeltaPos[(int)mDir][1]*mSpeed;
-    if(altX >= 0 && altY >= 0 && altX < (int) mRow && altY < (int) mCol){
-        if(mBluePrint->getValue(altX, altY) != mapElements::Wall){
-            next.x = altX;
-            next.y = altY;
-            mNextSquarePos.x = mBBox.centroid.x + DeltaPos[(int)mDir][0]*SQuareDimension.length;
-            mNextSquarePos.y = mBBox.centroid.y + DeltaPos[(int)mDir][1]*SQuareDimension.width;
-            return true;
-        }
-    }
     return false;
 }
 
+Position Ghost::getPosition() {
+    return mBBox.referencePos;
+}
+
 bool Ghost::move(const Position& p){
-    mHead.move(p.x, p.y);
+    mHead.move(p.row, p.col);
     return true;
 }
 
 void Ghost::setPosition(const Position& p){
-    mBBox.centroid = p;
-    mHead.setPosition(p.x, p.y);
+    mBBox.referencePos = p;
+    mHead.setPosition(p.row, p.col);
    
 }
 
@@ -116,7 +97,14 @@ void Ghost::GetNotified(LiftData& data, const SettingsObservation& condition){
 }
 
 
+void Ghost::setCurrentSquare(ISquarePtr ptr){
+    mHoldingSquare = ptr;
+}
 
+
+ISquarePtr Ghost::getCurrentSquare(){
+    return mHoldingSquare;
+}
 
 
 

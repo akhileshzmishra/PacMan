@@ -47,8 +47,8 @@ void Settings::calculate(){
             mSquareDimension.width = squarelength;
             mCoinDimension.width = mCoinDimension.length = mSquareDimension.length*.4;
         }
-        mTopLeft.x = 0.f;
-        mTopLeft.y = 0.f;
+        mTopLeft.row = 0.f;
+        mTopLeft.col = 0.f;
     }
 }
 
@@ -56,8 +56,8 @@ Position Settings::getPositionFromCoordinates(Coordinates c){
     Position p;
     float fsl = mSquareDimension.length;
     float fsw = mSquareDimension.width;
-    p.x = mTopLeft.x + mBorders.length + fsl*(c.x) + fsl*0.5;
-    p.y = mTopLeft.y + mBorders.width + fsw*(c.y) + fsw*0.5;
+    p.row = mTopLeft.row + mBorders.length + fsl*(c.row) + fsl*0.5;
+    p.col = mTopLeft.col + mBorders.width + fsw*(c.col) + fsw*0.5;
     return p;
 }
 

@@ -41,6 +41,11 @@ public:
     size_t getResolution() override{
         return mResolution;
     }
+    
+    virtual bool isGhost(Coordinates) override;
+    virtual bool isPlayer(Coordinates) override;
+    virtual bool isEmpty(Coordinates) override;
+    virtual bool isWall(Coordinates) override;
 private:
     void create();
 };

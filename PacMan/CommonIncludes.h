@@ -68,23 +68,39 @@ typedef std::vector<size_t>                VectorSizeT;
 typedef std::vector<VectorSizeT>           VecVecSizeT;
 
 struct Coordinates{
-    int x = 0;
-    int y = 0;
-    Coordinates(int ii, int jj){
-        x = ii;
-        y = jj;
+    size_t col = 0;
+    size_t row = 0;
+    Coordinates(size_t ii, size_t jj){
+        row = ii;
+        col = jj;
     }
     Coordinates(){
         
     }
+    
+    bool operator == (const Coordinates& other){
+        return other.row == row && other.col == col;
+    }
+    
+    bool operator != (const Coordinates& other){
+        return !(other.row == row && other.col == col);
+    }
 };
 
 struct Position{
-    float x = 0.0f;
-    float y = 0.0f;
+    float row = 0.0f;
+    float col = 0.0f;
     Position(float xa = 0.f, float ya = 0.f){
-        x = xa;
-        y = ya;
+        row = xa;
+        col = ya;
+    }
+    
+    bool operator == (const Position& other){
+        return other.row == row && other.col == col;
+    }
+    
+    bool operator != (const Position& other){
+        return !(other.row == row && other.col == col);
     }
 };
 
@@ -92,8 +108,9 @@ namespace  mapElements {
     const int Empty                     = 0;
     const int Wall                      = 1;
     const int StartPos                  = 2;
-    const int EnemyPos                  = 3;
-    const int Invalid                   = 4;
+    const int GhostPos                  = 3;
+    const int PlayerPos                 = 4;
+    const int Invalid                   = 5;
 }
 
 struct Energy{
@@ -111,7 +128,7 @@ struct Dimension{
 
 struct BoundingBox{
     Dimension dimension;
-    Position  centroid;
+    Position  referencePos;
 };
 
 enum Directions{

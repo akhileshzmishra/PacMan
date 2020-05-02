@@ -9,6 +9,8 @@
 #include "ObjectFactory.hpp"
 #include "BluePrint.hpp"
 #include "MapDisplay.hpp"
+#include "Ghost.hpp"
+#include "GhostUnchartedStrategy.hpp"
 
 using namespace pacman;
 using namespace pacman::impl;
@@ -27,4 +29,12 @@ IBluePrintPtr ObjectFactory::getNewBluePrint(){
 
 MapDisplayPtr ObjectFactory::getMapDisplay(IBluePrintPtr ptr){
     return std::make_shared<MapDisplay>(ptr);
+}
+
+IGhostPtr ObjectFactory::getGhost(){
+    return std::make_shared<Ghost>();
+}
+
+IGhostMoveStrategyPtr ObjectFactory::getUnchartedMoveStrategy(GameState& st){
+    return std::make_shared<GhostUnchartedStrategy>(st);
 }

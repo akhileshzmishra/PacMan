@@ -10,6 +10,7 @@
 #define ObjectFactory_hpp
 
 #include "AllInterfaces.h"
+#include "GameState.hpp"
 
 namespace pacman {namespace impl{
     
@@ -23,6 +24,8 @@ public:
     static IPlayer* getPlayer();
     static IBluePrintPtr getNewBluePrint();
     static MapDisplayPtr getMapDisplay(IBluePrintPtr ptr);
+    static IGhostPtr getGhost();
+    static IGhostMoveStrategyPtr getUnchartedMoveStrategy(GameState& st);
 };
         
 }}

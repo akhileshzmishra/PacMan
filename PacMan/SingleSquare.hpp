@@ -22,6 +22,7 @@ class SingleSquare: public ISquare{
     IGiftPtr                                  mCoin;
     Coordinates                               mCoordinates;
     bool                                      mCreate = false;
+    IPlayBoardPtr                             mPlayBoard;
 public:
     SingleSquare(int type = mapElements::Empty);
     virtual void display() override;
@@ -32,13 +33,25 @@ public:
         mCoordinates = c;
     }
     virtual void setPosition(const Position& p)  override;
+    virtual Position getPosition()  override;
     virtual void setGift(IGiftPtr ptr)override;
     virtual IGiftPtr getGift()override;
+    
+    virtual void setGhost(IGhostPtr ptr) override{
+        mOccupant = ptr;
+    }
     
     virtual void create() override;
     virtual void destroy() override;
     virtual bool move(const Position& p) override;
     virtual void setSize(Dimension d) override;
+    
+    virtual void setOwner(IPlayBoardPtr ptr)override{
+        mPlayBoard = ptr;
+    }
+    virtual IPlayBoardPtr getOwner()override{
+        return mPlayBoard;
+    }
     
     GENERIC_GETTER_SETTER(Type,        mType,         decltype(mType));
     GENERIC_GETTER_SETTER(Occupant,    mOccupant,     IPlayerPtr);

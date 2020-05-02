@@ -8,8 +8,9 @@
 
 #ifndef IBluePrint_h
 #define IBluePrint_h
-
+#include "CommonIncludes.h"
 namespace  pacman {
+
     class IBluePrint{
     public:
         virtual size_t getRow() = 0;
@@ -17,6 +18,11 @@ namespace  pacman {
         
         virtual int getValue(size_t r, size_t c) = 0;
         virtual size_t getResolution() = 0;
+        
+        virtual bool isGhost(Coordinates) = 0;
+        virtual bool isPlayer(Coordinates) = 0;
+        virtual bool isEmpty(Coordinates) = 0;
+        virtual bool isWall(Coordinates) = 0;
     };
     
     DECLARE_SHARED(IBluePrint);

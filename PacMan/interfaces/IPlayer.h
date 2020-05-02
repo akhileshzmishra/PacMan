@@ -10,11 +10,16 @@
 #define IPlayer_h
 #include "IDisplay.h"
 namespace  pacman {
+    class ISquare;
+    DECLARE_SHARED(ISquare)
     class IPlayer: public IDisplay{
     public:
         virtual bool canMove() override{
             return true;
         }
+        
+        virtual void setCurrentSquare(ISquarePtr) = 0;
+        virtual ISquarePtr getCurrentSquare() = 0;
         
     };
 

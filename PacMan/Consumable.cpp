@@ -39,7 +39,7 @@ void Consumable::createData(){
     mColor = Colors::CoinColor;
     mCircleDisplay.setRadius(mBBox.dimension.length);
     mCircleDisplay.setFillColor(sf::Color(mColor.red, mColor.green, mColor.blue));
-    mCircleDisplay.setPosition(mBBox.centroid.x, mBBox.centroid.y);
+    mCircleDisplay.setPosition(mBBox.referencePos.row, mBBox.referencePos.col);
 }
 void Consumable::create(){
     createData();

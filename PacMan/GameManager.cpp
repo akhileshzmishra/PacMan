@@ -24,7 +24,7 @@ void GameManager::setupDisplay(){
 }
 
 void GameManager::setPosition(const Position &p){
-    mBBox.centroid = p;
+    mBBox.referencePos = p;
 }
 
 void GameManager::create(){

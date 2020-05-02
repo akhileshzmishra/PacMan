@@ -28,8 +28,12 @@ void SingleSquare::display() {
 }
 
 void SingleSquare::setPosition(const Position& p){
-    mBBox.centroid = p;
-    mRect.setPosition(p.x, p.y);
+    mBBox.referencePos = p;
+    mRect.setPosition(p.row, p.col);
+}
+
+Position SingleSquare::getPosition(){
+    return mBBox.referencePos;
 }
 
 void SingleSquare::setSize(Dimension d){
@@ -70,14 +74,14 @@ void SingleSquare::createEmpty(){
     mColor = Colors::EmptyColor;
     mRect.setSize(sf::Vector2f(mBBox.dimension.width, mBBox.dimension.length));
     mRect.setFillColor(sf::Color(mColor.red, mColor.green, mColor.blue));
-    mRect.setPosition(mBBox.centroid.x, mBBox.centroid.y);
+    mRect.setPosition(mBBox.referencePos.row, mBBox.referencePos.col);
 }
 
 void SingleSquare::createWall(){
     mColor = Colors::WhiteColor;
     mRect.setSize(sf::Vector2f(mBBox.dimension.width, mBBox.dimension.length));
     mRect.setFillColor(sf::Color(mColor.red, mColor.green, mColor.blue));
-    mRect.setPosition(mBBox.centroid.x, mBBox.centroid.y);
+    mRect.setPosition(mBBox.referencePos.row, mBBox.referencePos.col);
 }
 
 
@@ -90,8 +94,8 @@ IGiftPtr SingleSquare::getGift(){
 }
 
 bool SingleSquare::move(const Position& p){
-    mBBox.centroid = p;
-    mRect.move(p.x, p.y);
+    mBBox.referencePos = p;
+    mRect.move(p.row, p.col);
     return true;
 }
 

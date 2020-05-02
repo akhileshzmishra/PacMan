@@ -13,10 +13,12 @@
 namespace  pacman {
     class IPrimaryObject{
         IBaseFramePtr                  mBaseFramePtr;
+        Coordinates                    mCoOrdinates;
     public:
         virtual bool canMove() = 0;
         virtual bool move(const Position& p) = 0;
         virtual void setPosition(const Position& p) = 0;
+        virtual Position getPosition() = 0;
         void setBaseFrame(IBaseFramePtr  ptr){
             mBaseFramePtr = ptr;
         }
@@ -28,14 +30,10 @@ namespace  pacman {
         virtual void create() = 0;
         virtual void destroy() = 0;
         
+        GENERIC_GETTER_SETTER(Coordinates, mCoOrdinates, Coordinates);
     };
 
     DECLARE_SHARED(IPrimaryObject);
-    
-    class ThreadWork{
-    public:
-        virtual void work(){};
-    };
 
 }
 #endif /* PrimaryObject_h */

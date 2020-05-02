@@ -58,3 +58,16 @@ void BluePrint::create(){
     
     mResolution = 4;
 }
+
+bool BluePrint::isGhost(Coordinates c) {
+    return mMapPrint[c.row][c.col].type == mapElements::GhostPos;
+}
+bool BluePrint::isPlayer(Coordinates c){
+    return mMapPrint[c.row][c.col].type == mapElements::PlayerPos;
+}
+bool BluePrint::isEmpty(Coordinates c){
+    return mMapPrint[c.row][c.col].type == mapElements::Empty;
+}
+bool BluePrint::isWall(Coordinates c) {
+    return mMapPrint[c.row][c.col].type == mapElements::Wall;
+}
