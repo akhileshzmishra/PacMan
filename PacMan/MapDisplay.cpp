@@ -16,11 +16,12 @@ using namespace pacman::impl;
 MapDisplay::MapDisplay(IBluePrintPtr plan):
 mPlan(plan)
 {
+    SetSubject(Settings::getInstance());
 }
 
 void MapDisplay::display(){
     if(getBaseFramePtr()){
-        //getBaseFramePtr()->getWindow().draw(mRect);
+        getBaseFramePtr()->getWindow().draw(mRect);
     }
     for(size_t i = 0; i < mRows; i++){
         for(size_t j = 0; j < mCols; j++){
@@ -31,67 +32,60 @@ void MapDisplay::display(){
 
 
 void MapDisplay::setPosition(const Position& p) {
-    Position topLeft;
-    topLeft.x =  mDimension.dimension.length/2 - p.x;
-    topLeft.y = mDimension.dimension.width/2 - p.y;
-    moveTo(topLeft);
-}
-
-void MapDisplay::moveTo(Position topLeft){
-    Dimension sq = Settings::getInstance()->getSquareDimension();
-    Dimension border = Settings::getInstance()->getBoardBorders();
-    mDimension.dimension.length = mCols*sq.length + border.length*2;
-    mDimension.dimension.width = mRows*sq.width + border.width*2;
-    mDimension.centroid = mDimension.dimension.length/2 + topLeft.x;
-    mDimension.centroid = mDimension.dimension.width/2 + topLeft.y;
-    mRect.setSize(sf::Vector2f(mDimension.dimension.length, mDimension.dimension.width));
-    //mRect.setFillColor(sf::Color::Black);
-    
-    Position itr = topLeft;
-    for(size_t i = 0; i < mRows; i++){
-        itr.x = topLeft.x;
-        for(size_t j = 0; j < mCols; j++){
-            mRowCol[i][j]->setPosition(itr);
-            itr.x += sq.length;
-        }
-        itr.y += sq.width;
-    }
+    calculatePositions();
 }
 
 void MapDisplay::create(){
-    Position topLeft = Settings::getInstance()->getTopLeftMapPosition();
     setBaseFrame(Settings::getInstance()->getCopyBaseFrame());
-    Dimension sq = Settings::getInstance()->getSquareDimension();
-    Dimension border = Settings::getInstance()->getBoardBorders();
-    mDimension.dimension.length = mCols*sq.length + border.length*2;
-    mDimension.dimension.width = mRows*sq.width + border.width*2;
-    mDimension.centroid = mDimension.dimension.length/2 + topLeft.x;
-    mDimension.centroid = mDimension.dimension.width/2 + topLeft.y;
-    mRect.setSize(sf::Vector2f(mDimension.dimension.length, mDimension.dimension.width));
+    Register(SquareDimensionChange);
+    mBBox.dimension = Settings::getInstance()->getBoardDimension();
+    mRect.setSize(sf::Vector2f(mBBox.dimension.length, mBBox.dimension.width));
     if(mPlan){
         mRows = mPlan->getRow();
         mCols = mPlan->getCol();
-        mRowCol = RowCol(mRows, OneRow(mCols, std::make_shared<SingleSquare>()));
+        mRowCol = RowCol(mRows, OneRow(mCols, nullptr));
         
-        Position itr = topLeft;
         for(size_t i = 0; i < mRows; i++){
-            itr.x = topLeft.x;
             for(size_t j = 0; j < mCols; j++){
-                mRowCol[i][j]->setPosition(itr);
-                itr.x += sq.length;
+                mRowCol[i][j] = std::make_shared<SingleSquare>();
                 mRowCol[i][j]->setType(mPlan->getValue(i, j));
+                mRowCol[i][j]->setCoordinate(Coordinates((int)j, (int)i));
                 mRowCol[i][j]->create();
             }
-            itr.y += sq.width;
         }
+        calculatePositions();
     }
 }
 
 void MapDisplay::destroy(){
+    DeRegister(SquareDimensionChange);
     for(size_t i = 0; i < mRows; i++){
         for(size_t j = 0; j < mCols; j++){
             mRowCol[i][j]->destroy();
         }
     }
     setBaseFrame(nullptr);
+}
+
+void MapDisplay::calculatePositions(){
+    auto topLeft = Settings::getInstance()->getTopLeftMapPosition();
+    auto square = Settings::getInstance()->getSquareDimension();
+    mBBox.dimension = Settings::getInstance()->getBoardDimension();
+    mRect.setPosition(topLeft.x, topLeft.y);
+    Position itr = topLeft;
+    for(size_t i = 0; i < mRows; i++){
+        itr.x = topLeft.x;
+        for(size_t j = 0; j < mCols; j++){
+            mRowCol[i][j]->setPosition(itr);
+            mRowCol[i][j]->setSize(square);
+            itr.x += square.length;
+        }
+        itr.y += square.width;
+    }
+}
+
+void MapDisplay::GetNotified(LiftData& data, const SettingsObservation& condition){
+    if(condition == SquareDimensionChange){
+        calculatePositions();
+    }
 }

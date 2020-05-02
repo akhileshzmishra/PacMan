@@ -25,8 +25,9 @@ struct LiftData {
 
 enum SettingsObservation{
     MainWindowDimensionChange,
-    BaseFrameChange,
-    BluePrintChange,
+    BoardDimensionChange,
+    SquareDimensionChange,
+    CoinDimensionChange,
     NoChange
 };
     
@@ -70,6 +71,8 @@ public:
     GENERIC_GETTER_SETTER(BaseFrame, mBaseFrame, IBaseFramePtr);
     
     void setWindowDimension(const Dimension& d);
+    
+    Position getPositionFromCoordinates(Coordinates c);
     
     void calculate();
  };

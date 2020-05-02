@@ -15,12 +15,17 @@ BluePrint::BluePrint(){
     create();
 }
 
+
+int BluePrint::getValue(size_t r, size_t c){
+    return mMapPrint[r][c].type;
+}
+
 void BluePrint::create(){
-    mMapPrint = {
+    VecVecInt vecvecInt = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 1, 1, 0, 1, 0, 1, 6, 6, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1},
-        {1, 0, 1, 1, 0, 1, 0, 1, 6, 6, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1},
+        {1, 0, 1, 1, 0, 1, 0, 1, 3, 3, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1},
+        {1, 0, 1, 1, 0, 1, 0, 1, 3, 3, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1},
         {1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1},
         {1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -33,10 +38,23 @@ void BluePrint::create(){
         {1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1},
         {1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
     };
-    mRow = mMapPrint.size();
-    mCol = mMapPrint[0].size();
+    mRow = vecvecInt.size();
+    mCol = vecvecInt[0].size();
+    mMapPrint = BlueNodeMatrix(mRow, BlueNodeVector(mCol));
+    
+    for(size_t i = 0; i < vecvecInt.size(); i++){
+        for(size_t j = 0; j < vecvecInt[i].size(); j++){
+            mMapPrint[i][j].coordinates = Coordinates((int)i, (int)j);
+            mMapPrint[i][j].type = vecvecInt[i][j];
+            if(vecvecInt[i][j] == mapElements::Wall){
+                mMapPrint[i][j].isWall = true;
+            }
+        }
+    }
+    
+    
     mResolution = 4;
 }

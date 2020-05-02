@@ -16,21 +16,20 @@
 namespace pacman {namespace impl{
 
 
-typedef std::vector<IEnemyPtr> Enemies;
-class PlayBoard: public IPlayBoard{
+class GameManager: public IGameManager{
     MapDisplayPtr                             mDisplay;
-    Enemies                                   mEnemies;
-    IHeroPtr                                  mPlayer;
     IBluePrintPtr                             mBluePrint;
-    DimensionMarker                           mDimension;
-    bool                                      mSetup = false;
+    BoundingBox                               mBBox;
+    VecVecSizeT                               mLiveGame;
 public:
-    PlayBoard();
-    GENERIC_GETTER_SETTER(SquareDim,   mDimension,    DimensionMarker);
-    virtual void display() override;
+    GameManager();
+    GENERIC_GETTER_SETTER(SquareDim,   mBBox,    BoundingBox);
+    virtual void setupDisplay() override;
     virtual void create() override;
     virtual void destroy() override;
     virtual void setPosition(const Position& p) override;
+    virtual void startGame() override;
+    
 };
 
 

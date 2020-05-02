@@ -12,14 +12,18 @@
 #include "IDisplay.h"
 #include "IPlayer.h"
 namespace  pacman {
+    class IGameManager: public IPrimaryObject{
+    public:
+        virtual bool canMove()override {return false;}
+        virtual bool move(const Position& p) override{return false;}
+        virtual void setPosition(const Position& )override{}
+        virtual void setupDisplay() = 0;
+        virtual void startGame() = 0;
+    };
+    DECLARE_SHARED(IGameManager);
+    
     class IPlayBoard: public IDisplay{
     public:
-        virtual void setDirection(Directions d) override{
-            (void)d;
-        }
-        virtual void setSpeed(size_t speed) override{
-            (void)speed;
-        }
     };
     DECLARE_SHARED(IPlayBoard);
 }

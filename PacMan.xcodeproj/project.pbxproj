@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1EF1BC332459EC7E002CF1A5 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF1BC322459EC7E002CF1A5 /* main.cpp */; };
-		1EF1BC3F2459EEE3002CF1A5 /* PlayBoard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF1BC3D2459EEE3002CF1A5 /* PlayBoard.cpp */; };
+		1EF1BC3F2459EEE3002CF1A5 /* GameManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF1BC3D2459EEE3002CF1A5 /* GameManager.cpp */; };
 		1EF1BC472459F055002CF1A5 /* ObjectFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF1BC452459F055002CF1A5 /* ObjectFactory.cpp */; };
 		1EF1BC5E2459FD28002CF1A5 /* MapDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF1BC5C2459FD28002CF1A5 /* MapDisplay.cpp */; };
 		1EF1BC8F245B51C5002CF1A5 /* libsfml-graphics-d.2.4.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EF1BC78245B51C4002CF1A5 /* libsfml-graphics-d.2.4.1.dylib */; };
@@ -57,6 +57,7 @@
 		1EF1BCD2245B89B6002CF1A5 /* vorbisenc.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1EF1BC87245B51C4002CF1A5 /* vorbisenc.framework */; };
 		1EF1BCD3245B89B6002CF1A5 /* vorbisfile.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1EF1BC89245B51C4002CF1A5 /* vorbisfile.framework */; };
 		1EF1BCD7245B8FA9002CF1A5 /* PacManFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF1BCD5245B8FA9002CF1A5 /* PacManFrame.cpp */; };
+		1EF1BCE9245BDDBF002CF1A5 /* Ghost.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF1BCE7245BDDBF002CF1A5 /* Ghost.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -94,8 +95,8 @@
 /* Begin PBXFileReference section */
 		1EF1BC2F2459EC7E002CF1A5 /* PacMan */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PacMan; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EF1BC322459EC7E002CF1A5 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		1EF1BC3D2459EEE3002CF1A5 /* PlayBoard.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PlayBoard.cpp; sourceTree = "<group>"; };
-		1EF1BC3E2459EEE3002CF1A5 /* PlayBoard.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PlayBoard.hpp; sourceTree = "<group>"; };
+		1EF1BC3D2459EEE3002CF1A5 /* GameManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameManager.cpp; sourceTree = "<group>"; };
+		1EF1BC3E2459EEE3002CF1A5 /* GameManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GameManager.hpp; sourceTree = "<group>"; };
 		1EF1BC402459EF35002CF1A5 /* IMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IMap.h; path = PacMan/interfaces/IMap.h; sourceTree = SOURCE_ROOT; };
 		1EF1BC412459EF35002CF1A5 /* IPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IPlayer.h; path = PacMan/interfaces/IPlayer.h; sourceTree = SOURCE_ROOT; };
 		1EF1BC422459EF35002CF1A5 /* PrimaryObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrimaryObject.h; path = PacMan/interfaces/PrimaryObject.h; sourceTree = SOURCE_ROOT; };
@@ -146,6 +147,9 @@
 		1EF1BCD6245B8FA9002CF1A5 /* PacManFrame.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PacManFrame.hpp; sourceTree = "<group>"; };
 		1EF1BCD9245BB1C0002CF1A5 /* IBluePrint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IBluePrint.h; path = PacMan/interfaces/IBluePrint.h; sourceTree = SOURCE_ROOT; };
 		1EF1BCE6245BC5C7002CF1A5 /* IObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IObserver.h; sourceTree = "<group>"; };
+		1EF1BCE7245BDDBF002CF1A5 /* Ghost.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Ghost.cpp; sourceTree = "<group>"; };
+		1EF1BCE8245BDDBF002CF1A5 /* Ghost.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Ghost.hpp; sourceTree = "<group>"; };
+		1EF1BCF1245C0456002CF1A5 /* ElementalSignal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ElementalSignal.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,8 +207,8 @@
 				1EF1BCAF245B5ACC002CF1A5 /* AllInterfaces.h */,
 				1EF1BCAE245B5ACC002CF1A5 /* CommonIncludes.h */,
 				1EF1BCB0245B5ACC002CF1A5 /* GraphicIncludes.h */,
-				1EF1BC3E2459EEE3002CF1A5 /* PlayBoard.hpp */,
-				1EF1BC3D2459EEE3002CF1A5 /* PlayBoard.cpp */,
+				1EF1BC3E2459EEE3002CF1A5 /* GameManager.hpp */,
+				1EF1BC3D2459EEE3002CF1A5 /* GameManager.cpp */,
 				1EF1BC452459F055002CF1A5 /* ObjectFactory.cpp */,
 				1EF1BC462459F055002CF1A5 /* ObjectFactory.hpp */,
 				1EF1BC5C2459FD28002CF1A5 /* MapDisplay.cpp */,
@@ -224,6 +228,9 @@
 				1EF1BCD5245B8FA9002CF1A5 /* PacManFrame.cpp */,
 				1EF1BCD6245B8FA9002CF1A5 /* PacManFrame.hpp */,
 				1EF1BCE6245BC5C7002CF1A5 /* IObserver.h */,
+				1EF1BCE7245BDDBF002CF1A5 /* Ghost.cpp */,
+				1EF1BCE8245BDDBF002CF1A5 /* Ghost.hpp */,
+				1EF1BCF1245C0456002CF1A5 /* ElementalSignal.h */,
 			);
 			path = PacMan;
 			sourceTree = "<group>";
@@ -331,8 +338,9 @@
 				1EF1BCB8245B6974002CF1A5 /* Consumable.cpp in Sources */,
 				1EF1BCD7245B8FA9002CF1A5 /* PacManFrame.cpp in Sources */,
 				1EF1BC332459EC7E002CF1A5 /* main.cpp in Sources */,
-				1EF1BC3F2459EEE3002CF1A5 /* PlayBoard.cpp in Sources */,
+				1EF1BC3F2459EEE3002CF1A5 /* GameManager.cpp in Sources */,
 				1EF1BC472459F055002CF1A5 /* ObjectFactory.cpp in Sources */,
+				1EF1BCE9245BDDBF002CF1A5 /* Ghost.cpp in Sources */,
 				1EF1BCA7245B53BF002CF1A5 /* SingleSquare.cpp in Sources */,
 				1EF1BC5E2459FD28002CF1A5 /* MapDisplay.cpp in Sources */,
 				1EF1BCBB245B6F43002CF1A5 /* Settings.cpp in Sources */,

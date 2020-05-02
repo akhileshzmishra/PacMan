@@ -14,7 +14,7 @@ using namespace pacman::impl;
 
 PacManFrame::PacManFrame(){
     Dimension dim = Settings::getInstance()->getWindowDimension();
-    mWindow.create(sf::VideoMode(dim.length, dim.width, 32), pacman::PACMAN_TITLE);
+    mWindow.create(sf::VideoMode(dim.length, dim.width), pacman::PACMAN_TITLE);
                    //, sf::Style::Titlebar | sf::Style::Close);
     mWindow.setVerticalSyncEnabled(true);
     setTotalSizes();
@@ -32,6 +32,9 @@ sf::RenderWindow& PacManFrame::getWindow(){
 
 
 void PacManFrame::run(){
+    setTotalSizes();
+    mFullDisplay = true;
+    bool startThread = true;
     while (mWindow.isOpen()){
         sf::Event event;
         while (mWindow.pollEvent(event)){
@@ -41,15 +44,28 @@ void PacManFrame::run(){
             }
             else if(event.type == sf::Event::Resized){
                 setTotalSizes();
+                mFullDisplay = true;
             }
             else{
                 
             }
         }
-        displayAll();
-        mWindow.display();
+        if(mFullDisplay){
+            displayAll();
+            setTotalSizes();
+            mWindow.display();
+            mFullDisplay = false;
+        }
+        else{
+            startThread = false;
+            mPlayBoard->startGame();
+        }
     }
     destroy();
+}
+
+void PacManFrame::create(){
+    
 }
 
 void PacManFrame::addToList(IDisplayPtr ptr){
@@ -68,4 +84,5 @@ void PacManFrame::displayAll(){
     for(int i = 0; i < mDisplayList.size(); i++){
         mDisplayList[i]->display();
     }
+    mPlayBoard->setupDisplay();
 }

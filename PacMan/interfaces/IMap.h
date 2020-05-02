@@ -16,15 +16,8 @@ namespace  pacman {
         virtual bool canMove() override{
             return false;
         }
-        virtual bool move() override{
+        virtual bool move(const Position& p) override{
             return false;
-        }
-        
-        virtual void setDirection(Directions d) override{
-            (void)d;
-        }
-        virtual void setSpeed(size_t speed) override{
-            (void)speed;
         }
         
     };

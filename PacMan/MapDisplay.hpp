@@ -15,35 +15,33 @@
 
 namespace pacman {namespace impl{
 
-class MapDisplay: public IDisplay{
+class MapDisplay: public IPlayBoard, public SettingObserver{
     typedef std::vector<SingleSquarePtr>      OneRow;
     typedef std::vector<OneRow>               RowCol;
+    typedef std::vector<IGhostPtr>            Ghosts;
     RowCol                                    mRowCol;
     IBluePrintPtr                             mPlan;
     size_t                                    mRows;
     size_t                                    mCols;
-    DimensionMarker                           mDimension;
+    BoundingBox                               mBBox;
     sf::RectangleShape                        mRect;
+    Ghosts                                    mGhosts;
+    IPacManPtr                                mPlayer;
 public:
     MapDisplay(IBluePrintPtr plan);
     virtual void display() override;
     void setPosition(const Position& p)  override;
-    virtual void setDirection(Directions d) override{
-        (void)d;
-    }
-    virtual void setSpeed(size_t speed) override{
-        (void)speed;
-    }
     
     virtual void create() override;
     virtual void destroy() override;
     
     GENERIC_GETTER_SETTER(Rows,        mRows,         decltype(mRows));
     GENERIC_GETTER_SETTER(Cols,        mCols,         decltype(mCols));
-    GENERIC_GETTER_SETTER(SquareDim,   mDimension,    DimensionMarker);
-private:
+    GENERIC_GETTER_SETTER(SquareDim,   mBBox,         BoundingBox);
     
-    void moveTo(Position topLeft);
+    void GetNotified(LiftData& data, const SettingsObservation& condition) override;
+private:
+    void calculatePositions();
 };
 
 DECLARE_SHARED(MapDisplay);

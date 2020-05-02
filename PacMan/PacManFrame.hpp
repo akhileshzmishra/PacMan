@@ -16,6 +16,8 @@ namespace pacman { namespace impl{
     class PacManFrame: public IBaseFrame{
         sf::RenderWindow                mWindow;
         DisplayList                     mDisplayList;
+        IGameManagerPtr                 mPlayBoard;
+        bool                            mFullDisplay = false;
     public:
         PacManFrame();
         virtual sf::RenderWindow& getWindow() override;
@@ -23,8 +25,13 @@ namespace pacman { namespace impl{
         
         void addToList(IDisplayPtr ptr);
         
+        void create();
+        
         void destroy();
         
+        void setGameManager(IGameManagerPtr board){
+            mPlayBoard = board;
+        }
     private:
         void displayAll();
         void setTotalSizes();

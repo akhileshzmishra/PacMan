@@ -15,11 +15,8 @@ namespace  pacman {
         IBaseFramePtr                  mBaseFramePtr;
     public:
         virtual bool canMove() = 0;
-        virtual bool move() = 0;
+        virtual bool move(const Position& p) = 0;
         virtual void setPosition(const Position& p) = 0;
-        virtual void setDirection(Directions d) = 0;
-        virtual void setSpeed(size_t speed) = 0;
-        
         void setBaseFrame(IBaseFramePtr  ptr){
             mBaseFramePtr = ptr;
         }
@@ -34,6 +31,11 @@ namespace  pacman {
     };
 
     DECLARE_SHARED(IPrimaryObject);
+    
+    class ThreadWork{
+    public:
+        virtual void work(){};
+    };
 
 }
 #endif /* PrimaryObject_h */

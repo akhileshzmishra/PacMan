@@ -8,7 +8,7 @@
 
 #include "PacManView.hpp"
 #include "Settings.hpp"
-#include "PlayBoard.hpp"
+#include "GameManager.hpp"
 #include "PacManFrame.hpp"
 
 using namespace pacman;
@@ -18,33 +18,52 @@ PacManView::PacManView(){
 }
 
 void PacManView::run(){
+    
+    create();
+    if(mFrame){
+        mFrame->setGameManager(mGameManager);
+        //mPlayBoard->startGame();
+        mFrame->run();
+    }
+    destroy();
+}
+
+void PacManView::createMap(){
     mFrame = std::make_shared<PacManFrame>();
     auto frame = std::dynamic_pointer_cast<IBaseFrame>(mFrame);
     if(frame){
         Settings::getInstance()->setBaseFrame(frame);
     }
-    createMap();
-    if(mFrame){
-        mFrame->run();
-    }
-    destroyMap();
-}
-
-void PacManView::createMap(){
-    mPlayBoard = std::make_shared<PlayBoard>();
-    mPlayBoard->create();
-    mFrame->addToList(mPlayBoard);
+    mGameManager = std::make_shared<GameManager>();
+    mGameManager->create();
+    mFrame->create();
+    //mFrame->addToList(mPlayBoard);
 }
 
 void PacManView::destroyMap(){
-    if(mPlayBoard){
-        mPlayBoard->destroy();
-        mPlayBoard = nullptr;
+    if(mGameManager){
+        mGameManager->destroy();
+        mGameManager = nullptr;
     }
+    if(mFrame){
+        mFrame->destroy();
+        mFrame = nullptr;
+    }
+}
+
+void PacManView::create(){
+    createMap();
+}
+
+void PacManView::destroy(){
+    destroyMap();
 }
 
 
 PacManView::~PacManView(){
-    mFrame->destroy();
-    mPlayBoard = nullptr;
+    if(mFrame){
+        mFrame->destroy();
+        mFrame = nullptr;
+    }
+    mGameManager = nullptr;
 }

@@ -21,25 +21,27 @@ namespace  pacman {
     DECLARE_SHARED(IPlayer);
 
 
-    class IEnemy: public IPlayer{
+    class IGhost: public IPlayer{
     public:
-        virtual void canEat() = 0;
-        virtual void isZombie() = 0;
-        virtual void canChase() = 0;
-        virtual bool eat() = 0;
+        virtual void live() = 0;
+        virtual void setZombie(bool s) = 0;
+        virtual bool isZombie() = 0;
+        virtual void died() = 0;
+        virtual void setDirection(Directions d) = 0;
+        virtual void setSpeed(size_t speed) = 0;
         
     };
 
-    DECLARE_SHARED(IEnemy);
+    DECLARE_SHARED(IGhost);
 
 
-    class IHero: public IPlayer{
+    class IPacMan: public IPlayer{
         virtual void consume(const Energy& e) = 0;
         virtual void canKill() = 0;
         virtual void kill() = 0;
     };
 
-    DECLARE_SHARED(IHero);
+    DECLARE_SHARED(IPacMan);
 }
 
 #endif /* IPlayer_h */

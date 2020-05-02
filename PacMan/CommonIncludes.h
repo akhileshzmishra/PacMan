@@ -18,6 +18,9 @@
 #include <cmath>
 #include <ctime>
 #include <cstdlib>
+#include <thread>
+#include <mutex>
+#include <chrono>
 #include "IObserver.h"
 
 #define GENERIC_GETTER(fnname, variable, type) \
@@ -60,10 +63,20 @@ typedef std::vector<VectorInt>             VecVecInt;
 
 typedef std::vector<bool>                  VectorBool;
 typedef std::vector<VectorBool>            VecVecBool;
+    
+typedef std::vector<size_t>                VectorSizeT;
+typedef std::vector<VectorSizeT>           VecVecSizeT;
 
 struct Coordinates{
     int x = 0;
     int y = 0;
+    Coordinates(int ii, int jj){
+        x = ii;
+        y = jj;
+    }
+    Coordinates(){
+        
+    }
 };
 
 struct Position{
@@ -78,10 +91,9 @@ struct Position{
 namespace  mapElements {
     const int Empty                     = 0;
     const int Wall                      = 1;
-    const int Invalid                   = 2;
-    
-    const int StartPos                  = 5;
-    const int EnemyPos                  = 6;
+    const int StartPos                  = 2;
+    const int EnemyPos                  = 3;
+    const int Invalid                   = 4;
 }
 
 struct Energy{
@@ -97,16 +109,16 @@ struct Dimension{
     }
 };
 
-struct DimensionMarker{
+struct BoundingBox{
     Dimension dimension;
     Position  centroid;
 };
 
-enum class Directions{
-    Up,
-    Down,
-    Left,
-    Right
+enum Directions{
+    UpDir = 0,
+    DownDir = 1,
+    LeftDir = 2,
+    RightDir = 3
 };
 
 struct ColorRGB{
@@ -122,9 +134,10 @@ struct ColorRGB{
 };
 namespace Colors{
     const static ColorRGB WhiteColor(225, 225, 225);
-    const static ColorRGB WallColor(0, 0, 0);
+    const static ColorRGB WallColor(50, 50, 50);
     const static ColorRGB EmptyColor(152,223,138);
     const static ColorRGB CoinColor(188,189,34);
+    const static ColorRGB BorderColor(112,50,21);
 }
     
     

@@ -17,13 +17,6 @@ namespace  pacman {
         virtual int offer() = 0;
         virtual bool makeZombie() = 0;
         virtual void makeEmpty() = 0;
-        
-        virtual void setDirection(Directions d) override{
-            (void)d;
-        }
-        virtual void setSpeed(size_t speed) override{
-            (void)speed;
-        }
     };
 
     DECLARE_SHARED(IGift);

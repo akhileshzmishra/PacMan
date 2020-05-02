@@ -12,9 +12,19 @@
 #include "AllInterfaces.h"
 
 namespace pacman {namespace impl{
+    
+struct BluePrintNode{
+    bool isWall = false;
+    int type     = mapElements::Wall;
+    Coordinates coordinates;
+    Position    position;
+    Dimension   dimension;
+};
+typedef std::vector<BluePrintNode>            BlueNodeVector;
+typedef std::vector<BlueNodeVector>           BlueNodeMatrix;
 
 class BluePrint: public IBluePrint{
-    VecVecInt                                 mMapPrint;
+    BlueNodeMatrix                            mMapPrint;
     size_t                                    mRow;
     size_t                                    mCol;
     size_t                                    mResolution;
@@ -26,12 +36,8 @@ public:
     size_t getCol() override{
         return mCol;
     }
-    int getValue(size_t r, size_t c) override{
-        if(r < mRow && c < mCol){
-            return mMapPrint[r][c];
-        }
-        return -1;
-    }
+    int getValue(size_t r, size_t c) override;
+    
     size_t getResolution() override{
         return mResolution;
     }

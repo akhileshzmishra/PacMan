@@ -16,7 +16,7 @@ namespace pacman {namespace impl{
 
 class Consumable: public IGift, public SettingObserver{
     int                                       mValue = 5;
-    DimensionMarker                           mDim;
+    BoundingBox                               mBBox;
     sf::CircleShape                           mCircleDisplay;
     ColorRGB                                  mColor;
     bool                                      mZombie = false;
@@ -43,7 +43,7 @@ private:
 
 class ZombieMakerConsumable: public Consumable{
 public:
-    ZombieMakerConsumable(DimensionMarker& dim);
+    ZombieMakerConsumable(BoundingBox& dim);
 };
     
 }}

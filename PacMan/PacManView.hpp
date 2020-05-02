@@ -16,13 +16,15 @@ namespace pacman{ namespace impl{
     class PacManFrame;
     DECLARE_SHARED(PacManFrame);
     
-    class PacManView{
+class PacManView{
     PacManFramePtr                  mFrame;
-    IPlayBoardPtr                   mPlayBoard;
+    IGameManagerPtr                 mGameManager;
 public:
     PacManView();
     void run();
     virtual ~PacManView();
+    void create();
+    void destroy();
 private:
     void createMap();
     void destroyMap();

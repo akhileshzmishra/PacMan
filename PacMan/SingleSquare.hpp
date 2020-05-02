@@ -13,13 +13,14 @@
 
 namespace pacman {namespace impl{
 
-class SingleSquare: public ISquare, public SettingObserver{
+class SingleSquare: public ISquare{
     int                                       mType;
     IPlayerPtr                                mOccupant;
-    DimensionMarker                           mDimension;
+    BoundingBox                               mBBox;
     sf::RectangleShape                        mRect;
     ColorRGB                                  mColor;
     IGiftPtr                                  mCoin;
+    Coordinates                               mCoordinates;
     bool                                      mCreate = false;
 public:
     SingleSquare(int type = mapElements::Empty);
@@ -27,18 +28,22 @@ public:
     virtual bool allows() override{
         return mType != mapElements::Wall;
     }
+    virtual void setCoordinate(Coordinates c){
+        mCoordinates = c;
+    }
     virtual void setPosition(const Position& p)  override;
     virtual void setGift(IGiftPtr ptr)override;
     virtual IGiftPtr getGift()override;
     
     virtual void create() override;
     virtual void destroy() override;
+    virtual bool move(const Position& p) override;
+    virtual void setSize(Dimension d) override;
     
     GENERIC_GETTER_SETTER(Type,        mType,         decltype(mType));
     GENERIC_GETTER_SETTER(Occupant,    mOccupant,     IPlayerPtr);
-    GENERIC_GETTER_SETTER(Dimension,   mDimension,    DimensionMarker);
+    GENERIC_GETTER_SETTER(Dimension,   mBBox,    BoundingBox);
     
-    void GetNotified(LiftData& data, const SettingsObservation& condition) override;
 private:
     void createEmpty();
     void createWall();
