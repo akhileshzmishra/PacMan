@@ -25,10 +25,6 @@ void PacManView::run(){
 
 void PacManView::create(){
     mFrame = std::make_shared<PacManFrame>();
-    auto frame = std::dynamic_pointer_cast<IBaseFrame>(mFrame);
-    if(frame){
-        Settings::getInstance()->setBaseFrame(frame);
-    }
     mFrame->create();
 }
 

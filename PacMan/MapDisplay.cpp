@@ -20,16 +20,6 @@ mPlan(plan)
     SetSubject(Settings::getInstance());
 }
 
-void MapDisplay::display(){
-//    if(getBaseFramePtr()){
-//        getBaseFramePtr()->getWindow().draw(mRect);
-//    }
-    for(size_t i = 0; i < mRows; i++){
-        for(size_t j = 0; j < mCols; j++){
-            mRowCol[i][j]->display();
-        }
-    }
-}
 
 
 void MapDisplay::setPosition(const Position& p) {
@@ -41,10 +31,8 @@ Position MapDisplay::getPosition(){
 }
 
 void MapDisplay::create(){
-    setBaseFrame(Settings::getInstance()->getCopyBaseFrame());
     Register(SquareDimensionChange);
     mBBox.dimension = Settings::getInstance()->getBoardDimension();
-    mRect.setSize(sf::Vector2f(mBBox.dimension.length, mBBox.dimension.width));
     if(mPlan){
         mRows = mPlan->getRow();
         mCols = mPlan->getCol();
@@ -69,7 +57,6 @@ void MapDisplay::destroy(){
             mRowCol[i][j]->destroy();
         }
     }
-    setBaseFrame(nullptr);
 }
 
 ISquarePtr MapDisplay::getSquare(const Coordinates& c){
@@ -80,17 +67,15 @@ ISquarePtr MapDisplay::getSquare(const Coordinates& c){
 }
 
 void MapDisplay::calculatePositions(){
-    auto topLeft = Settings::getInstance()->getTopLeftMapPosition();
     auto square = Settings::getInstance()->getSquareDimension();
     mBBox.dimension = Settings::getInstance()->getBoardDimension();
-    mRect.setPosition(topLeft.row, topLeft.col);
     for(size_t i = 0; i < mRows; i++){
         for(size_t j = 0; j < mCols; j++){
             auto posData = Settings::getInstance()->getSquarePositionData(Coordinates(i, j));
             if(posData){
                 mRowCol[i][j]->setPosition(posData->getRefPosition());
                 mRowCol[i][j]->setSize(square);
-                std::cout<<posData->getRefPosition().row<<" "<<posData->getRefPosition().col<<std::endl;
+                //std::cout<<posData->getRefPosition().row<<" "<<posData->getRefPosition().col<<std::endl;
             }
         }
     }

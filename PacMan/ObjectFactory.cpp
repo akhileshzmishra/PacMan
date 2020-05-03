@@ -16,9 +16,6 @@
 using namespace pacman;
 using namespace pacman::impl;
 
-IMap* ObjectFactory::getMap(){
-    return nullptr;
-}
 
 IGameManagerPtr ObjectFactory::getGameManager(){
     return std::make_shared<GameManager>();

@@ -16,12 +16,6 @@ Consumable::Consumable(){
     SetSubject(Settings::getInstance());
 }
 
-void Consumable::display(){
-    if(getBaseFramePtr()){
-        getBaseFramePtr()->getWindow().draw(mCircleDisplay);
-    }
-}
-
 
 bool Consumable::makeZombie(){
     return mZombie;
@@ -43,12 +37,10 @@ void Consumable::createData(){
 }
 void Consumable::create(){
     createData();
-    setBaseFrame(Settings::getInstance()->getCopyBaseFrame());
     Register(CoinDimensionChange);
 }
 
 void Consumable::destroy(){
-    setBaseFrame(nullptr);
     DeRegister(CoinDimensionChange);
 }
 

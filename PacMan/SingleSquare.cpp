@@ -18,14 +18,6 @@ mOccupant(nullptr),
 mBBox(){
 }
 
-void SingleSquare::display() {
-    if(getBaseFramePtr()){
-        getBaseFramePtr()->getWindow().draw(mRect);
-    }
-    if(mCoin && mType == mapElements::Empty){
-        mCoin->display();
-    }
-}
 
 void SingleSquare::setPosition(const Position& p){
     mBBox.referencePos = p;
@@ -59,14 +51,18 @@ void SingleSquare::createData(){
     }
 }
 
+void SingleSquare::renderComplete(){
+    
+}
+
 void SingleSquare::create(){
     mBBox.dimension = Settings::getInstance()->getSquareDimension();
-    setBaseFrame(Settings::getInstance()->getCopyBaseFrame());
+    Settings::getInstance()->getCopyRenderer()->addRenderered(this, RenderLayer::Background);
     createData();
 }
 
 void SingleSquare::destroy(){
-    setBaseFrame(nullptr);
+    Settings::getInstance()->getCopyRenderer()->clearRendererd(this);
     if(mCoin){
         mCoin->destroy();
     }
@@ -87,6 +83,17 @@ void SingleSquare::createWall(){
     mRect.setPosition(mBBox.referencePos.col, mBBox.referencePos.row);
 }
 
+bool SingleSquare::canBeRendered(){
+    return mRenderable;
+}
+
+void SingleSquare::setRenderable(bool s){
+    mRenderable = s;
+}
+
+sf::Shape* SingleSquare::getShape(){
+    return &mRect;
+}
 
 void SingleSquare::setGift(IGiftPtr ptr){
     mCoin = ptr;
@@ -94,12 +101,6 @@ void SingleSquare::setGift(IGiftPtr ptr){
 
 IGiftPtr SingleSquare::getGift(){
     return mCoin;
-}
-
-bool SingleSquare::move(const Position& p){
-    mBBox.referencePos = p;
-    mRect.move(p.row, p.col);
-    return true;
 }
 
 

@@ -17,12 +17,6 @@ using namespace pacman::impl;
 GameManager::GameManager(){
 }
 
-void GameManager::setupDisplay(){
-    if(mDisplay){
-        mDisplay->display();
-    }
-}
-
 void GameManager::setPosition(const Position &p){
     mBBox.referencePos = p;
 }

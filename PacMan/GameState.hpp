@@ -60,6 +60,9 @@ namespace pacman {namespace impl{
         int                           mPlayerCount = 0;
         GameNodeTwoD                  mBoard;
         Coordinates                   mPlayerPosition;
+        std::recursive_mutex          mMutex;
+        typedef std::lock_guard<std::recursive_mutex> Lock;
+        
     public:
         GameState(IBluePrintPtr ptr):mBluePrint(ptr){
             create();
@@ -70,6 +73,7 @@ namespace pacman {namespace impl{
         }
         
         bool moveGhost(const Coordinates& from, const Coordinates& to){
+            Lock lck(mMutex);
             if(mBoard[from.row][from.col].isGhost()&&
                mBoard[to.row][to.col].isEmpty()){
                 mBoard[from.row][from.col].setEmpty();
@@ -80,6 +84,7 @@ namespace pacman {namespace impl{
         }
         
         bool movePlayer(const Coordinates& from, const Coordinates& to){
+            Lock lck(mMutex);
             if(mBoard[from.row][from.col].isPlayer()&&
                mBoard[to.row][to.col].isEmpty()){
                 mBoard[from.row][from.col].setEmpty();

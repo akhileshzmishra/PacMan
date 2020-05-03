@@ -13,18 +13,15 @@
 
 namespace  pacman {
     
-class IDisplay: public IPrimaryObject{
+class IStaticObjects: public IPrimaryObject{
 public:
-    virtual bool canMove() override{
+    virtual bool canMove(){
         return false;
     }
-    virtual bool move(const Position& p) override{
-        return false;
-    }
-    virtual void display() = 0;
+    
     
 };
-DECLARE_SHARED(IDisplay);
+DECLARE_SHARED(IStaticObjects);
     
     
     

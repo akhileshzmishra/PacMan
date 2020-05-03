@@ -22,9 +22,10 @@ class SingleSquare: public ISquare{
     IGiftPtr                                  mCoin;
     bool                                      mCreate = false;
     IPlayBoard*                               mPlayBoard = nullptr;
+    bool                                      mRenderable = true;
 public:
     SingleSquare(int type = mapElements::Empty);
-    virtual void display() override;
+
     virtual bool allows() override{
         return mType != mapElements::Wall && !mOccupant;
     }
@@ -41,7 +42,7 @@ public:
     
     virtual void create() override;
     virtual void destroy() override;
-    virtual bool move(const Position& p) override;
+
     virtual void setSize(Dimension d) override;
     
     virtual void setOwner(IPlayBoard* ptr)override{
@@ -54,6 +55,14 @@ public:
     virtual IPlayerPtr getOccupant() override{
         return mOccupant;
     }
+    
+    virtual bool canBeRendered()override;
+    virtual sf::Shape* getShape()override;
+    void setRenderable(bool s) override;
+    virtual const std::vector<sf::Shape*>* getShapes() override{
+        return nullptr;
+    }
+    virtual void renderComplete() override;
     
     GENERIC_GETTER_SETTER(Type,        mType,         decltype(mType));
     GENERIC_GETTER_SETTER(Dimension,   mBBox,         BoundingBox);

@@ -24,12 +24,10 @@ class MapDisplay: public IPlayBoard, public SettingObserver{
     size_t                                    mRows;
     size_t                                    mCols;
     BoundingBox                               mBBox;
-    sf::RectangleShape                        mRect;
     IPacManPtr                                mPlayer;
     
 public:
     MapDisplay(IBluePrintPtr plan);
-    virtual void display() override;
     void setPosition(const Position& p)  override;
     Position getPosition() override;
     

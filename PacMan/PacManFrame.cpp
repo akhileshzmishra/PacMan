@@ -27,11 +27,6 @@ void PacManFrame::setTotalSizes(){
     Settings::getInstance()->calculate();
 }
 
-sf::RenderWindow& PacManFrame::getWindow(){
-    return mWindow;
-}
-
-
 void PacManFrame::run(){
     setTotalSizes();
     mFullDisplay = true;
@@ -72,12 +67,36 @@ void PacManFrame::run(){
             break;
         }
         else{
-            displayAll();
             mPlayBoard->play();
+            displayBackground();
+            displayForeground();
         }
         mWindow.display();
     }
     destroy();
+}
+
+void PacManFrame::displayBackground(){
+    for(auto itr = mRenderedList[(int)RenderLayer::Background].begin();
+        itr != mRenderedList[(int)RenderLayer::Background].end(); itr++){
+        if(itr->first->canBeRendered()){
+            auto shape = itr->first->getShape();
+            if(shape){
+                mWindow.draw(*shape);
+            }
+        }
+    }
+}
+void PacManFrame::displayForeground(){
+    for(auto itr = mRenderedList[(int)RenderLayer::ForeGround].begin();
+        itr != mRenderedList[(int)RenderLayer::ForeGround].end(); itr++){
+        if(itr->first->canBeRendered()){
+            auto shape = itr->first->getShape();
+            if(shape){
+                mWindow.draw(*shape);
+            }
+        }
+    }
 }
 
 void PacManFrame::onGameEnded(){
@@ -88,6 +107,7 @@ void PacManFrame::onGameEnded(){
 }
 
 void PacManFrame::create(){
+    Settings::getInstance()->setRenderer(shared_from_this());
     mPlayBoard = ObjectFactory::getGameManager();
     mPlayBoard->create();
     Register(SettingsObservation::GameHasEnded);
@@ -99,27 +119,26 @@ void PacManFrame::create(){
     mGameEndedText.setFillColor(sf::Color::White);
 }
 
-void PacManFrame::addToList(IDisplayPtr ptr){
-    mDisplayList.push_back(ptr);
-}
 
 void PacManFrame::destroy(){
-    for(int i = 0; i < mDisplayList.size(); i++){
-        mDisplayList[i] = nullptr;
+    for(int i = 0; i < (int)RenderLayer::MaxLayer; i++){
+        mRenderedList[i].clear();
     }
-    mDisplayList.clear();
-}
-
-
-void PacManFrame::displayAll(){
-    for(int i = 0; i < mDisplayList.size(); i++){
-        mDisplayList[i]->display();
-    }
-    mPlayBoard->setupDisplay();
+    
 }
 
 void PacManFrame::GetNotified(LiftData& data, const SettingsObservation& condition){
     if(condition == GameHasEnded){
         mGameEnded = true;
+    }
+}
+
+void PacManFrame::addRenderered(IRenderered* ptr, RenderLayer layer){
+    mRenderedList[(int)layer][ptr] = RenderedProperty();
+    mRenderedList[(int)layer][ptr].active = false;
+}
+void PacManFrame::clearRendererd(IRenderered* ptr){
+    for(int i = 0; i < (int)RenderLayer::MaxLayer; i++){
+        mRenderedList[i].erase(ptr);
     }
 }

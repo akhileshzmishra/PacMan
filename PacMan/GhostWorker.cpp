@@ -65,7 +65,6 @@ bool GhostStateOnBoard::hasReached(){
 void GhostStateOnBoard::move(){
     if(mStop){
         mGhost->setPosition(currentPos);
-        mGhost->display();
         return;
     }
 //    float oldR = currentPos.row;
@@ -85,7 +84,6 @@ void GhostStateOnBoard::move(){
     
     
     mGhost->setPosition(currentPos);
-    mGhost->display();
 }
 
 
@@ -217,14 +215,12 @@ void GhostWorker::work(){
 
 void GhostWorker::create(){
     mStrategy = ObjectFactory::getUnchartedMoveStrategy(mState);
-    mBaseFrame = Settings::getInstance()->getCopyBaseFrame();
     GhostStateOnBoard::setSquareDim(Settings::getInstance()->getSquareDimension());
     mStrategy->setBluePrint(Settings::getInstance()->getCopyBluePrint());
     mSpeed = Settings::getInstance()->getGhostSpeed();
 }
 void GhostWorker::destroy(){
     mStrategy = nullptr;
-    mBaseFrame = nullptr;
     for(int i = 0; i < mGhostState.size(); i++){
         mGhostState[i].destroy();
     }

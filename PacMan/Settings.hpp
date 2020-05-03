@@ -63,10 +63,10 @@ class Settings: public SettingSubject{
     Position  mTopLeft;
     
     IBluePrintPtr mBluePrint;
-    IBaseFramePtr mBaseFrame;
+    IRendererPtr mRenderer;
     SQMatrixData mData;
     
-    float    mPacManSpeed = 7;
+    float    mPacManSpeed = 15;
     float    mGhostSpeed = 1.5;
     
 public:
@@ -89,7 +89,7 @@ public:
     ColorRGB getCoinColor();
     
     GENERIC_GETTER_SETTER(BluePrint, mBluePrint, IBluePrintPtr);
-    GENERIC_GETTER_SETTER(BaseFrame, mBaseFrame, IBaseFramePtr);
+    GENERIC_GETTER_SETTER(Renderer,  mRenderer,  IRendererPtr);
     
     void setWindowDimension(const Dimension& d);
     

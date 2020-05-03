@@ -19,12 +19,12 @@ static const VecVecInt DeltaPos = {
     {0, 1}
 };
 
-static const Directions DirVec[] = {
-    Directions::UpDir,
-    Directions::LeftDir,
-    Directions::DownDir,
-    Directions::RightDir
-};
+//static const Directions DirVec[] = {
+//    Directions::UpDir,
+//    Directions::LeftDir,
+//    Directions::DownDir,
+//    Directions::RightDir
+//};
 
 PacManTheHero::PacManTheHero(){
     SetSubject(Settings::getInstance());
@@ -38,6 +38,7 @@ Position PacManTheHero::getPosition(){
     return mBBox.referencePos;
 }
 void PacManTheHero::create(){
+    Settings::getInstance()->getCopyRenderer()->addRenderered(this, RenderLayer::ForeGround);
     mBBox.dimension = Settings::getInstance()->getGhostDimension();
     sSquareDim = Settings::getInstance()->getSquareDimension();
     mSpeed = Settings::getInstance()->getPacManSpeed();
@@ -45,141 +46,53 @@ void PacManTheHero::create(){
     mHead.setRadius(mBBox.dimension.length);
     mHead.setFillColor(sf::Color::Yellow);
     
-    setBaseFrame(Settings::getInstance()->getCopyBaseFrame());
-    mWin = &getBaseFramePtr()->getWindow();
-    
     Register(KeyPressedUp);
     Register(KeyPressedDown);
     Register(KeyPressedLeft);
     Register(KeyPressedRight);
     Register(SquareDimensionChange);
-    mReady = true;
+    //move();
+    mReady = false;
 }
 void PacManTheHero::PacManTheHero::destroy(){
     //mHoldingSquare = nullptr;
     //mHoldingBoard = nullptr;
-    mReady = false;
+    //mReady = false;
+    Settings::getInstance()->getCopyRenderer()->clearRendererd(this);
 }
 
 void PacManTheHero::work(){
     if(mReady){
         move();
-        
         mReady = false;
     }
-    display();
+    //mGameState->print();
 }
 
 void PacManTheHero::move(){
-    bool retVal = false;
-    auto mHoldingBr = mHoldingBoard.lock();
-    auto sq = mHoldingBr->getSquare(getConstRefCoordinates());
-    auto sqpos = sq->getPosition();
-    auto& position = mBBox.referencePos;
-    float r1 = position.row;
-    float r2 = r1 + mBBox.dimension.width;
-    float c1 = position.col;
-    float c2 = c1 + mBBox.dimension.length;
-    switch(mDirections){
-        case pacman::UpDir:
-            if(r1 < sqpos.row && r2 > sqpos.row){
-                retVal = inBetweenSquaresAndGo();
-            }
-            else if(r2 <= sqpos.row){
-                retVal = setNextSquareAndCheck();
-            }
-            else{
-                retVal = inPresentSquareAndCheck();
-            }
-            break;
-        case pacman::LeftDir:
-            if(c1 < sqpos.col && c2 > sqpos.col){
-                retVal = inBetweenSquaresAndGo();
-            }
-            else if(c2 <= sqpos.col){
-                retVal = setNextSquareAndCheck();
-            }
-            else{
-                retVal = inPresentSquareAndCheck();
-            }
-            break;
-        case pacman::DownDir:
-            if(r2 > sqpos.row + sSquareDim.width && r1 < sqpos.row + sSquareDim.width){
-                retVal = inBetweenSquaresAndGo();
-            }
-            else if(r1 >= sqpos.row + sSquareDim.width){
-                retVal = setNextSquareAndCheck();
-            }
-            else{
-                retVal = inPresentSquareAndCheck();
-            }
-            break;
-        case pacman::RightDir:
-            if(c2 > sqpos.row + sSquareDim.width && c1 < sqpos.row + sSquareDim.width){
-                retVal = inBetweenSquaresAndGo();
-            }
-            else if(c1 >= sqpos.row + sSquareDim.width){
-                retVal = setNextSquareAndCheck();
-            }
-            else{
-                retVal = inPresentSquareAndCheck();
-            }
-            break;
-        default:
-            break;
-    }
-}
-
-bool PacManTheHero::setNextSquareAndCheck(){
-    auto mHoldingBr = mHoldingBoard.lock();
-    auto sq = mHoldingBr->getSquare(getConstRefCoordinates());
-    auto coord = sq->getCopyCoordinates();
-    auto oldcord = coord;
-    coord.row += DeltaPos[(int)mDirections][0];
-    coord.col += DeltaPos[(int)mDirections][1];
-    auto next = mHoldingBr->getSquare(coord);
-    if(!next){
-        return false;
-    }
-    setCurrentSquare(next);
-    mBBox.referencePos = next->getPosition();
-    setCoordinates(coord);
-    if(mGameState){
-        mGameState->movePlayer(oldcord, coord);
-        mGameState->addScore(1);
-    }
-    inPresentSquareAndCheck();
-    return true;
-}
-
-bool PacManTheHero::inPresentSquareAndCheck(){
-    auto mHoldingBr = mHoldingBoard.lock();
-    auto sq = mHoldingBr->getSquare(getConstRefCoordinates());
-    auto coord = sq->getCopyCoordinates();
-    coord.row += DeltaPos[(int)mDirections][0];
-    coord.col += DeltaPos[(int)mDirections][1];
-    auto next = mHoldingBr->getSquare(coord);
-    if(!next){
-        return false;
-    }
-    if(mGameState){
-        if(mGameState->isWall(coord)){
-            return false;
+    if(!mHoldingBoard.expired()){
+        auto mHoldingBr = mHoldingBoard.lock();
+        const Coordinates& currentCord = getConstRefCoordinates();
+        auto nextCord = currentCord;
+        nextCord.row += DeltaPos[(int)mDirections][0];
+        nextCord.col += DeltaPos[(int)mDirections][1];
+        
+        auto nextSquare = mHoldingBr->getSquare(nextCord);
+        if(!nextSquare){
+            return;
         }
         
-        if(mGameState->isGhost(coord)){
-            return false;
+        setPosition(nextSquare->getPosition());
+        setCurrentSquare(nextSquare);
+        if(mGameState){
+            mGameState->movePlayer(currentCord, nextCord);
+            mGameState->addScore(1);
         }
     }
-    inBetweenSquaresAndGo();
-    return true;
 }
 
-bool PacManTheHero::inBetweenSquaresAndGo(){
-    mBBox.referencePos.row += DeltaPos[(int)mDirections][0]*mSpeed;
-    mBBox.referencePos.col += DeltaPos[(int)mDirections][1]*mSpeed;
-    mHead.setPosition( mBBox.referencePos.col,  mBBox.referencePos.row);
-    return true;
+void PacManTheHero::renderComplete(){
+    
 }
 
 void PacManTheHero::setCurrentSquare(ISquarePtr ptr){
@@ -210,13 +123,6 @@ void PacManTheHero::live(){
     }
 }
 
-void PacManTheHero::display(){
-    if(mWin){
-        mWin->draw(mHead);
-    }
-}
-
-
 void PacManTheHero::addEnergy(const Energy& e){
     mEnergy.value += e.value;
     if(mEnergy.value >= 50){
@@ -232,18 +138,30 @@ void PacManTheHero::kill(){
     
 }
 
+bool PacManTheHero::canBeRendered(){
+    return mRenderable;
+}
+
+sf::Shape* PacManTheHero::getShape(){
+    return &mHead;
+}
+
 void PacManTheHero::GetNotified(LiftData& data, const SettingsObservation& condition){
-    mReady = true;
+    
     if(condition == KeyPressedUp){
+        mReady = true;
         mDirections = UpDir;
     }
     else if(condition == KeyPressedDown){
+        mReady = true;
         mDirections = DownDir;
     }
     else if(condition == KeyPressedLeft){
+        mReady = true;
         mDirections = LeftDir;
     }
     else if(condition == KeyPressedRight){
+        mReady = true;
         mDirections = RightDir;
     }
     else{

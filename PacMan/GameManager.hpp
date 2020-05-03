@@ -26,7 +26,6 @@ class GameManager: public IGameManager{
 public:
     GameManager();
     GENERIC_GETTER_SETTER(SquareDim,   mBBox,    BoundingBox);
-    virtual void setupDisplay() override;
     virtual void create() override;
     virtual void destroy() override;
     virtual void setPosition(const Position& p) override;

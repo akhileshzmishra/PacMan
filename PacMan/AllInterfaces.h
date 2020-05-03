@@ -11,10 +11,10 @@
 
 #include "CommonIncludes.h"
 #include "interfaces/PrimaryObject.h"
-#include "interfaces/IMap.h"
 #include "interfaces/IPlayer.h"
-#include "interfaces/IDisplay.h"
+#include "interfaces/IStaticObjects.h"
 #include "interfaces/IPlayBoard.h"
+#include "interfaces/IRenderer.h"
 #include "interfaces/ISquare.h"
 #include "interfaces/IGift.h"
 #include "interfaces/IThreadWork.h"

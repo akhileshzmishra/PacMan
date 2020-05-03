@@ -15,7 +15,7 @@
 
 namespace pacman {namespace impl{
     class Ghost: public IGhost, public SettingObserver,
-            public std::enable_shared_from_this<IPlayer>{
+    public std::enable_shared_from_this<IPlayer>{
     sf::CircleShape                 mHead;
     BoundingBox                     mBBox;
     int                             mSpeed = 1;
@@ -31,15 +31,14 @@ namespace pacman {namespace impl{
     IPlayBoardWeakPtr               mHoldingBoard;
     sf::RenderWindow*               mWin;
     float                           mRadius;
+    bool                            mRenderable = true;
 public:
     Ghost();
-    virtual bool canMove() override;
                 
     virtual Dimension getDimension() override{
         return mBBox.dimension;
     }
     
-    virtual bool move(const Position& p)override;
     virtual void setPosition(const Position& p)override;
     virtual Position getPosition() override;
     virtual void create()override;
@@ -53,8 +52,17 @@ public:
     virtual bool isZombie()override;
     virtual void setZombie(bool s)override;
     virtual void died()override;
-    virtual void display()override;
     
+    virtual bool canBeRendered()override;
+    virtual sf::Shape* getShape()override;
+    void setRenderable(bool s) override{
+        mRenderable = s;
+    }
+    virtual const std::vector<sf::Shape*>* getShapes() override{
+        return nullptr;
+    }
+
+    virtual void renderComplete() override;
     void GetNotified(LiftData& data, const SettingsObservation& condition) override;
     
 private:

@@ -6,22 +6,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PacMan/SingleSquare.cpp"
-            timestampString = "610205046.5051529"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "22"
-            endingLineNumber = "22"
-            landmarkName = "SingleSquare::display()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -32,22 +16,6 @@
             startingLineNumber = "21"
             endingLineNumber = "21"
             landmarkName = "GameManager::setupDisplay()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PacMan/MapDisplay.cpp"
-            timestampString = "610205431.818861"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
-            landmarkName = "MapDisplay::create()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -73,24 +41,8 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PacMan/MapDisplay.cpp"
-            timestampString = "610205431.819"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
-            landmarkName = "MapDisplay::display()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "PacMan/SingleSquare.cpp"
-            timestampString = "610205046.506114"
+            timestampString = "610226707.661976"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "47"
@@ -106,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/SingleSquare.cpp"
-            timestampString = "610205046.506179"
+            timestampString = "610226707.662043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
-            landmarkName = "SingleSquare::create()"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
+            landmarkName = "SingleSquare::destroy()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -122,12 +74,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/SingleSquare.cpp"
-            timestampString = "610205046.506246"
+            timestampString = "610226707.662093"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "31"
             endingLineNumber = "31"
-            landmarkName = "SingleSquare::setPosition(const Position&amp; p)"
+            landmarkName = "SingleSquare::getPosition()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -201,28 +153,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PacMan/PacManFrame.cpp"
-            timestampString = "610205431.819335"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
-            landmarkName = "PacManFrame::run()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "PacMan/Settings.cpp"
-            timestampString = "610205431.820218"
+            timestampString = "610220647.854489"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
             landmarkName = "Settings::setWindowDimension(const Dimension&amp; d)"
             landmarkType = "7">
          </BreakpointContent>
@@ -234,7 +170,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/Settings.cpp"
-            timestampString = "610205431.820335"
+            timestampString = "610220647.854576"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "42"
@@ -250,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/PacManFrame.cpp"
-            timestampString = "610205431.82108"
+            timestampString = "610226707.662237"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
             landmarkName = "PacManFrame::run()"
             landmarkType = "7">
          </BreakpointContent>
@@ -266,7 +202,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/GhostWorker.cpp"
-            timestampString = "610205431.821329"
+            timestampString = "610220647.8554"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "172"
@@ -282,12 +218,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/GhostWorker.cpp"
-            timestampString = "610205431.821767"
+            timestampString = "610220647.8556041"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "236"
             endingLineNumber = "236"
-            landmarkName = "GhostWorker::destroy()"
+            landmarkName = "GhostWorker::addGhost(IGhostPtr ptr)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -298,13 +234,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/PacManFrame.cpp"
-            timestampString = "610205431.822023"
+            timestampString = "610226707.662322"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
-            landmarkName = "PacManFrame::create()"
-            landmarkType = "7">
+            startingLineNumber = "108"
+            endingLineNumber = "108"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -314,7 +250,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/GameManager.cpp"
-            timestampString = "610205431.822196"
+            timestampString = "610226707.662376"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "44"
@@ -330,7 +266,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/MapDisplay.cpp"
-            timestampString = "610205431.822593"
+            timestampString = "610220647.856043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "77"
@@ -346,7 +282,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/ghostStrategy/GhostUnchartedStrategy.cpp"
-            timestampString = "610205431.8226939"
+            timestampString = "610220647.85613"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "40"
@@ -362,7 +298,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/GhostWorker.cpp"
-            timestampString = "610205431.823467"
+            timestampString = "610220647.856348"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "203"
@@ -378,7 +314,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/GhostWorker.cpp"
-            timestampString = "610205431.82373"
+            timestampString = "610220647.8566149"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "213"
@@ -394,11 +330,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/GameState.hpp"
-            timestampString = "610205431.824038"
+            timestampString = "610220647.856827"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
             landmarkName = "moveGhost(const Coordinates&amp; from, const Coordinates&amp; to)"
             landmarkType = "7">
          </BreakpointContent>
@@ -410,7 +346,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/ghostStrategy/GhostUnchartedStrategy.cpp"
-            timestampString = "610205431.8247581"
+            timestampString = "610220647.856915"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "78"
@@ -426,7 +362,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/ghostStrategy/GhostUnchartedStrategy.cpp"
-            timestampString = "610205431.825022"
+            timestampString = "610220647.857052"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "81"
@@ -442,7 +378,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/GhostWorker.cpp"
-            timestampString = "610205431.82532"
+            timestampString = "610220647.857223"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "135"
@@ -458,7 +394,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/GhostWorker.cpp"
-            timestampString = "610205431.825604"
+            timestampString = "610220647.85747"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "143"
@@ -474,12 +410,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/MapDisplay.cpp"
-            timestampString = "610205431.825855"
+            timestampString = "610220647.857638"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "97"
             endingLineNumber = "97"
-            landmarkName = "MapDisplay::calculatePositions()"
+            landmarkName = "MapDisplay::GetNotified(LiftData&amp; data, const SettingsObservation&amp; condition)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -490,7 +426,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/GhostWorker.cpp"
-            timestampString = "610205431.826499"
+            timestampString = "610220647.8577009"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "145"
@@ -506,13 +442,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/GhostWorker.cpp"
-            timestampString = "610205431.826728"
+            timestampString = "610220647.859264"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "151"
             endingLineNumber = "151"
-            landmarkName = "GhostStateOnBoard::lookAhead(DirSuggestion&amp; s)"
-            landmarkType = "7">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -522,7 +458,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/GhostWorker.cpp"
-            timestampString = "610205431.826968"
+            timestampString = "610220647.860256"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "100"
@@ -538,13 +474,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/GhostWorker.cpp"
-            timestampString = "610205431.8277529"
+            timestampString = "610220647.860678"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "248"
-            endingLineNumber = "248"
-            landmarkName = "GhostWorker::addGhost(IGhostPtr ptr)"
-            landmarkType = "7">
+            endingLineNumber = "248">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -554,7 +488,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/GhostWorker.cpp"
-            timestampString = "610205431.828014"
+            timestampString = "610220647.860886"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "155"
@@ -570,11 +504,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/Settings.cpp"
-            timestampString = "610205431.828282"
+            timestampString = "610220647.861179"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
             landmarkName = "Settings::refillSquarePositions()"
             landmarkType = "7">
          </BreakpointContent>
@@ -586,11 +520,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/PacManFrame.cpp"
-            timestampString = "610205431.828364"
+            timestampString = "610226707.662644"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
             landmarkName = "PacManFrame::run()"
             landmarkType = "7">
          </BreakpointContent>
@@ -602,11 +536,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/Settings.cpp"
-            timestampString = "610205431.828492"
+            timestampString = "610220647.861389"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
             landmarkName = "Settings::refillSquarePositions()"
             landmarkType = "7">
          </BreakpointContent>
@@ -618,7 +552,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/GameState.hpp"
-            timestampString = "610205431.828572"
+            timestampString = "610220647.861472"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
@@ -634,7 +568,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/GhostWorker.cpp"
-            timestampString = "610205431.8286721"
+            timestampString = "610220647.861545"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "190"
@@ -650,7 +584,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/GhostWorker.cpp"
-            timestampString = "610205431.828941"
+            timestampString = "610220647.861744"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "114"
@@ -667,7 +601,7 @@
             condition = "nxt.row==4"
             continueAfterRunningActions = "No"
             filePath = "PacMan/ghostStrategy/GhostUnchartedStrategy.cpp"
-            timestampString = "610205431.829145"
+            timestampString = "610220647.8624541"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "56"
@@ -690,7 +624,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/ghostStrategy/GhostUnchartedStrategy.cpp"
-            timestampString = "610205431.829337"
+            timestampString = "610220647.862604"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "42"
@@ -706,7 +640,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/GhostWorker.cpp"
-            timestampString = "610205431.829499"
+            timestampString = "610220647.862746"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "197"
@@ -722,7 +656,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/ghostStrategy/GhostUnchartedStrategy.cpp"
-            timestampString = "610205431.829746"
+            timestampString = "610220647.862956"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "61"
@@ -738,12 +672,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PacMan/ghostStrategy/GhostUnchartedStrategy.cpp"
-            timestampString = "610205431.829999"
+            timestampString = "610220647.863073"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "58"
             endingLineNumber = "58"
             landmarkName = "GhostUnchartedStrategy::suggestNextMove(const Coordinates&amp; coordinates, const Directions curDir)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PacMan/PacManTheHero.cpp"
+            timestampString = "610226707.662834"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
+            landmarkName = "PacManTheHero::move()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PacMan/PacManTheHero.cpp"
+            timestampString = "610226707.662884"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
+            landmarkName = "PacManTheHero::GetNotified(LiftData&amp; data, const SettingsObservation&amp; condition)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -16,7 +16,7 @@ static const float WindowDim = 1080.0;
 static const float BorderDim = 2.0;
 static const float SquareDim = 50.0;
 static const float CoinDim = 15.0;
-static const float GhostDim = 22.0;
+static const float GhostDim = 25.0;
 
 Settings::Settings(){
     
@@ -49,6 +49,7 @@ void Settings::calculate(){
             mSquareDimension.length = squarelength;
             mSquareDimension.width = squarelength;
             mCoinDimension.width = mCoinDimension.length = mSquareDimension.length*.4;
+            mGhostDimension.width = mGhostDimension.length = squarelength/2;
             refillSquarePositions();
         }
         mTopLeft.row = 0.f;

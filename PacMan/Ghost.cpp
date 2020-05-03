@@ -19,26 +19,27 @@ static const VecVecInt DeltaPos = {
     {1, 0}
 };
 
+bool Ghost::canBeRendered(){
+    return mRenderable;
+}
+
+sf::Shape* Ghost::getShape(){
+    return &mHead;
+}
+
 Ghost::Ghost(){
     SetSubject(Settings::getInstance());
-    setBaseFrame(Settings::getInstance()->getCopyBaseFrame());
     mBluePrint = Settings::getInstance()->getCopyBluePrint();
-    mWin = &getBaseFramePtr()->getWindow();
     mRadius = mBBox.dimension.length;
 }
 
-bool Ghost::canMove(){
-    return false;
-}
+
 
 Position Ghost::getPosition() {
     return mBBox.referencePos;
 }
 
-bool Ghost::move(const Position& p){
-    mHead.move(p.row, p.col);
-    return true;
-}
+
 
 void Ghost::setPosition(const Position& p){
     mBBox.referencePos = p;
@@ -46,9 +47,12 @@ void Ghost::setPosition(const Position& p){
     mHead.setPosition(p.col, p.row);
    
 }
-
+void Ghost::renderComplete(){
+    
+}
 
 void Ghost::create(){
+    Settings::getInstance()->getCopyRenderer()->addRenderered(this, RenderLayer::ForeGround);
     mRow = mBluePrint->getRow();
     mCol = mBluePrint->getCol();
     createData();
@@ -65,6 +69,7 @@ void Ghost::createData(){
 }
 
 void Ghost::destroy(){
+    Settings::getInstance()->getCopyRenderer()->clearRendererd(this);
     DeRegister(MainWindowDimensionChange);
 }
 
@@ -85,9 +90,6 @@ void Ghost::died(){
     mDied = true;
 }
 
-void Ghost::display(){
-    mWin->draw(mHead);
-}
 
 void Ghost::GetNotified(LiftData& data, const SettingsObservation& condition){
     if(condition == MainWindowDimensionChange){

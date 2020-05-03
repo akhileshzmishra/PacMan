@@ -13,21 +13,24 @@
 #include "Settings.hpp"
 
 namespace pacman { namespace impl{
-    typedef std::vector<IDisplayPtr>  DisplayList;
-    class PacManFrame: public IBaseFrame, public SettingObserver{
+    struct RenderedProperty{
+        bool              active;
+    };
+    typedef std::unordered_map<IRenderered*, RenderedProperty>  RenderedList;
+    class PacManFrame: public IRenderer, public SettingObserver,
+    public std::enable_shared_from_this<PacManFrame>{
         sf::RenderWindow                mWindow;
         sf::RectangleShape              mEndRect;
         sf::Text                        mGameEndedText;
-        DisplayList                     mDisplayList;
+        RenderedList                    mRenderedList[RenderLayer::MaxLayer];
         IGameManagerPtr                 mPlayBoard;
         bool                            mFullDisplay = false;
         bool                            mGameEnded = false;
     public:
         PacManFrame();
-        virtual sf::RenderWindow& getWindow() override;
+        virtual void addRenderered(IRenderered*  , RenderLayer layer)override;
+        virtual void clearRendererd(IRenderered* )override;
         void run();
-        
-        void addToList(IDisplayPtr ptr);
         
         void create();
         
@@ -39,7 +42,8 @@ namespace pacman { namespace impl{
         
         void GetNotified(LiftData& data, const SettingsObservation& condition) override;
     private:
-        void displayAll();
+        void displayBackground();
+        void displayForeground();
         void setTotalSizes();
         void onGameEnded();
     };

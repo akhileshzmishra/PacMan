@@ -12,6 +12,7 @@
 #include "AllInterfaces.h"
 #include "Settings.hpp"
 #include "GameState.hpp"
+#include "ElementalSignal.h"
 
 namespace pacman{namespace impl{
     class PacManTheHero: public IPacMan, public IThreadWork,
@@ -20,7 +21,6 @@ namespace pacman{namespace impl{
         BoundingBox                     mBBox;
         ISquareWeakPtr                  mHoldingSquare;
         IPlayBoardWeakPtr               mHoldingBoard;
-        sf::RenderWindow*               mWin;
         float                           mSpeed = 12;
         Directions                      mDirections;
         int                             mLives = 4;
@@ -30,6 +30,8 @@ namespace pacman{namespace impl{
         GameState*                      mGameState = nullptr;
         Position                        mNextPos;
         bool                            mReady = false;
+        bool                            mRenderable = true;
+        BoolSignal                      mSignal;
     public:
         PacManTheHero();
         virtual void setPosition(const Position& p)override;
@@ -44,7 +46,6 @@ namespace pacman{namespace impl{
         
         virtual void died()override;
         virtual void live()override;
-        virtual void display()override;
         
         virtual void setCurrentSquare(ISquarePtr)override;
         virtual ISquareWeakPtr getCurrentSquare()override;
@@ -65,11 +66,17 @@ namespace pacman{namespace impl{
             mGameState = st;
         }
         
-    private:
+        virtual bool canBeRendered()override;
+        virtual sf::Shape* getShape()override;
+        void setRenderable(bool s)override{
+            mRenderable = s;
+        }
+        const ShapeList* getShapes() override{
+            return nullptr;
+        }
+        virtual void renderComplete() override;
         
-        bool setNextSquareAndCheck();
-        bool inPresentSquareAndCheck();
-        bool inBetweenSquaresAndGo();
+    private:
     };
 
     DECLARE_SHARED(PacManTheHero)

@@ -80,7 +80,6 @@ class GhostWorker: public IThreadWork, public SettingObserver{
     IBluePrintPtr                             mBluePrint;
     std::vector<GhostStateOnBoard>            mGhostState;
     float                                     mSpeed = 3.0;
-    IBaseFramePtr                             mBaseFrame;
     bool                                      mStart = false;
     bool                                      mGameEnded = false;
 public:

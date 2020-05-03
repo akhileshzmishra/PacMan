@@ -21,7 +21,6 @@ DECLARE_SHARED(MapDisplay);
 class ObjectFactory{
     
 public:
-    static IMap* getMap();
     static IGameManagerPtr getGameManager();
     static IBluePrintPtr getNewBluePrint();
     static MapDisplayPtr getMapDisplay(IBluePrintPtr ptr);

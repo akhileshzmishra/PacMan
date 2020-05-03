@@ -33,7 +33,6 @@ public:
 
     void makeEmpty() override;
     
-    void display()override;
     void setZombie(bool s)                 {mZombie = s;}
     void GetNotified(LiftData& data, const SettingsObservation& condition) override;
 private:
