@@ -59,6 +59,7 @@ void Ghost::createData(){
     mBBox.dimension = Settings::getInstance()->getGhostDimension();
     SQuareDimension = Settings::getInstance()->getSquareDimension();
     //mHead.setPointCount(8);
+    
     mHead.setRadius(mBBox.dimension.length);
     mHead.setFillColor(sf::Color::Black);
 }

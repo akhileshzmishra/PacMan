@@ -29,6 +29,7 @@ namespace pacman{namespace impl{
         bool                            mHasSuperPowers;
         GameState*                      mGameState = nullptr;
         Position                        mNextPos;
+        bool                            mReady = false;
     public:
         PacManTheHero();
         virtual void setPosition(const Position& p)override;
@@ -40,8 +41,6 @@ namespace pacman{namespace impl{
         void setSpeed(float x) override{
             mSpeed = x;
         }
-        
-        bool canMove() override;
         
         virtual void died()override;
         virtual void live()override;
@@ -60,11 +59,17 @@ namespace pacman{namespace impl{
         virtual void kill()override;
         
         void GetNotified(LiftData& data, const SettingsObservation& condition) override;
-        
-        
-    public:
         void move();
-        bool reached();
+        
+        void setState(GameState* st){
+            mGameState = st;
+        }
+        
+    private:
+        
+        bool setNextSquareAndCheck();
+        bool inPresentSquareAndCheck();
+        bool inBetweenSquaresAndGo();
     };
 
     DECLARE_SHARED(PacManTheHero)

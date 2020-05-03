@@ -16,6 +16,7 @@ namespace pacman { namespace impl{
     typedef std::vector<IDisplayPtr>  DisplayList;
     class PacManFrame: public IBaseFrame, public SettingObserver{
         sf::RenderWindow                mWindow;
+        sf::RectangleShape              mEndRect;
         sf::Text                        mGameEndedText;
         DisplayList                     mDisplayList;
         IGameManagerPtr                 mPlayBoard;
@@ -40,6 +41,7 @@ namespace pacman { namespace impl{
     private:
         void displayAll();
         void setTotalSizes();
+        void onGameEnded();
     };
     
     DECLARE_SHARED(PacManFrame);

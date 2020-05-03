@@ -12,6 +12,20 @@ using namespace pacman::impl;
 
 static Dimension sSquareDim = Settings::getInstance()->getSquareDimension();
 
+static const VecVecInt DeltaPos = {
+    {-1, 0},
+    {0, -1},
+    {1, 0},
+    {0, 1}
+};
+
+static const Directions DirVec[] = {
+    Directions::UpDir,
+    Directions::LeftDir,
+    Directions::DownDir,
+    Directions::RightDir
+};
+
 PacManTheHero::PacManTheHero(){
     SetSubject(Settings::getInstance());
 }
@@ -39,49 +53,132 @@ void PacManTheHero::create(){
     Register(KeyPressedLeft);
     Register(KeyPressedRight);
     Register(SquareDimensionChange);
+    mReady = true;
 }
 void PacManTheHero::PacManTheHero::destroy(){
     //mHoldingSquare = nullptr;
     //mHoldingBoard = nullptr;
+    mReady = false;
 }
 
 void PacManTheHero::work(){
-    move();
+    if(mReady){
+        move();
+        
+        mReady = false;
+    }
     display();
 }
 
-bool PacManTheHero::reached(){
-    return false;
+void PacManTheHero::move(){
+    bool retVal = false;
+    auto mHoldingBr = mHoldingBoard.lock();
+    auto sq = mHoldingBr->getSquare(getConstRefCoordinates());
+    auto sqpos = sq->getPosition();
+    auto& position = mBBox.referencePos;
+    float r1 = position.row;
+    float r2 = r1 + mBBox.dimension.width;
+    float c1 = position.col;
+    float c2 = c1 + mBBox.dimension.length;
+    switch(mDirections){
+        case pacman::UpDir:
+            if(r1 < sqpos.row && r2 > sqpos.row){
+                retVal = inBetweenSquaresAndGo();
+            }
+            else if(r2 <= sqpos.row){
+                retVal = setNextSquareAndCheck();
+            }
+            else{
+                retVal = inPresentSquareAndCheck();
+            }
+            break;
+        case pacman::LeftDir:
+            if(c1 < sqpos.col && c2 > sqpos.col){
+                retVal = inBetweenSquaresAndGo();
+            }
+            else if(c2 <= sqpos.col){
+                retVal = setNextSquareAndCheck();
+            }
+            else{
+                retVal = inPresentSquareAndCheck();
+            }
+            break;
+        case pacman::DownDir:
+            if(r2 > sqpos.row + sSquareDim.width && r1 < sqpos.row + sSquareDim.width){
+                retVal = inBetweenSquaresAndGo();
+            }
+            else if(r1 >= sqpos.row + sSquareDim.width){
+                retVal = setNextSquareAndCheck();
+            }
+            else{
+                retVal = inPresentSquareAndCheck();
+            }
+            break;
+        case pacman::RightDir:
+            if(c2 > sqpos.row + sSquareDim.width && c1 < sqpos.row + sSquareDim.width){
+                retVal = inBetweenSquaresAndGo();
+            }
+            else if(c1 >= sqpos.row + sSquareDim.width){
+                retVal = setNextSquareAndCheck();
+            }
+            else{
+                retVal = inPresentSquareAndCheck();
+            }
+            break;
+        default:
+            break;
+    }
 }
 
-void PacManTheHero::move(){
-    if(canMove()){
-        
+bool PacManTheHero::setNextSquareAndCheck(){
+    auto mHoldingBr = mHoldingBoard.lock();
+    auto sq = mHoldingBr->getSquare(getConstRefCoordinates());
+    auto coord = sq->getCopyCoordinates();
+    auto oldcord = coord;
+    coord.row += DeltaPos[(int)mDirections][0];
+    coord.col += DeltaPos[(int)mDirections][1];
+    auto next = mHoldingBr->getSquare(coord);
+    if(!next){
+        return false;
     }
-    if(!mHoldingBoard.expired()){
-        auto mHoldingBr = mHoldingBoard.lock();
-        auto sq = mHoldingBr->getSquare(getConstRefCoordinates());
-        if(sq){
-            setPosition(sq->getPosition());
+    setCurrentSquare(next);
+    mBBox.referencePos = next->getPosition();
+    setCoordinates(coord);
+    if(mGameState){
+        mGameState->movePlayer(oldcord, coord);
+        mGameState->addScore(1);
+    }
+    inPresentSquareAndCheck();
+    return true;
+}
+
+bool PacManTheHero::inPresentSquareAndCheck(){
+    auto mHoldingBr = mHoldingBoard.lock();
+    auto sq = mHoldingBr->getSquare(getConstRefCoordinates());
+    auto coord = sq->getCopyCoordinates();
+    coord.row += DeltaPos[(int)mDirections][0];
+    coord.col += DeltaPos[(int)mDirections][1];
+    auto next = mHoldingBr->getSquare(coord);
+    if(!next){
+        return false;
+    }
+    if(mGameState){
+        if(mGameState->isWall(coord)){
+            return false;
+        }
+        
+        if(mGameState->isGhost(coord)){
+            return false;
         }
     }
+    inBetweenSquaresAndGo();
+    return true;
 }
 
-bool PacManTheHero::canMove(){
-    auto& currentPos = mBBox.referencePos;
-    bool canmoveTo = false;
-    if(mDirections == Directions::UpDir){
-        canmoveTo = (currentPos.row <= mNextPos.row);
-    }
-    else if(mDirections == Directions::DownDir){
-        canmoveTo = (currentPos.row + sSquareDim.width + mSpeed) >= (mNextPos.row + sSquareDim.width);
-    }
-    else if(mDirections == Directions::LeftDir){
-        canmoveTo = (currentPos.col <= mNextPos.col);
-    }
-    else if(mDirections == Directions::RightDir){
-        canmoveTo = (currentPos.col + sSquareDim.length + mSpeed) >= (mNextPos.col + sSquareDim.length);
-    }
+bool PacManTheHero::inBetweenSquaresAndGo(){
+    mBBox.referencePos.row += DeltaPos[(int)mDirections][0]*mSpeed;
+    mBBox.referencePos.col += DeltaPos[(int)mDirections][1]*mSpeed;
+    mHead.setPosition( mBBox.referencePos.col,  mBBox.referencePos.row);
     return true;
 }
 
@@ -114,7 +211,9 @@ void PacManTheHero::live(){
 }
 
 void PacManTheHero::display(){
-    mWin->draw(mHead);
+    if(mWin){
+        mWin->draw(mHead);
+    }
 }
 
 
@@ -134,6 +233,7 @@ void PacManTheHero::kill(){
 }
 
 void PacManTheHero::GetNotified(LiftData& data, const SettingsObservation& condition){
+    mReady = true;
     if(condition == KeyPressedUp){
         mDirections = UpDir;
     }
@@ -149,5 +249,6 @@ void PacManTheHero::GetNotified(LiftData& data, const SettingsObservation& condi
     else{
         mBBox.dimension = Settings::getInstance()->getGhostDimension();
         sSquareDim = Settings::getInstance()->getSquareDimension();
+        mReady = false;
     }
 }

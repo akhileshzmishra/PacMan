@@ -82,6 +82,7 @@ class GhostWorker: public IThreadWork, public SettingObserver{
     float                                     mSpeed = 3.0;
     IBaseFramePtr                             mBaseFrame;
     bool                                      mStart = false;
+    bool                                      mGameEnded = false;
 public:
     GhostWorker(IBluePrintPtr ptr);
     virtual void work() override;

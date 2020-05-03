@@ -150,8 +150,8 @@ struct BoundingBox{
 
 enum Directions{
     UpDir = 0,
-    DownDir = 1,
-    LeftDir = 2,
+    LeftDir = 1,
+    DownDir = 2,
     RightDir = 3,
     InvalidDir = 4,
     ConflictDir = 5

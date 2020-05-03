@@ -33,20 +33,21 @@ void GameManager::create(){
     mDisplay = ObjectFactory::getMapDisplay(mBluePrint);
     mDisplay->create();
     mGhostWorker = ObjectFactory::getGhostWorker(mBluePrint);
-    int cnt = 0;
+
+    GameState* st = nullptr;
     for(size_t i = 0; i < mBluePrint->getRow(); i++){
         for(size_t j = 0; j < mBluePrint->getCol(); j++){
             Coordinates coord(i, j);
             auto square = mDisplay->getSquare(coord);
             if(mBluePrint->isGhost(coord) && square){
-                if(cnt == 1) break;
-                cnt++;
+        
                 auto ghost = ObjectFactory::getGhost();
                 ghost->create();
                 ghost->setCoordinates(coord);
                 ghost->setCurrentSquare(square);
                 ghost->setBoard(mDisplay);
                 mGhostWorker->addGhost(ghost);
+                
             }
             if(mBluePrint->isPlayer(coord) && square){
                 mPacMan.create();
@@ -57,6 +58,8 @@ void GameManager::create(){
         }
     }
     mGhostWorker->create();
+    st = mGhostWorker->getState();
+    mPacMan.setState(st);
 }
 
 void GameManager::destroy(){

@@ -15,7 +15,7 @@ using namespace pacman::impl;
 
 PacManFrame::PacManFrame(){
     Dimension dim = Settings::getInstance()->getWindowDimension();
-    mWindow.create(sf::VideoMode(dim.length, dim.width, 3), pacman::PACMAN_TITLE, sf::Style::Titlebar | sf::Style::Close);
+    mWindow.create(sf::VideoMode(dim.length, dim.width), pacman::PACMAN_TITLE, sf::Style::Titlebar | sf::Style::Close);
     //mWindow.setFramerateLimit(4);
     setTotalSizes();
     SetSubject(Settings::getInstance());
@@ -67,9 +67,7 @@ void PacManFrame::run(){
             }
         }
         if(mGameEnded){
-            mWindow.draw(mGameEndedText);
-            mWindow.display();
-            std::this_thread::sleep_for(std::chrono::seconds(5));
+            onGameEnded();
             mWindow.close();
             break;
         }
@@ -82,13 +80,23 @@ void PacManFrame::run(){
     destroy();
 }
 
+void PacManFrame::onGameEnded(){
+    mWindow.draw(mGameEndedText);
+    mWindow.draw(mEndRect);
+    mWindow.display();
+    std::this_thread::sleep_for(std::chrono::seconds(5));
+}
+
 void PacManFrame::create(){
     mPlayBoard = ObjectFactory::getGameManager();
     mPlayBoard->create();
     Register(SettingsObservation::GameHasEnded);
     auto Winpos = Settings::getInstance()->getWindowDimension();
-    mGameEndedText.setPosition(Winpos.length/2, Winpos.width/2);
+    mGameEndedText.setPosition(0, 0);
     mGameEndedText.setString(GAME_OVER);
+    mEndRect.setSize(sf::Vector2f(Winpos.length, Winpos.width));
+    mEndRect.setFillColor(sf::Color::Black);
+    mGameEndedText.setFillColor(sf::Color::White);
 }
 
 void PacManFrame::addToList(IDisplayPtr ptr){

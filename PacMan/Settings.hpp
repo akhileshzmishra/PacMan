@@ -66,8 +66,8 @@ class Settings: public SettingSubject{
     IBaseFramePtr mBaseFrame;
     SQMatrixData mData;
     
-    float    mPacManSpeed = 15.0;
-    float    mGhostSpeed = 7.0;
+    float    mPacManSpeed = 7;
+    float    mGhostSpeed = 1.5;
     
 public:
     static Settings* getInstance();

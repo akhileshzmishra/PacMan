@@ -165,10 +165,18 @@ void GhostStateOnBoard::calculatePositions(){
 }
 
 void GhostWorker::work(){
+    if(mGameEnded){
+        return;
+    }
     pacman::impl::LiftData ldata;
     for(size_t i = 0; i < mGhostState.size(); i++){
         if(mGhostState[i].hasReached() || !mStart){
             
+            if(mState.isPlayer(mGhostState[i].getReftargetCoordinates())){
+                GetSubject()->NotifyToObservers(ldata, GameHasEnded);
+                mGameEnded = true;
+                break;
+            }
             
             if(!mGhostState[i].arrive()){
                 continue;
@@ -189,6 +197,7 @@ void GhostWorker::work(){
                 continue;
             }
             
+            mGhostState[i].setDirection(nxt.first);
             
             mState.addToBoard(mGhostState[i].getConstRefcurrCoordinates(), 1);
             
@@ -211,6 +220,7 @@ void GhostWorker::create(){
     mBaseFrame = Settings::getInstance()->getCopyBaseFrame();
     GhostStateOnBoard::setSquareDim(Settings::getInstance()->getSquareDimension());
     mStrategy->setBluePrint(Settings::getInstance()->getCopyBluePrint());
+    mSpeed = Settings::getInstance()->getGhostSpeed();
 }
 void GhostWorker::destroy(){
     mStrategy = nullptr;
@@ -224,6 +234,7 @@ void GhostWorker::destroy(){
 
 void GhostWorker::addGhost(IGhostPtr ptr){
     if(!ptr) return;
+    mSpeed = Settings::getInstance()->getGhostSpeed();
     mGhostState.emplace_back(ptr);
     mGhostState.back().setSpeed(mSpeed);
     mGhostState.back().setGameState(&mState);

@@ -13,17 +13,17 @@ using namespace pacman::impl;
 static const int InvalidIndex = 10;
 
 static const VecVecInt DeltaPos = {
-    {0, -1},
-    {0, 1},
     {-1, 0},
-    {1, 0}
+    {0, -1},
+    {1, 0},
+    {0, 1}
 };
 
 static const Directions DirVec[] = {
-    Directions::LeftDir,
-    Directions::RightDir,
     Directions::UpDir,
-    Directions::DownDir
+    Directions::LeftDir,
+    Directions::DownDir,
+    Directions::RightDir
 };
 
 static const size_t MinInitialValue = std::numeric_limits<int>::max();
