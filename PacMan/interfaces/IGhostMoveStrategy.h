@@ -16,10 +16,13 @@ namespace  pacman {
     class IGhost;
     DECLARE_SHARED(IGhost);
     
+    typedef std::pair<Directions, Coordinates> DirSuggestion;
+
+    
     class IGhostMoveStrategy{
     public:
         virtual void setBluePrint(IBluePrintPtr ptr) = 0;
-        virtual Coordinates suggestNextMove(IGhostPtr) = 0;
+        virtual DirSuggestion suggestNextMove(const Coordinates& , const Directions) = 0;
     };
     DECLARE_SHARED(IGhostMoveStrategy);
 }

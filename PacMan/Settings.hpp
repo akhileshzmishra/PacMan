@@ -17,10 +17,7 @@
 namespace pacman {namespace impl{
 
 struct LiftData {
-    Dimension dim;
-    Position loc;
-    IBaseFramePtr baseFrame;
-    IBluePrintPtr blueprint;
+    
 };
 
 enum SettingsObservation{
@@ -28,11 +25,27 @@ enum SettingsObservation{
     BoardDimensionChange,
     SquareDimensionChange,
     CoinDimensionChange,
+    GameHasEnded,
+    KeyPressedUp,
+    KeyPressedDown,
+    KeyPressedRight,
+    KeyPressedLeft,
     NoChange
 };
     
 typedef IObserver2<LiftData, SettingsObservation>      SettingObserver;
 typedef ISubject2<LiftData, SettingsObservation>       SettingSubject;
+    
+class SquarePositionData{
+    Coordinates coordinates;
+    Position    position;
+public:
+    GENERIC_GETTER_SETTER(Coordinates, coordinates, Coordinates)
+    GENERIC_GETTER_SETTER(Position,    position,    Position)
+};
+    
+typedef std::vector<SquarePositionData> SQRowPositionData;
+typedef std::vector<SQRowPositionData>  SQMatrixData;
     
 class Settings: public SettingSubject{
     Settings();
@@ -46,10 +59,15 @@ class Settings: public SettingSubject{
     Dimension mBoardDimension;
     Dimension mBorders;
     Dimension mCoinDimension;
+    Dimension mGhostDimension;
     Position  mTopLeft;
     
     IBluePrintPtr mBluePrint;
     IBaseFramePtr mBaseFrame;
+    SQMatrixData mData;
+    
+    float    mPacManSpeed = 15.0;
+    float    mGhostSpeed = 7.0;
     
 public:
     static Settings* getInstance();
@@ -61,6 +79,9 @@ public:
     const Position& getTopLeftMapPosition();
     const Dimension& getBoardBorders();
     const Dimension& getWindowDimension();
+    const Dimension& getGhostDimension(){
+        return mGhostDimension;
+    }
     
     ColorRGB getBoardColor();
     ColorRGB getEmptyColor();
@@ -72,9 +93,19 @@ public:
     
     void setWindowDimension(const Dimension& d);
     
-    Position getPositionFromCoordinates(Coordinates c);
+    SquarePositionData* getSquarePositionData(const Coordinates& c);
+    
+    float getGhostSpeed(){
+        return mGhostSpeed;
+    }
+    float getPacManSpeed(){
+        return mPacManSpeed;
+    }
     
     void calculate();
+    
+private:
+    void refillSquarePositions();
  };
     
 }}

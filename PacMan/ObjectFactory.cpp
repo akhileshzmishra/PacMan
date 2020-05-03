@@ -11,6 +11,7 @@
 #include "MapDisplay.hpp"
 #include "Ghost.hpp"
 #include "GhostUnchartedStrategy.hpp"
+#include "GameManager.hpp"
 
 using namespace pacman;
 using namespace pacman::impl;
@@ -19,8 +20,8 @@ IMap* ObjectFactory::getMap(){
     return nullptr;
 }
 
-IPlayer* ObjectFactory::getPlayer(){
-    return nullptr;
+IGameManagerPtr ObjectFactory::getGameManager(){
+    return std::make_shared<GameManager>();
 }
 
 IBluePrintPtr ObjectFactory::getNewBluePrint(){
@@ -37,4 +38,9 @@ IGhostPtr ObjectFactory::getGhost(){
 
 IGhostMoveStrategyPtr ObjectFactory::getUnchartedMoveStrategy(GameState& st){
     return std::make_shared<GhostUnchartedStrategy>(st);
+}
+
+GhostWorkerPtr ObjectFactory::getGhostWorker(IBluePrintPtr ptr)
+{
+    return std::make_shared<GhostWorker>(ptr);
 }

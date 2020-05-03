@@ -10,6 +10,8 @@
 using namespace pacman;
 using namespace pacman::impl;
 
+static const int InvalidIndex = 10;
+
 static const VecVecInt DeltaPos = {
     {0, -1},
     {0, 1},
@@ -17,34 +19,64 @@ static const VecVecInt DeltaPos = {
     {1, 0}
 };
 
-GhostUnchartedStrategy::GhostUnchartedStrategy(GameState& st):
+static const Directions DirVec[] = {
+    Directions::LeftDir,
+    Directions::RightDir,
+    Directions::UpDir,
+    Directions::DownDir
+};
+
+static const size_t MinInitialValue = std::numeric_limits<int>::max();
+
+GhostUnchartedStrategy::GhostUnchartedStrategy(const GameState& st):
 mState(st){
     
 }
 void GhostUnchartedStrategy::setBluePrint(IBluePrintPtr ptr){
     mPrint = ptr;
 }
-Coordinates GhostUnchartedStrategy::suggestNextMove(IGhostPtr ptr){
-    auto coordinates = ptr->getRefCoordinates();
+
+DirSuggestion GhostUnchartedStrategy::suggestNextMove(const Coordinates& coordinates, const Directions curDir){
+    DirSuggestion suggestion(InvalidDir, coordinates);
     if(!mState.isGhost(coordinates)){
-        return coordinates;
+        return suggestion;
     }
-    size_t deltaPos = 5;
-    int minVal = std::numeric_limits<int>::min();
-    for(size_t i = 0; i < DeltaPos.size(); i++){
+    size_t deltaPos = InvalidIndex;
+    int minVal = std::numeric_limits<int>::max();
+    size_t i = (size_t)curDir;
+    int count = 0;
+    while(count < 4){
+        AutoIncrementer autoIncrementer([&i, &count]{
+            i = (i + 1)%4;
+            count++;
+        });
         Coordinates nxt;
         nxt.row = DeltaPos[i][0] + coordinates.row;
         nxt.col = DeltaPos[i][1] + coordinates.col;
         if(nxt.row < mState.getRows() && nxt.col < mState.getCols()){
+            if(!mState.canMove(nxt)){
+                continue;
+            }
+            if(mState.canMove(nxt) && mPrint->isWall(nxt)){
+                continue;
+            }
+            if(mState.isPlayer(nxt)){
+                suggestion.second = nxt;
+                suggestion.first = (Directions)i;
+                return suggestion;
+            }
             if(minVal > mState.getBoardNum(nxt)){
                 minVal = mState.getBoardNum(nxt);
                 deltaPos = i;
+                //break;
             }
         }
     }
-    if(deltaPos == 5) return coordinates;
-    Coordinates nxt;
-    nxt.row = DeltaPos[deltaPos][0] + coordinates.row;
-    nxt.col = DeltaPos[deltaPos][1] + coordinates.col;
-    return nxt;
+    if(deltaPos == InvalidIndex) return suggestion;
+    if(minVal == MinInitialValue) return suggestion;
+
+    suggestion.first = DirVec[deltaPos];
+    suggestion.second.row = DeltaPos[deltaPos][0] + coordinates.row;
+    suggestion.second.col = DeltaPos[deltaPos][1] + coordinates.col;
+    return suggestion;
 }

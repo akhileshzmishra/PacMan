@@ -26,9 +26,10 @@ namespace  pacman {
         virtual IGiftPtr getGift() = 0;
         virtual void setSize(Dimension d) = 0;
         
-        virtual void setGhost(IGhostPtr) = 0;
-        virtual void setOwner(IPlayBoardPtr) = 0;
-        virtual IPlayBoardPtr getOwner() = 0;
+        virtual void setOccupant(IPlayerPtr) = 0;
+        virtual IPlayerPtr getOccupant() = 0;
+        virtual void setOwner(IPlayBoard* ) = 0;
+        virtual IPlayBoard* getOwner() = 0;
     };
 
     DECLARE_SHARED(ISquare);

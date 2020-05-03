@@ -23,6 +23,8 @@ Ghost::Ghost(){
     SetSubject(Settings::getInstance());
     setBaseFrame(Settings::getInstance()->getCopyBaseFrame());
     mBluePrint = Settings::getInstance()->getCopyBluePrint();
+    mWin = &getBaseFramePtr()->getWindow();
+    mRadius = mBBox.dimension.length;
 }
 
 bool Ghost::canMove(){
@@ -40,13 +42,11 @@ bool Ghost::move(const Position& p){
 
 void Ghost::setPosition(const Position& p){
     mBBox.referencePos = p;
-    mHead.setPosition(p.row, p.col);
+    //mHead.setOrigin(p.col/2, p.row/2);
+    mHead.setPosition(p.col, p.row);
    
 }
 
-void Ghost::setSpeed(size_t speed){
-    mSpeed = (int) speed;
-}
 
 void Ghost::create(){
     mRow = mBluePrint->getRow();
@@ -56,11 +56,11 @@ void Ghost::create(){
 }
 
 void Ghost::createData(){
-    mBBox.dimension = Settings::getInstance()->getCoinDimension();
+    mBBox.dimension = Settings::getInstance()->getGhostDimension();
     SQuareDimension = Settings::getInstance()->getSquareDimension();
-    mHead.setPointCount(8);
+    //mHead.setPointCount(8);
     mHead.setRadius(mBBox.dimension.length);
-    mHead.setFillColor(sf::Color::Blue);
+    mHead.setFillColor(sf::Color::Black);
 }
 
 void Ghost::destroy(){
@@ -85,9 +85,7 @@ void Ghost::died(){
 }
 
 void Ghost::display(){
-    if(getBaseFramePtr()){
-        getBaseFramePtr()->getWindow().draw(mHead);
-    }
+    mWin->draw(mHead);
 }
 
 void Ghost::GetNotified(LiftData& data, const SettingsObservation& condition){
@@ -99,15 +97,25 @@ void Ghost::GetNotified(LiftData& data, const SettingsObservation& condition){
 
 void Ghost::setCurrentSquare(ISquarePtr ptr){
     mHoldingSquare = ptr;
+    if(ptr){
+        ptr->setOccupant(shared_from_this());
+        setCoordinates(ptr->getRefCoordinates());
+        setPosition(ptr->getPosition());
+    }
 }
 
 
-ISquarePtr Ghost::getCurrentSquare(){
+ISquareWeakPtr Ghost::getCurrentSquare(){
     return mHoldingSquare;
 }
 
 
-
+void Ghost::setBoard(IPlayBoardWeakPtr ptr){
+    mHoldingBoard = ptr;
+}
+IPlayBoardWeakPtr Ghost::getBoard(){
+    return mHoldingBoard;
+}
 
 
 

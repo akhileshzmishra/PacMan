@@ -11,6 +11,7 @@
 
 #include "AllInterfaces.h"
 #include "GameState.hpp"
+#include "GhostWorker.hpp"
 
 namespace pacman {namespace impl{
     
@@ -21,11 +22,12 @@ class ObjectFactory{
     
 public:
     static IMap* getMap();
-    static IPlayer* getPlayer();
+    static IGameManagerPtr getGameManager();
     static IBluePrintPtr getNewBluePrint();
     static MapDisplayPtr getMapDisplay(IBluePrintPtr ptr);
     static IGhostPtr getGhost();
     static IGhostMoveStrategyPtr getUnchartedMoveStrategy(GameState& st);
+    static GhostWorkerPtr getGhostWorker(IBluePrintPtr ptr);
 };
         
 }}

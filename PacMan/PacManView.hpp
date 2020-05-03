@@ -18,16 +18,12 @@ namespace pacman{ namespace impl{
     
 class PacManView{
     PacManFramePtr                  mFrame;
-    IGameManagerPtr                 mGameManager;
 public:
     PacManView();
     void run();
     virtual ~PacManView();
     void create();
     void destroy();
-private:
-    void createMap();
-    void destroyMap();
 };
     
 }}

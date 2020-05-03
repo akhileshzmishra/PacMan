@@ -8,16 +8,17 @@
 
 #include "PacManFrame.hpp"
 #include "Settings.hpp"
+#include "ObjectFactory.hpp"
 
 using namespace pacman;
 using namespace pacman::impl;
 
 PacManFrame::PacManFrame(){
     Dimension dim = Settings::getInstance()->getWindowDimension();
-    mWindow.create(sf::VideoMode(dim.length, dim.width), pacman::PACMAN_TITLE);
-                   //, sf::Style::Titlebar | sf::Style::Close);
-    mWindow.setVerticalSyncEnabled(true);
+    mWindow.create(sf::VideoMode(dim.length, dim.width, 3), pacman::PACMAN_TITLE, sf::Style::Titlebar | sf::Style::Close);
+    //mWindow.setFramerateLimit(4);
     setTotalSizes();
+    SetSubject(Settings::getInstance());
 }
 
 void PacManFrame::setTotalSizes(){
@@ -34,7 +35,7 @@ sf::RenderWindow& PacManFrame::getWindow(){
 void PacManFrame::run(){
     setTotalSizes();
     mFullDisplay = true;
-    bool startThread = true;
+    pacman::impl::LiftData liftData;
     while (mWindow.isOpen()){
         sf::Event event;
         while (mWindow.pollEvent(event)){
@@ -47,25 +48,47 @@ void PacManFrame::run(){
                 mFullDisplay = true;
             }
             else{
-                
+                switch(event.key.code){
+                    case sf::Keyboard::A:
+                        GetSubject()->NotifyToObservers(liftData, KeyPressedLeft);
+                        break;
+                    case sf::Keyboard::S:
+                        GetSubject()->NotifyToObservers(liftData, KeyPressedRight);
+                        break;
+                    case sf::Keyboard::W:
+                        GetSubject()->NotifyToObservers(liftData, KeyPressedUp);
+                        break;
+                    case sf::Keyboard::X:
+                        GetSubject()->NotifyToObservers(liftData, KeyPressedDown);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
-        if(mFullDisplay){
-            displayAll();
-            setTotalSizes();
+        if(mGameEnded){
+            mWindow.draw(mGameEndedText);
             mWindow.display();
-            mFullDisplay = false;
+            std::this_thread::sleep_for(std::chrono::seconds(5));
+            mWindow.close();
+            break;
         }
         else{
-            startThread = false;
-            mPlayBoard->startGame();
+            displayAll();
+            mPlayBoard->play();
         }
+        mWindow.display();
     }
     destroy();
 }
 
 void PacManFrame::create(){
-    
+    mPlayBoard = ObjectFactory::getGameManager();
+    mPlayBoard->create();
+    Register(SettingsObservation::GameHasEnded);
+    auto Winpos = Settings::getInstance()->getWindowDimension();
+    mGameEndedText.setPosition(Winpos.length/2, Winpos.width/2);
+    mGameEndedText.setString(GAME_OVER);
 }
 
 void PacManFrame::addToList(IDisplayPtr ptr){
@@ -85,4 +108,10 @@ void PacManFrame::displayAll(){
         mDisplayList[i]->display();
     }
     mPlayBoard->setupDisplay();
+}
+
+void PacManFrame::GetNotified(LiftData& data, const SettingsObservation& condition){
+    if(condition == GameHasEnded){
+        mGameEnded = true;
+    }
 }

@@ -15,9 +15,11 @@ BluePrint::BluePrint(){
     create();
 }
 
-
-int BluePrint::getValue(size_t r, size_t c){
-    return mMapPrint[r][c].type;
+mapElements BluePrint::getType(const Coordinates& c){
+    if(c.row < mRow && c.col < mCol){
+        return mMapPrint[c.row][c.col].type;
+    }
+    return mapElements::Invalid;
 }
 
 void BluePrint::create(){
@@ -45,10 +47,10 @@ void BluePrint::create(){
     mCol = vecvecInt[0].size();
     mMapPrint = BlueNodeMatrix(mRow, BlueNodeVector(mCol));
     
-    for(size_t i = 0; i < vecvecInt.size(); i++){
-        for(size_t j = 0; j < vecvecInt[i].size(); j++){
+    for(size_t i = 0; i < mRow; i++){
+        for(size_t j = 0; j < mCol; j++){
             mMapPrint[i][j].coordinates = Coordinates((int)i, (int)j);
-            mMapPrint[i][j].type = vecvecInt[i][j];
+            mMapPrint[i][j].type = fromInteger(vecvecInt[i][j]);
             if(vecvecInt[i][j] == mapElements::Wall){
                 mMapPrint[i][j].isWall = true;
             }
@@ -70,4 +72,20 @@ bool BluePrint::isEmpty(Coordinates c){
 }
 bool BluePrint::isWall(Coordinates c) {
     return mMapPrint[c.row][c.col].type == mapElements::Wall;
+}
+
+mapElements BluePrint::fromInteger(int x){
+    if(x == 1){
+        return mapElements::Wall;
+    }
+    if(x == 0){
+        return mapElements::Empty;
+    }
+    if(x == 2){
+        return mapElements::PlayerPos;
+    }
+    if(x == 3){
+        return mapElements::GhostPos;
+    }
+    return mapElements::Wall;
 }

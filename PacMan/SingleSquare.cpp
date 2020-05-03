@@ -29,7 +29,10 @@ void SingleSquare::display() {
 
 void SingleSquare::setPosition(const Position& p){
     mBBox.referencePos = p;
-    mRect.setPosition(p.row, p.col);
+    mRect.setPosition(p.col, p.row);
+    if(mOccupant){
+        mOccupant->setPosition(p);
+    }
 }
 
 Position SingleSquare::getPosition(){
@@ -74,14 +77,14 @@ void SingleSquare::createEmpty(){
     mColor = Colors::EmptyColor;
     mRect.setSize(sf::Vector2f(mBBox.dimension.width, mBBox.dimension.length));
     mRect.setFillColor(sf::Color(mColor.red, mColor.green, mColor.blue));
-    mRect.setPosition(mBBox.referencePos.row, mBBox.referencePos.col);
+    mRect.setPosition(mBBox.referencePos.col, mBBox.referencePos.row);
 }
 
 void SingleSquare::createWall(){
     mColor = Colors::WhiteColor;
     mRect.setSize(sf::Vector2f(mBBox.dimension.width, mBBox.dimension.length));
     mRect.setFillColor(sf::Color(mColor.red, mColor.green, mColor.blue));
-    mRect.setPosition(mBBox.referencePos.row, mBBox.referencePos.col);
+    mRect.setPosition(mBBox.referencePos.col, mBBox.referencePos.row);
 }
 
 

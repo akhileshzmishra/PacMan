@@ -12,6 +12,7 @@
 #include "AllInterfaces.h"
 #include "MapDisplay.hpp"
 #include "BluePrint.hpp"
+#include "PacManTheHero.hpp"
 
 namespace pacman {namespace impl{
 
@@ -20,7 +21,8 @@ class GameManager: public IGameManager{
     MapDisplayPtr                             mDisplay;
     IBluePrintPtr                             mBluePrint;
     BoundingBox                               mBBox;
-    VecVecSizeT                               mLiveGame;
+    GhostWorkerPtr                            mGhostWorker;
+    PacManTheHero                             mPacMan;
 public:
     GameManager();
     GENERIC_GETTER_SETTER(SquareDim,   mBBox,    BoundingBox);
@@ -28,7 +30,7 @@ public:
     virtual void create() override;
     virtual void destroy() override;
     virtual void setPosition(const Position& p) override;
-    virtual void startGame() override;
+    virtual void play() override;
     
 };
 

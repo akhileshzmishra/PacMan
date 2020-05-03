@@ -12,6 +12,8 @@
 int main(int argc, const char * argv[]) {
     pacman::impl::Settings::getInstance()->start();
     pacman::impl::PacManView pacManView;
+    pacManView.create();
     pacManView.run();
+    pacManView.destroy();
     return 0;
 }

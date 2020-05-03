@@ -13,15 +13,10 @@ namespace  pacman {
 class IThreadWork{
 public:
     virtual void work() = 0;
+    virtual void setSpeed(float f) = 0;
 };
     
 DECLARE_SHARED(IThreadWork);
-
-class IThreadWorkManager{
-public:
-    virtual void addWork(IThreadWorkPtr ptr) = 0;
-};
-DECLARE_SHARED(IThreadWorkManager);
 
 }
 

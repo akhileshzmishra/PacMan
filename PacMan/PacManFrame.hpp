@@ -10,14 +10,17 @@
 #define PacManFrame_hpp
 
 #include "AllInterfaces.h"
+#include "Settings.hpp"
 
 namespace pacman { namespace impl{
     typedef std::vector<IDisplayPtr>  DisplayList;
-    class PacManFrame: public IBaseFrame{
+    class PacManFrame: public IBaseFrame, public SettingObserver{
         sf::RenderWindow                mWindow;
+        sf::Text                        mGameEndedText;
         DisplayList                     mDisplayList;
         IGameManagerPtr                 mPlayBoard;
         bool                            mFullDisplay = false;
+        bool                            mGameEnded = false;
     public:
         PacManFrame();
         virtual sf::RenderWindow& getWindow() override;
@@ -32,6 +35,8 @@ namespace pacman { namespace impl{
         void setGameManager(IGameManagerPtr board){
             mPlayBoard = board;
         }
+        
+        void GetNotified(LiftData& data, const SettingsObservation& condition) override;
     private:
         void displayAll();
         void setTotalSizes();

@@ -15,12 +15,12 @@
 
 namespace pacman { namespace impl{
     class GhostUnchartedStrategy: public IGhostMoveStrategy{
-        GameState&              mState;
-        IBluePrintPtr           mPrint;
+        const GameState&              mState;
+        IBluePrintPtr                 mPrint;
     public:
-        GhostUnchartedStrategy(GameState& st);
+        GhostUnchartedStrategy(const GameState& st);
         virtual void setBluePrint(IBluePrintPtr ptr)override;
-        virtual Coordinates suggestNextMove(IGhostPtr ptr)override;
+        virtual DirSuggestion suggestNextMove(const Coordinates& , const Directions)override;
     };
 }}
 

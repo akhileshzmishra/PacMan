@@ -26,7 +26,6 @@ class MapDisplay: public IPlayBoard, public SettingObserver{
     BoundingBox                               mBBox;
     sf::RectangleShape                        mRect;
     IPacManPtr                                mPlayer;
-    GhostWorker                               mGhostWorker;
     
 public:
     MapDisplay(IBluePrintPtr plan);
@@ -36,7 +35,7 @@ public:
     
     virtual void create() override;
     virtual void destroy() override;
-    virtual ISquarePtr getSquare(Coordinates& c)override;
+    virtual ISquarePtr getSquare(const Coordinates& c)override;
     
     GENERIC_GETTER_SETTER(Rows,        mRows,         decltype(mRows));
     GENERIC_GETTER_SETTER(Cols,        mCols,         decltype(mCols));

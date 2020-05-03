@@ -11,6 +11,7 @@
 
 namespace pacman {
     constexpr const char* PACMAN_TITLE  = "PacMan";
+    constexpr const char* GAME_OVER = "Game Over";
 }
 
 

@@ -39,7 +39,7 @@ void Consumable::createData(){
     mColor = Colors::CoinColor;
     mCircleDisplay.setRadius(mBBox.dimension.length);
     mCircleDisplay.setFillColor(sf::Color(mColor.red, mColor.green, mColor.blue));
-    mCircleDisplay.setPosition(mBBox.referencePos.row, mBBox.referencePos.col);
+    mCircleDisplay.setPosition(mBBox.referencePos.col, mBBox.referencePos.row);
 }
 void Consumable::create(){
     createData();
@@ -54,7 +54,7 @@ void Consumable::destroy(){
 
 void Consumable::GetNotified(LiftData& data, const SettingsObservation& condition){
     if(condition == MainWindowDimensionChange){
-        mBBox.dimension = data.dim;
+        mBBox.dimension = Settings::getInstance()->getCoinDimension();
         createData();
     }
 }

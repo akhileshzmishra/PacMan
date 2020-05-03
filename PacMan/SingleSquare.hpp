@@ -20,25 +20,23 @@ class SingleSquare: public ISquare{
     sf::RectangleShape                        mRect;
     ColorRGB                                  mColor;
     IGiftPtr                                  mCoin;
-    Coordinates                               mCoordinates;
     bool                                      mCreate = false;
-    IPlayBoardPtr                             mPlayBoard;
+    IPlayBoard*                               mPlayBoard = nullptr;
 public:
     SingleSquare(int type = mapElements::Empty);
     virtual void display() override;
     virtual bool allows() override{
-        return mType != mapElements::Wall;
-    }
-    virtual void setCoordinate(Coordinates c){
-        mCoordinates = c;
+        return mType != mapElements::Wall && !mOccupant;
     }
     virtual void setPosition(const Position& p)  override;
     virtual Position getPosition()  override;
     virtual void setGift(IGiftPtr ptr)override;
     virtual IGiftPtr getGift()override;
     
-    virtual void setGhost(IGhostPtr ptr) override{
-        mOccupant = ptr;
+    virtual void setOccupant(IPlayerPtr ptr) override{
+        if(ptr){
+            mOccupant = ptr;
+        }
     }
     
     virtual void create() override;
@@ -46,16 +44,19 @@ public:
     virtual bool move(const Position& p) override;
     virtual void setSize(Dimension d) override;
     
-    virtual void setOwner(IPlayBoardPtr ptr)override{
+    virtual void setOwner(IPlayBoard* ptr)override{
         mPlayBoard = ptr;
     }
-    virtual IPlayBoardPtr getOwner()override{
+    virtual IPlayBoard* getOwner()override{
         return mPlayBoard;
     }
     
+    virtual IPlayerPtr getOccupant() override{
+        return mOccupant;
+    }
+    
     GENERIC_GETTER_SETTER(Type,        mType,         decltype(mType));
-    GENERIC_GETTER_SETTER(Occupant,    mOccupant,     IPlayerPtr);
-    GENERIC_GETTER_SETTER(Dimension,   mBBox,    BoundingBox);
+    GENERIC_GETTER_SETTER(Dimension,   mBBox,         BoundingBox);
     
 private:
     void createEmpty();

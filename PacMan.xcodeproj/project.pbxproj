@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1EB57E28245DBB3300665D42 /* GhostWorker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EB57E26245DBB3300665D42 /* GhostWorker.cpp */; };
 		1EB57E2D245DBDCF00665D42 /* GhostUnchartedStrategy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EB57E2B245DBDCF00665D42 /* GhostUnchartedStrategy.cpp */; };
+		1EB57EA8245E6EB100665D42 /* PacManTheHero.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EB57EA6245E6EB100665D42 /* PacManTheHero.cpp */; };
 		1EF1BC332459EC7E002CF1A5 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF1BC322459EC7E002CF1A5 /* main.cpp */; };
 		1EF1BC3F2459EEE3002CF1A5 /* GameManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF1BC3D2459EEE3002CF1A5 /* GameManager.cpp */; };
 		1EF1BC472459F055002CF1A5 /* ObjectFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF1BC452459F055002CF1A5 /* ObjectFactory.cpp */; };
@@ -102,6 +103,8 @@
 		1EB57E2B245DBDCF00665D42 /* GhostUnchartedStrategy.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GhostUnchartedStrategy.cpp; path = ghostStrategy/GhostUnchartedStrategy.cpp; sourceTree = "<group>"; };
 		1EB57E2C245DBDCF00665D42 /* GhostUnchartedStrategy.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = GhostUnchartedStrategy.hpp; path = ghostStrategy/GhostUnchartedStrategy.hpp; sourceTree = "<group>"; };
 		1EB57EA4245DBFA100665D42 /* GameState.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GameState.hpp; sourceTree = "<group>"; };
+		1EB57EA6245E6EB100665D42 /* PacManTheHero.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PacManTheHero.cpp; sourceTree = "<group>"; };
+		1EB57EA7245E6EB100665D42 /* PacManTheHero.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PacManTheHero.hpp; sourceTree = "<group>"; };
 		1EF1BC2F2459EC7E002CF1A5 /* PacMan */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PacMan; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EF1BC322459EC7E002CF1A5 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		1EF1BC3D2459EEE3002CF1A5 /* GameManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameManager.cpp; sourceTree = "<group>"; };
@@ -220,6 +223,8 @@
 				1EF1BC3D2459EEE3002CF1A5 /* GameManager.cpp */,
 				1EF1BC452459F055002CF1A5 /* ObjectFactory.cpp */,
 				1EF1BC462459F055002CF1A5 /* ObjectFactory.hpp */,
+				1EB57EA6245E6EB100665D42 /* PacManTheHero.cpp */,
+				1EB57EA7245E6EB100665D42 /* PacManTheHero.hpp */,
 				1EF1BC5C2459FD28002CF1A5 /* MapDisplay.cpp */,
 				1EF1BC5D2459FD28002CF1A5 /* MapDisplay.hpp */,
 				1EF1BCA5245B53BF002CF1A5 /* SingleSquare.cpp */,
@@ -356,6 +361,7 @@
 				1EF1BC332459EC7E002CF1A5 /* main.cpp in Sources */,
 				1EF1BC3F2459EEE3002CF1A5 /* GameManager.cpp in Sources */,
 				1EF1BC472459F055002CF1A5 /* ObjectFactory.cpp in Sources */,
+				1EB57EA8245E6EB100665D42 /* PacManTheHero.cpp in Sources */,
 				1EB57E2D245DBDCF00665D42 /* GhostUnchartedStrategy.cpp in Sources */,
 				1EF1BCE9245BDDBF002CF1A5 /* Ghost.cpp in Sources */,
 				1EF1BCA7245B53BF002CF1A5 /* SingleSquare.cpp in Sources */,
@@ -487,6 +493,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/resources/SFML/install/lib",
 				);
+				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/resources/SFML/install/include",
 					"$(PROJECT_DIR)/PacMan/includes",
@@ -513,6 +520,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/resources/SFML/install/lib",
 				);
+				GCC_OPTIMIZATION_LEVEL = fast;
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/resources/SFML/install/include",
 					"$(PROJECT_DIR)/PacMan/includes",

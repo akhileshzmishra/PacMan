@@ -14,8 +14,8 @@
 namespace pacman {namespace impl{
     
 struct BluePrintNode{
-    bool isWall = false;
-    int type     = mapElements::Wall;
+    bool        isWall         = false;
+    mapElements type           = mapElements::Wall;
     Coordinates coordinates;
     Position    position;
     Dimension   dimension;
@@ -36,7 +36,8 @@ public:
     size_t getCol() override{
         return mCol;
     }
-    int getValue(size_t r, size_t c) override;
+    
+    mapElements getType(const Coordinates& c) override;
     
     size_t getResolution() override{
         return mResolution;
@@ -48,6 +49,7 @@ public:
     virtual bool isWall(Coordinates) override;
 private:
     void create();
+    mapElements fromInteger(int x);
 };
     
 }}

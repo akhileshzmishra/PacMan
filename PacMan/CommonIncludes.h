@@ -24,13 +24,13 @@
 #include "IObserver.h"
 
 #define GENERIC_GETTER(fnname, variable, type) \
-const type& getConstRef##fnname() { \
+const type& getConstRef##fnname() const { \
     return variable; \
 } \
 type& getRef##fnname() { \
     return variable; \
 } \
-type getCopy##fnname() { \
+type getCopy##fnname() const { \
     return variable; \
 }
 
@@ -55,6 +55,24 @@ type* get##fnname() { \
 #define DECLARE_SHARED(className) \
 typedef std::shared_ptr<className> className##Ptr; \
 typedef std::weak_ptr<className> className##WeakPtr;
+
+typedef std::function<void(void)> cbackFn;
+
+class AutoIncrementer{
+    cbackFn alf;
+public:
+    AutoIncrementer(cbackFn f): alf(f){}
+    ~AutoIncrementer(){
+        alf();
+    }
+};
+
+
+
+#define AUTO_SIZE_INCREMENT(fn) \
+AutoIncrementer alohaIncrmenet(fn);
+
+
 
 namespace pacman{
     
@@ -104,23 +122,22 @@ struct Position{
     }
 };
 
-namespace  mapElements {
-    const int Empty                     = 0;
-    const int Wall                      = 1;
-    const int StartPos                  = 2;
-    const int GhostPos                  = 3;
-    const int PlayerPos                 = 4;
-    const int Invalid                   = 5;
-}
+enum  mapElements {
+    Empty                     = 0,
+    Wall                      = 1,
+    PlayerPos                 = 2,
+    GhostPos                  = 3,
+    Invalid                   = 4
+};
 
 struct Energy{
     int value = 0;
 };
 
 struct Dimension{
-    float width = 0.f;
-    float length = 0.f;
-    Dimension(float x = 0.f, float y = 0.f){
+    float width = 0.0f;
+    float length = 0.0f;
+    Dimension(float x = 0.0f, float y = 0.0f){
         length = x;
         width = y;
     }
@@ -135,7 +152,9 @@ enum Directions{
     UpDir = 0,
     DownDir = 1,
     LeftDir = 2,
-    RightDir = 3
+    RightDir = 3,
+    InvalidDir = 4,
+    ConflictDir = 5
 };
 
 struct ColorRGB{
