@@ -45,8 +45,10 @@ void MapDisplay::create(){
                 mRowCol[i][j]->setType(mPlan->getType(coord));
                 mRowCol[i][j]->setCoordinates(coord);
                 mRowCol[i][j]->create();
+                mRowCol[i][j]->setOwner(this);
             }
         }
+        calculatePositions();
     }
 }
 

@@ -12,72 +12,135 @@ using namespace pacman::impl;
 
 static Dimension sSquareDim = Settings::getInstance()->getSquareDimension();
 
+PacManState::PacManState(){
+    mDelta = Utility::getDirectionsDelta();
+}
+
+void PacManState::move(){
+    const Coordinates& cd = getRefCoordinates();
+    if(!mGameState->canGoTo(cd, direction) || direction == InvalidDir){
+        return;
+    }
+    
+    examineIfReached();
+    
+    currentPosition.row += mDelta[direction].rowDelta*mSpeed;
+    currentPosition.col += mDelta[direction].colDelta*mSpeed;
+}
+
+bool PacManState::examineIfReached(){
+    auto brd = getBoard().lock();
+    const Coordinates& cd = getRefCoordinates();
+    Coordinates nextCd = currentSquare->getRefCoordinates();
+    mDelta.addToCoordinate(nextCd, direction);
+    ISquarePtr nxtSquare = brd->getSquare(nextCd);
+    if(!nxtSquare){
+        return false;
+    }
+    Position nxt = nxtSquare->getPosition();
+    Position currSqPos = currentSquare->getPosition();
+    bool reached = false;
+    Position speedPos;
+    mDelta.addToPositionWithSpeed(speedPos, mSpeed, direction);
+    switch(direction){
+        case UpDir:
+            if(currentPosition.row + sSquareDim.width + speedPos.row >= currSqPos.row){
+                setPosition(nxt);
+                reached = true;
+            }
+            break;
+        case LeftDir:
+            if(currentPosition.col + sSquareDim.length + speedPos.col >= currSqPos.col ){
+                setPosition(nxt);
+                reached = true;
+            }
+            break;
+        case DownDir:
+            if(currentPosition.row + speedPos.row >= nxt.row){
+                setPosition(nxt);
+                reached = true;
+            }
+            break;
+        case RightDir:
+            if(currentPosition.col + speedPos.col  >= nxt.col){
+                setPosition(nxt);
+                reached = true;
+            }
+            break;
+        default:
+            break;
+    }
+    if(reached){
+        setCurrentSquare(nxtSquare);
+        setCoordinates(nextCd);
+        mGameState->movePlayer(cd, nextCd);
+    }
+    return reached;
+}
+
+void PacManState::recalculatePosition(){
+    auto square = getCopyCurrentSquare();
+    if(square){
+        setPosition(square->getPosition());
+        setCoordinates(square->getCopyCoordinates());
+    }
+    setDimension(sSquareDim);
+}
+
 PacManTheHero::PacManTheHero(){
     SetSubject(Settings::getInstance());
-    mDirectionDelta = Utility::getDirectionsDelta();
+    
 }
 
 void PacManTheHero::setPosition(const Position& p){
-    mBBox.referencePos = p;
+    mInternalState.setPosition(p);
     mHead.setPosition(p.col, p.row);
 }
+
+
 Position PacManTheHero::getPosition(){
-    return mBBox.referencePos;
+    return mInternalState.getRefPosition();
 }
+
+
 void PacManTheHero::create(){
     Settings::getInstance()->getCopyRenderer()->addRenderered(this, RenderLayer::ForeGround);
-    mBBox.dimension = Settings::getInstance()->getGhostDimension();
     sSquareDim = Settings::getInstance()->getSquareDimension();
-    mSpeed = Settings::getInstance()->getPacManSpeed();
-    mHead.setPointCount(8);
-    mHead.setRadius(mBBox.dimension.length);
-    mHead.setFillColor(sf::Color::Yellow);
+    mInternalState.setSpeed(Settings::getInstance()->getPacManSpeed());
+    
+    mInternalState.recalculatePosition();
+    
+    
+    resetShape();
     
     Register(KeyPressedUp);
     Register(KeyPressedDown);
     Register(KeyPressedLeft);
     Register(KeyPressedRight);
     Register(SquareDimensionChange);
-    //move();
+
     mReady = false;
 }
+
+void PacManTheHero::resetShape(){
+    mHead.setPointCount(8);
+    mHead.setRadius(mInternalState.getRefDimension().length/2);
+    mHead.setFillColor(sf::Color::Yellow);
+    mHead.setPosition(mInternalState.getRefPosition().col, mInternalState.getRefPosition().row);
+}
+
+
 void PacManTheHero::PacManTheHero::destroy(){
-    //mHoldingSquare = nullptr;
-    //mHoldingBoard = nullptr;
-    //mReady = false;
     Settings::getInstance()->getCopyRenderer()->clearRendererd(this);
 }
 
 void PacManTheHero::work(){
     if(mReady){
-        move();
+        mInternalState.move();
+        mHead.setPosition(mInternalState.getRefPosition().col, mInternalState.getRefPosition().row);
         mReady = false;
     }
-    //mGameState->print();
-}
-
-void PacManTheHero::move(){
-    if(!mHoldingBoard.expired()){
-        auto mHoldingBr = mHoldingBoard.lock();
-        const Coordinates& currentCord = getConstRefCoordinates();
-        auto nextCord = currentCord;
-        nextCord.row += mDirectionDelta[mDirections].rowDelta;
-        nextCord.col += mDirectionDelta[mDirections].colDelta;
-        
-        auto nextSquare = mHoldingBr->getSquare(nextCord);
-        if(!nextSquare){
-            return;
-        }
-        if(mGameState->isWall(nextCord)){
-            return;
-        }
-        setPosition(nextSquare->getPosition());
-        setCurrentSquare(nextSquare);
-        if(mGameState){
-            mGameState->movePlayer(currentCord, nextCord);
-            mGameState->addScore(1);
-        }
-    }
+    mInternalState.getGameState()->print();
 }
 
 void PacManTheHero::renderComplete(){
@@ -85,16 +148,22 @@ void PacManTheHero::renderComplete(){
 }
 
 void PacManTheHero::setCurrentSquare(ISquarePtr ptr){
-    mHoldingSquare = ptr;
+    mInternalState.setCoordinates(ptr->getCopyCoordinates());
+    mInternalState.setCurrentSquare(ptr);
+    mInternalState.setPosition(ptr->getPosition());
+    sSquareDim = Settings::getInstance()->getSquareDimension();
 }
+
 ISquareWeakPtr PacManTheHero::getCurrentSquare(){
-    return mHoldingSquare;
+    return mInternalState.getCopyCurrentSquare();
 }
+
 void PacManTheHero::setBoard(IPlayBoardWeakPtr ptr){
-    mHoldingBoard = ptr;
+    mInternalState.setPlayboard(ptr);
 }
+
 IPlayBoardWeakPtr PacManTheHero::getBoard(){
-    return mHoldingBoard;
+    return mInternalState.getBoard();
 }
 
 void PacManTheHero::died(){
@@ -136,26 +205,26 @@ sf::Shape* PacManTheHero::getShape(){
 }
 
 void PacManTheHero::GetNotified(LiftData& data, const SettingsObservation& condition){
-    
     if(condition == KeyPressedUp){
         mReady = true;
-        mDirections = UpDir;
+        mInternalState.setDirections(UpDir);
     }
     else if(condition == KeyPressedDown){
         mReady = true;
-        mDirections = DownDir;
+        mInternalState.setDirections(DownDir);
     }
     else if(condition == KeyPressedLeft){
         mReady = true;
-        mDirections = LeftDir;
+        mInternalState.setDirections(LeftDir);
     }
     else if(condition == KeyPressedRight){
         mReady = true;
-        mDirections = RightDir;
+        mInternalState.setDirections(RightDir);
     }
     else{
-        mBBox.dimension = Settings::getInstance()->getGhostDimension();
         sSquareDim = Settings::getInstance()->getSquareDimension();
+        mInternalState.recalculatePosition();
+        resetShape();
         mReady = false;
     }
 }

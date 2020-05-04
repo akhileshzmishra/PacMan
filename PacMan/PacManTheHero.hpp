@@ -16,24 +16,55 @@
 #include "Utiliity.hpp"
 
 namespace pacman{namespace impl{
+    
+    class PacManState{
+        ISquarePtr           currentSquare;
+        Position             currentPosition;
+        Directions           direction;
+        float                mSpeed = 5.0;
+        IPlayBoardWeakPtr    playboard;
+        GameState*           mGameState;
+        BoundingBox          mBBox;
+        DirectionDeltaList   mDelta;
+        Dimension            mPacmanDim;
+        Coordinates          coordinates;
+    public:
+        PacManState();
+        GENERIC_GETTER_SETTER(CurrentSquare,      currentSquare,      ISquarePtr)
+        GENERIC_GETTER_SETTER(Directions,         direction,          Directions)
+        GENERIC_GETTER_SETTER(Speed,              mSpeed,             float)
+        GENERIC_GETTER_SETPTR(GameState,          mGameState,         GameState)
+        GENERIC_GETTER_SETTER(Dimension,          mBBox.dimension,    Dimension)
+        GENERIC_GETTER_SETTER(Position,           currentPosition,    Position)
+        GENERIC_GETTER_SETTER(Coordinates,        coordinates,        Coordinates)
+        void setPlayboard(IPlayBoardWeakPtr ptr){
+            playboard = ptr;
+        }
+        IPlayBoardWeakPtr getBoard() {return playboard;}
+        const DirectionDeltaList& getDirectionDelta(){
+            return mDelta;
+        }
+        
+        void move();
+        
+        void recalculatePosition();
+        
+    private:
+        bool examineIfReached();
+        
+    };
     class PacManTheHero: public IPacMan, public IThreadWork,
     public SettingObserver{
         sf::CircleShape                 mHead;
-        BoundingBox                     mBBox;
-        ISquareWeakPtr                  mHoldingSquare;
-        IPlayBoardWeakPtr               mHoldingBoard;
-        float                           mSpeed = 12;
-        Directions                      mDirections;
         int                             mLives = 4;
         bool                            mIsDead = false;
         Energy                          mEnergy;
         bool                            mHasSuperPowers;
-        GameState*                      mGameState = nullptr;
         Position                        mNextPos;
         bool                            mReady = false;
         bool                            mRenderable = true;
+        PacManState                     mInternalState;
         BoolSignal                      mSignal;
-        DirectionDeltaList              mDirectionDelta;
     public:
         PacManTheHero();
         virtual void setPosition(const Position& p)override;
@@ -43,7 +74,7 @@ namespace pacman{namespace impl{
                   
         virtual void work() override;
         void setSpeed(float x) override{
-            mSpeed = x;
+            mInternalState.setSpeed(x);
         }
         
         virtual void died()override;
@@ -54,7 +85,7 @@ namespace pacman{namespace impl{
         virtual void setBoard(IPlayBoardWeakPtr)override;
         virtual IPlayBoardWeakPtr getBoard()override;
         virtual Dimension getDimension() override{
-            return mBBox.dimension;
+            return mInternalState.getRefDimension();
         }
         
         virtual void addEnergy(const Energy& e) override;
@@ -62,10 +93,9 @@ namespace pacman{namespace impl{
         virtual void kill()override;
         
         void GetNotified(LiftData& data, const SettingsObservation& condition) override;
-        void move();
         
         void setState(GameState* st){
-            mGameState = st;
+            mInternalState.setGameState(st);
         }
         
         virtual bool canBeRendered()override;
@@ -79,6 +109,7 @@ namespace pacman{namespace impl{
         virtual void renderComplete() override;
         
     private:
+        void resetShape();
     };
 
     DECLARE_SHARED(PacManTheHero)

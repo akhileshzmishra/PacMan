@@ -26,6 +26,16 @@ DirectionDelta& DirectionDeltaList::operator [](int d){
     return mList[d];
 }
 
+void DirectionDeltaList::addToCoordinate(Coordinates& c, Directions d){
+    c.row += mList[(int)d].rowDelta;
+    c.col += mList[(int)d].colDelta;
+}
+
+void DirectionDeltaList::addToPositionWithSpeed(Position& p, float speed, Directions d){
+    p.row += mList[(int)d].rowDelta*speed;
+    p.col += mList[(int)d].colDelta*speed;
+}
+
 DirectionDeltaList Utility::getDirectionsDelta(){
     static DirectionDeltaList delta = {{
         {UpDir,     DownDir,    -1,  0},
@@ -35,3 +45,4 @@ DirectionDeltaList Utility::getDirectionsDelta(){
     }};
     return delta;
 }
+

@@ -85,7 +85,7 @@ namespace pacman {namespace impl{
             if(isGhost()){
                 mGhosts--;
             }
-            type = mapElements::GhostPos;
+            type = mapElements::PlayerPos;
         }
         void setEmpty(){
             if(isGhost()){
@@ -152,6 +152,9 @@ namespace pacman {namespace impl{
                         k='=';
                     }
                     if(mBoard[i][j].isGhost()){
+                        k='G';
+                    }
+                    if(mBoard[i][j].isPlayer()){
                         k='P';
                     }
                     std::cout<<k<<' ';

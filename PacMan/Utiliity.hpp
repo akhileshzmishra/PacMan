@@ -32,6 +32,8 @@ public:
     int size(){
         return (int)mList.size();
     }
+    void addToCoordinate(Coordinates& c, Directions d);
+    void addToPositionWithSpeed(Position& p, float speed, Directions d);
 };
     
 class Utility{
