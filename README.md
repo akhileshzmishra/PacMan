@@ -1,8 +1,9 @@
 # PacMan
 
 ## Work Done as of now
-1. Player  movement in progress
-2. When Ghost catches up, that scenario is not correctly displayed.
+1. Score Calculation in progress
+2. Basic play is done.
+3. When Ghost catches up, that scenario is not correctly displayed.
 
 ## Platform Supported
 1. Mac is supported as of now.
