@@ -84,6 +84,7 @@ void PacManFrame::displayBackground(){
             if(shape){
                 mWindow.draw(*shape);
             }
+            itr->first->renderComplete();
         }
     }
 }
@@ -95,6 +96,7 @@ void PacManFrame::displayForeground(){
             if(shape){
                 mWindow.draw(*shape);
             }
+            itr->first->renderComplete();
         }
     }
 }

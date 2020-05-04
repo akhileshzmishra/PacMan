@@ -17,15 +17,17 @@ PacManState::PacManState(){
 }
 
 void PacManState::move(){
+    if(mGameState){
+        setCoordinates(mGameState->getPlayerPosition());
+    }
     const Coordinates& cd = getRefCoordinates();
     if(!mGameState->canGoTo(cd, direction) || direction == InvalidDir){
         return;
     }
     
-    examineIfReached();
-    
-    currentPosition.row += mDelta[direction].rowDelta*mSpeed;
-    currentPosition.col += mDelta[direction].colDelta*mSpeed;
+    if(!examineIfReached()){
+        mDelta.addToPositionWithSpeed(currentPosition, mSpeed, direction);
+    }
 }
 
 bool PacManState::examineIfReached(){
@@ -44,13 +46,13 @@ bool PacManState::examineIfReached(){
     mDelta.addToPositionWithSpeed(speedPos, mSpeed, direction);
     switch(direction){
         case UpDir:
-            if(currentPosition.row + sSquareDim.width + speedPos.row >= currSqPos.row){
+            if(currentPosition.row + sSquareDim.width + speedPos.row <= currSqPos.row){
                 setPosition(nxt);
                 reached = true;
             }
             break;
         case LeftDir:
-            if(currentPosition.col + sSquareDim.length + speedPos.col >= currSqPos.col ){
+            if(currentPosition.col + sSquareDim.length + speedPos.col <= currSqPos.col ){
                 setPosition(nxt);
                 reached = true;
             }
@@ -72,9 +74,11 @@ bool PacManState::examineIfReached(){
     }
     if(reached){
         setCurrentSquare(nxtSquare);
-        setCoordinates(nextCd);
         mGameState->movePlayer(cd, nextCd);
+        setCoordinates(nextCd);
     }
+    //nxtSquare->setRenderable(true);
+    //currentSquare->setRenderable(true);
     return reached;
 }
 
@@ -140,7 +144,7 @@ void PacManTheHero::work(){
         mHead.setPosition(mInternalState.getRefPosition().col, mInternalState.getRefPosition().row);
         mReady = false;
     }
-    mInternalState.getGameState()->print();
+    //mInternalState.getGameState()->print();
 }
 
 void PacManTheHero::renderComplete(){

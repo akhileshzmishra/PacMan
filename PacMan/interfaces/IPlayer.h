@@ -27,6 +27,7 @@ namespace  pacman {
         virtual void died() = 0;
         virtual void live() = 0;
         virtual bool isGhost() = 0;
+        virtual void setRenderable(bool s) = 0;
         GENERIC_GETTER_SETTER(CurDirection, mDir, Directions);
     };
 

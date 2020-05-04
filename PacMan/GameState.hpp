@@ -139,6 +139,7 @@ namespace pacman {namespace impl{
                 mBoard[from.row][from.col].setEmpty();
                 mBoard[to.row][to.col].setPlayer();
                 mBoard[to.row][to.col].addValue(1);
+                mPlayerPosition = to;
                 return true;
             }
             return false;

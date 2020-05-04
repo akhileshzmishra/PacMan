@@ -36,7 +36,6 @@ public:
     virtual bool canBeRendered() = 0;
     virtual const ShapeList* getShapes() = 0;
     virtual sf::Shape* getShape() = 0;
-    virtual void setRenderable(bool s) = 0;
     virtual void renderComplete() = 0;
 };
 

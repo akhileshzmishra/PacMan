@@ -31,6 +31,7 @@ namespace  pacman {
         virtual IPlayerPtr getOccupant() = 0;
         virtual void setOwner(IPlayBoard* ) = 0;
         virtual IPlayBoard* getOwner() = 0;
+        virtual void setRenderable(bool s) = 0;
     };
 
     DECLARE_SHARED(ISquare);
