@@ -30,26 +30,26 @@ class BluePrint: public IBluePrint{
     size_t                                    mResolution;
 public:
     BluePrint();
-    size_t getRow() override{
+    size_t getRow() const override{
         return mRow;
     }
-    size_t getCol() override{
+    size_t getCol() const override{
         return mCol;
     }
     
-    mapElements getType(const Coordinates& c) override;
+    mapElements getType(const Coordinates& c) const override;
     
-    size_t getResolution() override{
+    size_t getResolution() const override{
         return mResolution;
     }
     
-    virtual bool isGhost(Coordinates) override;
-    virtual bool isPlayer(Coordinates) override;
-    virtual bool isEmpty(Coordinates) override;
-    virtual bool isWall(Coordinates) override;
+    virtual bool isGhost(const Coordinates&) const override;
+    virtual bool isPlayer(const Coordinates&) const override;
+    virtual bool isEmpty(const Coordinates&)  const override;
+    virtual bool isWall(const Coordinates&) const override;
 private:
     void create();
-    mapElements fromInteger(int x);
+    mapElements fromInteger(int x)const;
 };
     
 }}

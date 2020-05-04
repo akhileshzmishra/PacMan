@@ -13,15 +13,15 @@ namespace  pacman {
 
     class IBluePrint{
     public:
-        virtual size_t getRow() = 0;
-        virtual size_t getCol() = 0;
-        virtual size_t getResolution() = 0;
-        virtual mapElements getType(const Coordinates& c) = 0;
+        virtual size_t getRow() const= 0;
+        virtual size_t getCol() const= 0;
+        virtual size_t getResolution() const= 0;
+        virtual mapElements getType(const Coordinates& c) const = 0;
         
-        virtual bool isGhost(Coordinates) = 0;
-        virtual bool isPlayer(Coordinates) = 0;
-        virtual bool isEmpty(Coordinates) = 0;
-        virtual bool isWall(Coordinates) = 0;
+        virtual bool isGhost(const Coordinates&) const  = 0;
+        virtual bool isPlayer(const Coordinates&) const  = 0;
+        virtual bool isEmpty(const Coordinates&)  const  = 0;
+        virtual bool isWall(const Coordinates&) const  = 0;
     };
     
     DECLARE_SHARED(IBluePrint);

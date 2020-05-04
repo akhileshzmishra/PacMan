@@ -15,7 +15,7 @@ BluePrint::BluePrint(){
     create();
 }
 
-mapElements BluePrint::getType(const Coordinates& c){
+mapElements BluePrint::getType(const Coordinates& c)const {
     if(c.row < mRow && c.col < mCol){
         return mMapPrint[c.row][c.col].type;
     }
@@ -61,20 +61,20 @@ void BluePrint::create(){
     mResolution = 4;
 }
 
-bool BluePrint::isGhost(Coordinates c) {
+bool BluePrint::isGhost(const Coordinates& c) const{
     return mMapPrint[c.row][c.col].type == mapElements::GhostPos;
 }
-bool BluePrint::isPlayer(Coordinates c){
+bool BluePrint::isPlayer(const Coordinates& c) const{
     return mMapPrint[c.row][c.col].type == mapElements::PlayerPos;
 }
-bool BluePrint::isEmpty(Coordinates c){
+bool BluePrint::isEmpty(const Coordinates& c) const{
     return mMapPrint[c.row][c.col].type == mapElements::Empty;
 }
-bool BluePrint::isWall(Coordinates c) {
+bool BluePrint::isWall(const Coordinates& c) const{
     return mMapPrint[c.row][c.col].type == mapElements::Wall;
 }
 
-mapElements BluePrint::fromInteger(int x){
+mapElements BluePrint::fromInteger(int x)const{
     if(x == 1){
         return mapElements::Wall;
     }

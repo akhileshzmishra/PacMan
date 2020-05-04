@@ -12,13 +12,6 @@
 using namespace pacman;
 using namespace pacman::impl;
 
-static const VecVecInt DeltaPos = {
-    {0, -1},
-    {0, 1},
-    {-1, 0},
-    {1, 0}
-};
-
 bool Ghost::canBeRendered(){
     return mRenderable;
 }

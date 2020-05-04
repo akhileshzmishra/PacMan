@@ -141,7 +141,6 @@ void PacManTheHero::PacManTheHero::destroy(){
 void PacManTheHero::work(){
     if(mReady){
         mInternalState.move();
-        mHead.setPosition(mInternalState.getRefPosition().col, mInternalState.getRefPosition().row);
         mReady = false;
     }
     //mInternalState.getGameState()->print();
@@ -201,6 +200,7 @@ void PacManTheHero::kill(){
 }
 
 bool PacManTheHero::canBeRendered(){
+    mHead.setPosition(mInternalState.getRefPosition().col, mInternalState.getRefPosition().row);
     return mRenderable;
 }
 
