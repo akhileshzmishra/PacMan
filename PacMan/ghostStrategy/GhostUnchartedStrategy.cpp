@@ -10,27 +10,11 @@
 using namespace pacman;
 using namespace pacman::impl;
 
-static const int InvalidIndex = 10;
-
-static const VecVecInt DeltaPos = {
-    {-1, 0},
-    {0, -1},
-    {1, 0},
-    {0, 1}
-};
-
-static const Directions DirVec[] = {
-    Directions::UpDir,
-    Directions::LeftDir,
-    Directions::DownDir,
-    Directions::RightDir
-};
-
-static const size_t MinInitialValue = std::numeric_limits<int>::max();
+static const size_t MinInitialValue = std::numeric_limits<size_t>::max();
 
 GhostUnchartedStrategy::GhostUnchartedStrategy(const GameState& st):
 mState(st){
-    
+    mDirectionDelta = Utility::getDirectionsDelta();
 }
 void GhostUnchartedStrategy::setBluePrint(IBluePrintPtr ptr){
     mPrint = ptr;
@@ -38,11 +22,31 @@ void GhostUnchartedStrategy::setBluePrint(IBluePrintPtr ptr){
 
 DirSuggestion GhostUnchartedStrategy::suggestNextMove(const Coordinates& coordinates, const Directions curDir){
     DirSuggestion suggestion(InvalidDir, coordinates);
-    if(!mState.isGhost(coordinates)){
+    if(!mState.isGhost(coordinates) || mState.getNeighbors(coordinates) == 0){
         return suggestion;
     }
-    size_t deltaPos = InvalidIndex;
-    int minVal = std::numeric_limits<int>::max();
+    if(mState.canGoTo(coordinates, curDir) && mState.getNeighbors(coordinates) == 2){
+        Coordinates nxt;
+        nxt.row = mDirectionDelta[curDir].rowDelta + coordinates.row;
+        nxt.col = mDirectionDelta[curDir].colDelta + coordinates.col;
+        suggestion.first = curDir;
+        suggestion.second = nxt;
+        return suggestion;
+    }
+    
+    if(mState.getNeighbors(coordinates) >= 3){
+        Directions xx = (Directions)(rand()%4);
+        if(mState.canGoTo(coordinates, xx)){
+            Coordinates nxt;
+            nxt.row = mDirectionDelta[curDir].rowDelta + coordinates.row;
+            nxt.col = mDirectionDelta[curDir].colDelta + coordinates.col;
+            suggestion.first = curDir;
+            suggestion.second = nxt;
+            return suggestion;
+        }
+    }
+    Directions outDir = curDir;
+    size_t minVal = MinInitialValue;
     size_t i = (size_t)curDir;
     int count = 0;
     while(count < 4){
@@ -50,33 +54,29 @@ DirSuggestion GhostUnchartedStrategy::suggestNextMove(const Coordinates& coordin
             i = (i + 1)%4;
             count++;
         });
+        if(!mState.canGoTo(coordinates, (Directions)i)){
+            continue;
+        }
         Coordinates nxt;
-        nxt.row = DeltaPos[i][0] + coordinates.row;
-        nxt.col = DeltaPos[i][1] + coordinates.col;
-        if(nxt.row < mState.getRows() && nxt.col < mState.getCols()){
-            if(!mState.canMove(nxt)){
-                continue;
-            }
-            if(mState.canMove(nxt) && mPrint->isWall(nxt)){
-                continue;
-            }
-            if(mState.isPlayer(nxt)){
-                suggestion.second = nxt;
-                suggestion.first = (Directions)i;
-                return suggestion;
-            }
-            if(minVal > mState.getBoardNum(nxt)){
-                minVal = mState.getBoardNum(nxt);
-                deltaPos = i;
-                //break;
-            }
+        nxt.row = mDirectionDelta[(Directions)i].rowDelta + coordinates.row;
+        nxt.col = mDirectionDelta[(Directions)i].colDelta + coordinates.col;
+        
+        if(mState.isPlayer(nxt)){
+            suggestion.second = nxt;
+            suggestion.first = (Directions)i;
+            return suggestion;
+        }
+        
+        if(minVal > mState.getBoardNum(nxt)){
+            minVal = mState.getBoardNum(nxt);
+            outDir = (Directions)i;
+            //break;
         }
     }
-    if(deltaPos == InvalidIndex) return suggestion;
     if(minVal == MinInitialValue) return suggestion;
 
-    suggestion.first = DirVec[deltaPos];
-    suggestion.second.row = DeltaPos[deltaPos][0] + coordinates.row;
-    suggestion.second.col = DeltaPos[deltaPos][1] + coordinates.col;
+    suggestion.first = mDirectionDelta[outDir].direction;
+    suggestion.second.row = mDirectionDelta[outDir].rowDelta + coordinates.row;
+    suggestion.second.col = mDirectionDelta[outDir].colDelta + coordinates.col;
     return suggestion;
 }

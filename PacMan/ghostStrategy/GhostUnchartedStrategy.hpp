@@ -12,11 +12,13 @@
 #include "../CommonIncludes.h"
 #include "../AllInterfaces.h"
 #include "../GameState.hpp"
+#include "../Utiliity.hpp"
 
 namespace pacman { namespace impl{
     class GhostUnchartedStrategy: public IGhostMoveStrategy{
         const GameState&              mState;
         IBluePrintPtr                 mPrint;
+        DirectionDeltaList            mDirectionDelta;
     public:
         GhostUnchartedStrategy(const GameState& st);
         virtual void setBluePrint(IBluePrintPtr ptr)override;

@@ -13,6 +13,7 @@
 #include "Settings.hpp"
 #include "GameState.hpp"
 #include "ElementalSignal.h"
+#include "Utiliity.hpp"
 
 namespace pacman{namespace impl{
     class PacManTheHero: public IPacMan, public IThreadWork,
@@ -32,6 +33,7 @@ namespace pacman{namespace impl{
         bool                            mReady = false;
         bool                            mRenderable = true;
         BoolSignal                      mSignal;
+        DirectionDeltaList              mDirectionDelta;
     public:
         PacManTheHero();
         virtual void setPosition(const Position& p)override;

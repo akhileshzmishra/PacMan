@@ -12,22 +12,9 @@ using namespace pacman::impl;
 
 static Dimension sSquareDim = Settings::getInstance()->getSquareDimension();
 
-static const VecVecInt DeltaPos = {
-    {-1, 0},
-    {0, -1},
-    {1, 0},
-    {0, 1}
-};
-
-//static const Directions DirVec[] = {
-//    Directions::UpDir,
-//    Directions::LeftDir,
-//    Directions::DownDir,
-//    Directions::RightDir
-//};
-
 PacManTheHero::PacManTheHero(){
     SetSubject(Settings::getInstance());
+    mDirectionDelta = Utility::getDirectionsDelta();
 }
 
 void PacManTheHero::setPosition(const Position& p){
@@ -74,14 +61,16 @@ void PacManTheHero::move(){
         auto mHoldingBr = mHoldingBoard.lock();
         const Coordinates& currentCord = getConstRefCoordinates();
         auto nextCord = currentCord;
-        nextCord.row += DeltaPos[(int)mDirections][0];
-        nextCord.col += DeltaPos[(int)mDirections][1];
+        nextCord.row += mDirectionDelta[mDirections].rowDelta;
+        nextCord.col += mDirectionDelta[mDirections].colDelta;
         
         auto nextSquare = mHoldingBr->getSquare(nextCord);
         if(!nextSquare){
             return;
         }
-        
+        if(mGameState->isWall(nextCord)){
+            return;
+        }
         setPosition(nextSquare->getPosition());
         setCurrentSquare(nextSquare);
         if(mGameState){

@@ -47,13 +47,13 @@ void PacManFrame::run(){
                     case sf::Keyboard::A:
                         GetSubject()->NotifyToObservers(liftData, KeyPressedLeft);
                         break;
-                    case sf::Keyboard::S:
+                    case sf::Keyboard::D:
                         GetSubject()->NotifyToObservers(liftData, KeyPressedRight);
                         break;
                     case sf::Keyboard::W:
                         GetSubject()->NotifyToObservers(liftData, KeyPressedUp);
                         break;
-                    case sf::Keyboard::X:
+                    case sf::Keyboard::Z:
                         GetSubject()->NotifyToObservers(liftData, KeyPressedDown);
                         break;
                     default:

@@ -197,7 +197,7 @@ void GhostWorker::work(){
             
             mGhostState[i].setDirection(nxt.first);
             
-            mState.addToBoard(mGhostState[i].getConstRefcurrCoordinates(), 1);
+            mState.addToBoard(mGhostState[i].getConstRefcurrCoordinates(), rand()%3);
             
             if(!mGhostState[i].lookAhead(nxt)){
                 mGhostState[i].setStop(true);

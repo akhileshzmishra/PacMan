@@ -153,8 +153,7 @@ enum Directions{
     LeftDir = 1,
     DownDir = 2,
     RightDir = 3,
-    InvalidDir = 4,
-    ConflictDir = 5
+    InvalidDir = 4
 };
 
 struct ColorRGB{
