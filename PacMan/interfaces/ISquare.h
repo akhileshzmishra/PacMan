@@ -19,6 +19,7 @@ namespace  pacman {
     
     class ISquare: public IStaticObjects, public IRenderered{
     public:
+        virtual ~ISquare(){}
         virtual bool canMove() override{
             return false;
         }

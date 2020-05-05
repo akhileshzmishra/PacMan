@@ -21,6 +21,7 @@ namespace  pacman {
     
     class IGhostMoveStrategy{
     public:
+        virtual ~IGhostMoveStrategy(){}
         virtual void setBluePrint(IBluePrintPtr ptr) = 0;
         virtual DirSuggestion suggestNextMove(const Coordinates& , const Directions) = 0;
     };

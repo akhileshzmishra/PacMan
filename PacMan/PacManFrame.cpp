@@ -127,8 +127,6 @@ void PacManFrame::onGameEnded(){
 
 void PacManFrame::create(){
     Settings::getInstance()->setRenderer(shared_from_this());
-    mPlayBoard = ObjectFactory::getGameManager();
-    mPlayBoard->create();
     Register(SettingsObservation::GameHasEnded);
     auto Winpos = Settings::getInstance()->getWindowDimension();
     mGameEndedText.setPosition(0, 0);
@@ -136,18 +134,30 @@ void PacManFrame::create(){
     mEndRect.setSize(sf::Vector2f(Winpos.length, Winpos.width));
     mEndRect.setFillColor(sf::Color::Black);
     mGameEndedText.setFillColor(sf::Color::White);
+    
+    mPlayBoard = ObjectFactory::getGameManager();
+    mPlayBoard->create();
+    mCreated = true;
 }
 
 void PacManFrame::addMovable(RenderingJob& p){
     mQueue.push(p);
 }
 
+PacManFrame::~PacManFrame(){
+    destroy();
+}
+
 
 void PacManFrame::destroy(){
-    for(int i = 0; i < (int)RenderLayer::MaxLayer; i++){
-        mRenderedList[i].clear();
+    if(mCreated){
+        mPlayBoard->destroy();
+        for(int i = 0; i < (int)RenderLayer::MaxLayer; i++){
+            mRenderedList[i].clear();
+        }
+        Settings::getInstance()->setRenderer(nullptr);
     }
-    
+    mCreated = false;
 }
 
 void PacManFrame::GetNotified(LiftData& data, const SettingsObservation& condition){

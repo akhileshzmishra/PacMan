@@ -15,6 +15,7 @@ namespace  pacman {
     
 class IStaticObjects: public IPrimaryObject{
 public:
+    virtual ~IStaticObjects(){}
     virtual bool canMove(){
         return false;
     }

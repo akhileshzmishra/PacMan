@@ -33,6 +33,7 @@ struct RenderingJob{
 
 class IRenderer{
 public:
+    virtual ~IRenderer(){}
     virtual void addRenderered(IRenderered* , RenderLayer layer) = 0;
     virtual void clearRendererd(IRenderered*) =  0;
     virtual void addMovable(RenderingJob& j) = 0;
@@ -41,6 +42,7 @@ public:
     
 class IRenderered{
 public:
+    virtual ~IRenderered(){}
     virtual bool canBeRendered() = 0;
     virtual const ShapeList* getShapes() = 0;
     virtual sf::Shape* getShape() = 0;

@@ -13,6 +13,7 @@ namespace  pacman {
 
     class IBluePrint{
     public:
+        virtual ~IBluePrint(){}
         virtual size_t getRow() const= 0;
         virtual size_t getCol() const= 0;
         virtual size_t getResolution() const= 0;

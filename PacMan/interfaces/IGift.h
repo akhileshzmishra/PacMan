@@ -14,6 +14,7 @@ namespace  pacman {
 
     class IGift: public IStaticObjects{
     public:
+        virtual ~IGift(){}
         virtual int offer() = 0;
         virtual bool makeZombie() = 0;
         virtual void makeEmpty() = 0;

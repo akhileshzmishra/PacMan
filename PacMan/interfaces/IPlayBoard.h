@@ -17,7 +17,10 @@ namespace  pacman {
     
     class IGameManager: public IPrimaryObject{
     public:
+        virtual ~IGameManager(){}
         virtual void play() = 0;
+        virtual void pause() = 0;
+        virtual void stop() = 0;
         Position getPosition() override{
             return Position();
         }
@@ -26,6 +29,7 @@ namespace  pacman {
     
     class IPlayBoard: public IStaticObjects{
     public:
+        virtual ~IPlayBoard(){}
         Position getPosition() override{
             return Position();
         }

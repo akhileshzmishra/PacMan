@@ -55,17 +55,27 @@ void GameManager::create(){
     mGhostWorker->create();
     st = mGhostWorker->getState();
     mPacMan.setState(st);
+    createAndRun();
+    mCreated = true;
 }
 
 void GameManager::destroy(){
-    if(mDisplay){
-        mDisplay->destroy();
+    if(mCreated){
+        stop();
+        if(mDisplay){
+            mDisplay->destroy();
+        }
+        if(mGhostWorker){
+            mGhostWorker->destroy();
+        }
+        mGhostWorker = nullptr;
+        mDisplay = nullptr;
+        mHelper.release();
     }
-    if(mGhostWorker){
-        mGhostWorker->destroy();
-    }
-    mGhostWorker = nullptr;
-    mDisplay = nullptr;
+    mCreated = false;
+}
+
+void GameManager::createAndRun(){
 }
 
 void GameManager::play(){
@@ -73,5 +83,12 @@ void GameManager::play(){
     if(mGhostWorker){
         mGhostWorker->work();
     }
+}
+
+void GameManager::pause(){
+    mPause = true;
+    
+}
+void GameManager::stop(){
 }
 

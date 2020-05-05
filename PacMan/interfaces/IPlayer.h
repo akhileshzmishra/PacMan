@@ -18,7 +18,7 @@ namespace  pacman {
         Directions                       mDir;
     public:
         
-        
+        virtual ~IPlayer(){}
         virtual void setCurrentSquare(ISquarePtr) = 0;
         virtual ISquareWeakPtr getCurrentSquare() = 0;
         virtual void setBoard(IPlayBoardWeakPtr) = 0;
@@ -38,6 +38,7 @@ namespace  pacman {
 
     class IGhost: public IPlayer{
     public:
+        virtual ~IGhost(){}
         virtual void setZombie(bool s) = 0;
         virtual bool isZombie() = 0;
         virtual bool isGhost(){
@@ -49,6 +50,8 @@ namespace  pacman {
 
 
     class IPacMan: public IPlayer{
+    public:
+        virtual ~IPacMan(){}
         virtual void addEnergy(const Energy& e) = 0;
         virtual bool canKill() = 0;
         virtual void kill() = 0;

@@ -23,6 +23,11 @@ class GameManager: public IGameManager{
     BoundingBox                               mBBox;
     GhostWorkerPtr                            mGhostWorker;
     PacManTheHero                             mPacMan;
+    std::unique_ptr<std::thread>              mHelper;
+    bool                                      mPlayContinue = true;
+    bool                                      mPause = false;
+    BoolSignal                                mSignal;
+    bool                                      mCreated = false;
 public:
     GameManager();
     GENERIC_GETTER_SETTER(SquareDim,   mBBox,    BoundingBox);
@@ -30,6 +35,11 @@ public:
     virtual void destroy() override;
     virtual void setPosition(const Position& p) override;
     virtual void play() override;
+    virtual void pause()override;
+    virtual void stop()override;
+    
+private:
+    void createAndRun();
     
 };
 

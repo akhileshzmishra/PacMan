@@ -29,8 +29,10 @@ namespace pacman { namespace impl{
         bool                            mFullDisplay = false;
         bool                            mGameEnded = false;
         RenderingQueue                  mQueue;
+        bool                            mCreated = false;
     public:
         PacManFrame();
+        ~PacManFrame();
         virtual void addRenderered(IRenderered*  , RenderLayer layer)override;
         virtual void clearRendererd(IRenderered* )override;
         void run();

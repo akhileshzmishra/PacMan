@@ -14,6 +14,7 @@ namespace  pacman {
     class IPrimaryObject{
         Coordinates                    mCoOrdinates;
     public:
+        virtual ~IPrimaryObject(){}
         virtual void setPosition(const Position& p) = 0;
         virtual Position getPosition() = 0;
         
