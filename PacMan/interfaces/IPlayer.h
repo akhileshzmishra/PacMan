@@ -28,6 +28,8 @@ namespace  pacman {
         virtual void live() = 0;
         virtual bool isGhost() = 0;
         virtual void setRenderable(bool s) = 0;
+        virtual void addMovable(const Position& p) = 0;
+        virtual void addMovable(const Position& p, float speed) = 0;
         GENERIC_GETTER_SETTER(CurDirection, mDir, Directions);
     };
 

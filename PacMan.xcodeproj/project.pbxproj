@@ -116,6 +116,7 @@
 		1EB57EC1245F3CCC00665D42 /* IThreadWork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IThreadWork.h; sourceTree = "<group>"; };
 		1EB57F2024603E5E00665D42 /* Utiliity.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Utiliity.cpp; sourceTree = "<group>"; };
 		1EB57F2124603E5E00665D42 /* Utiliity.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Utiliity.hpp; sourceTree = "<group>"; };
+		1EB57F232460D41700665D42 /* BlockingQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlockingQueue.h; sourceTree = "<group>"; };
 		1EF1BC2F2459EC7E002CF1A5 /* PacMan */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PacMan; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EF1BC322459EC7E002CF1A5 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		1EF1BC3D2459EEE3002CF1A5 /* GameManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameManager.cpp; sourceTree = "<group>"; };
@@ -271,6 +272,7 @@
 				1EB57EA4245DBFA100665D42 /* GameState.hpp */,
 				1EB57F2024603E5E00665D42 /* Utiliity.cpp */,
 				1EB57F2124603E5E00665D42 /* Utiliity.hpp */,
+				1EB57F232460D41700665D42 /* BlockingQueue.h */,
 			);
 			path = PacMan;
 			sourceTree = "<group>";

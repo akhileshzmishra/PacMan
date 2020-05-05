@@ -31,6 +31,7 @@ void PacManFrame::run(){
     setTotalSizes();
     mFullDisplay = true;
     pacman::impl::LiftData liftData;
+    
     while (mWindow.isOpen()){
         sf::Event event;
         while (mWindow.pollEvent(event)){
@@ -70,10 +71,26 @@ void PacManFrame::run(){
             mPlayBoard->play();
             displayBackground();
             displayForeground();
+            displayQueue();
         }
         mWindow.display();
     }
     destroy();
+}
+
+void PacManFrame::displayQueue(){
+    while(mQueue.size() > 0){
+        auto popValue = mQueue.pop();
+        if(!popValue.second){
+            return;
+        }
+        auto& first = popValue.first;
+        if(!first.ptr || !first.ptr->getShape()){
+            continue;
+        }
+        first.ptr->getShape()->setPosition(first.pos.col, first.pos.row);
+        mWindow.draw(*(first.ptr->getShape()));
+    }
 }
 
 void PacManFrame::displayBackground(){
@@ -119,6 +136,10 @@ void PacManFrame::create(){
     mEndRect.setSize(sf::Vector2f(Winpos.length, Winpos.width));
     mEndRect.setFillColor(sf::Color::Black);
     mGameEndedText.setFillColor(sf::Color::White);
+}
+
+void PacManFrame::addMovable(RenderingJob& p){
+    mQueue.push(p);
 }
 
 

@@ -14,7 +14,6 @@ using namespace pacman::impl;
 
 SingleSquare::SingleSquare(int type):
 mType(type),
-mOccupant(nullptr),
 mBBox(){
 }
 
@@ -22,9 +21,6 @@ mBBox(){
 void SingleSquare::setPosition(const Position& p){
     mBBox.referencePos = p;
     mRect.setPosition(p.col, p.row);
-    if(mOccupant){
-        mOccupant->setPosition(p);
-    }
 }
 
 Position SingleSquare::getPosition(){
@@ -52,7 +48,7 @@ void SingleSquare::createData(){
 }
 
 void SingleSquare::renderComplete(){
-    
+    //mRenderable = false;
 }
 
 void SingleSquare::create(){

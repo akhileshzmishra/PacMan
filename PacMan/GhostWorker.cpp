@@ -55,7 +55,7 @@ bool GhostStateOnBoard::hasReached(Directions dir){
 
 void GhostStateOnBoard::correctPosition(){
     currentPos = nextPos;
-    mGhost->setPosition(nextPos);
+    mGhost->addMovable(nextPos);
 }
 
 bool GhostStateOnBoard::hasReached(){
@@ -67,23 +67,12 @@ void GhostStateOnBoard::move(){
         mGhost->setPosition(currentPos);
         return;
     }
-//    float oldR = currentPos.row;
-//    float oldC = currentPos.col;
-    if(mDirection == Directions::UpDir){
-        currentPos.row -= mSpeed;
-    }
-    else if(mDirection == Directions::DownDir){
-        currentPos.row += mSpeed;
-    }
-    else if(mDirection == Directions::LeftDir){
-        currentPos.col -= mSpeed;
-    }
-    else if(mDirection == Directions::RightDir){
-        currentPos.col += mSpeed;
+    if(mDirection >= Directions::InvalidDir){
+        return;
     }
     
-    
-    mGhost->setPosition(currentPos);
+    mDelta.addToPositionWithSpeed(currentPos, mSpeed, mDirection);
+    mGhost->addMovable(currentPos);
 }
 
 
@@ -104,6 +93,7 @@ GhostStateOnBoard::GhostStateOnBoard(IGhostPtr ptr){
     setGhostDimension(Settings::getInstance()->getGhostDimension());
     setGhostDim(Settings::getInstance()->getGhostDimension());
     calculatePositions();
+    mDelta = Utility::getDirectionsDelta();
 }
 
 bool GhostStateOnBoard::arrive(){
@@ -115,10 +105,6 @@ bool GhostStateOnBoard::arrive(){
         auto squareTo = owner->getSquare(getReftargetCoordinates());
         if(squareFrom == squareTo){
             return true;
-        }
-        if(squareTo && squareFrom){
-            squareFrom->setOccupant(nullptr);
-            squareTo->setOccupant(mGhost);
         }
         
     }

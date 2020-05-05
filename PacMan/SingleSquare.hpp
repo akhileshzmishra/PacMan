@@ -15,7 +15,6 @@ namespace pacman {namespace impl{
 
 class SingleSquare: public ISquare{
     int                                       mType;
-    IPlayerPtr                                mOccupant;
     BoundingBox                               mBBox;
     sf::RectangleShape                        mRect;
     ColorRGB                                  mColor;
@@ -27,18 +26,12 @@ public:
     SingleSquare(int type = mapElements::Empty);
 
     virtual bool allows() override{
-        return mType != mapElements::Wall && !mOccupant;
+        return mType != mapElements::Wall;
     }
     virtual void setPosition(const Position& p)  override;
     virtual Position getPosition()  override;
     virtual void setGift(IGiftPtr ptr)override;
     virtual IGiftPtr getGift()override;
-    
-    virtual void setOccupant(IPlayerPtr ptr) override{
-        if(ptr){
-            mOccupant = ptr;
-        }
-    }
     
     virtual void create() override;
     virtual void destroy() override;
@@ -50,10 +43,6 @@ public:
     }
     virtual IPlayBoard* getOwner()override{
         return mPlayBoard;
-    }
-    
-    virtual IPlayerPtr getOccupant() override{
-        return mOccupant;
     }
     
     virtual bool canBeRendered()override;

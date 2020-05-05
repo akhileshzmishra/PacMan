@@ -12,6 +12,7 @@
 #include "AllInterfaces.h"
 #include "GameState.hpp"
 #include "Settings.hpp"
+#include "Utiliity.hpp"
 
 namespace pacman {namespace impl{
     
@@ -30,6 +31,7 @@ class GhostStateOnBoard{
     static Dimension      sGhostDim;
     GameState*            mState;
     bool                  mStop = false;
+    DirectionDeltaList    mDelta;
 public:
     GhostStateOnBoard(){}
     GhostStateOnBoard(IGhostPtr ptr);

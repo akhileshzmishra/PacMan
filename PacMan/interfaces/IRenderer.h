@@ -24,10 +24,18 @@ enum RenderLayer{
     MaxLayer = 2
 };
     
+struct RenderingJob{
+    IRenderered* ptr = nullptr;
+    Position   pos;
+    float      speed = 0.2;
+    bool       ifSpeed = false;
+};
+
 class IRenderer{
 public:
     virtual void addRenderered(IRenderered* , RenderLayer layer) = 0;
     virtual void clearRendererd(IRenderered*) =  0;
+    virtual void addMovable(RenderingJob& j) = 0;
     
 };
     

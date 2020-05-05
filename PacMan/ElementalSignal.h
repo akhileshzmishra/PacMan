@@ -10,6 +10,8 @@
 #define ElementalSignal_h
 #include "CommonIncludes.h"
 
+namespace pacman {namespace impl{
+
 template<class T, T setValue, T notSetValue>
 class ElementalSignal{
     std::mutex _m;
@@ -48,6 +50,56 @@ public:
     }
 };
 
-typedef ElementalSignal<bool, true, false> BoolSignal;
 
+
+template<int initialCount, int MaxCount>
+class CountingSignal{
+    std::atomic_int mCount;
+    std::mutex _m;
+    std::condition_variable _cv;
+public:
+    CountingSignal():mCount(initialCount){
+        
+    }
+    
+    void reset(){
+        mCount = initialCount;
+    }
+    
+    void signal(){
+        mCount++;
+        if(mCount >= MaxCount){
+            mCount = MaxCount;
+        }
+        _cv.notify_all();
+    }
+    
+    bool waitFor(int millsec = -1){
+        bool retVal = false;
+        if(millsec > 0){
+            std::unique_lock<std::mutex> _lck(_m);
+            _cv.wait(_lck, [=, &retVal]{
+                retVal = (mCount > 0);
+                return retVal;
+            });
+        }
+        else{
+            auto tim = std::chrono::milliseconds(millsec);
+            std::unique_lock<std::mutex> _lck(_m);
+            _cv.wait_for(_lck, tim, [=, &retVal]{
+                retVal = (mCount > 0);
+                return retVal;
+            });
+        }
+        if(retVal){
+            mCount--;
+        }
+        return retVal;
+    }
+};
+
+typedef ElementalSignal<bool, true, false> BoolSignal;
+typedef CountingSignal<0, INT_MAX> CountingIntegerSignal;
+
+}}
 #endif /* ElementalSignal_h */

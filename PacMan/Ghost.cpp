@@ -45,7 +45,7 @@ void Ghost::renderComplete(){
 }
 
 void Ghost::create(){
-    Settings::getInstance()->getCopyRenderer()->addRenderered(this, RenderLayer::ForeGround);
+    //Settings::getInstance()->getCopyRenderer()->addRenderered(this, RenderLayer::ForeGround);
     mRow = mBluePrint->getRow();
     mCol = mBluePrint->getCol();
     createData();
@@ -62,7 +62,7 @@ void Ghost::createData(){
 }
 
 void Ghost::destroy(){
-    Settings::getInstance()->getCopyRenderer()->clearRendererd(this);
+    //Settings::getInstance()->getCopyRenderer()->clearRendererd(this);
     DeRegister(MainWindowDimensionChange);
 }
 
@@ -94,12 +94,16 @@ void Ghost::GetNotified(LiftData& data, const SettingsObservation& condition){
 void Ghost::setCurrentSquare(ISquarePtr ptr){
     mHoldingSquare = ptr;
     if(ptr){
-        ptr->setOccupant(shared_from_this());
         setCoordinates(ptr->getRefCoordinates());
-        setPosition(ptr->getPosition());
+        addMovable(ptr->getPosition());
     }
 }
 
+void Ghost::addMovable(const Position& p)
+{
+    RenderingJob j = {this, p, 0.0, false};
+    Settings::getInstance()->getCopyRenderer()->addMovable(j);
+}
 
 ISquareWeakPtr Ghost::getCurrentSquare(){
     return mHoldingSquare;

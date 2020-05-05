@@ -21,6 +21,7 @@ void GameManager::setPosition(const Position &p){
     mBBox.referencePos = p;
 }
 
+
 void GameManager::create(){
     mBluePrint = ObjectFactory::getNewBluePrint();
     Settings::getInstance()->setBluePrint(mBluePrint);

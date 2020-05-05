@@ -11,8 +11,10 @@
 
 #include "AllInterfaces.h"
 #include "Settings.hpp"
+#include "BlockingQueue.h"
 
 namespace pacman { namespace impl{
+    typedef BlockingQueue<RenderingJob> RenderingQueue;
     struct RenderedProperty{
         bool              active;
     };
@@ -26,6 +28,7 @@ namespace pacman { namespace impl{
         IGameManagerPtr                 mPlayBoard;
         bool                            mFullDisplay = false;
         bool                            mGameEnded = false;
+        RenderingQueue                  mQueue;
     public:
         PacManFrame();
         virtual void addRenderered(IRenderered*  , RenderLayer layer)override;
@@ -40,10 +43,13 @@ namespace pacman { namespace impl{
             mPlayBoard = board;
         }
         
+        void addMovable(RenderingJob& j) override;
+        
         void GetNotified(LiftData& data, const SettingsObservation& condition) override;
     private:
         void displayBackground();
         void displayForeground();
+        void displayQueue();
         void setTotalSizes();
         void onGameEnded();
     };

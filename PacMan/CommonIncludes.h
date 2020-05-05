@@ -21,6 +21,7 @@
 #include <thread>
 #include <mutex>
 #include <chrono>
+#include <queue>
 #include "IObserver.h"
 
 #define GENERIC_GETTER(fnname, variable, type) \

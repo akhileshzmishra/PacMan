@@ -10,6 +10,7 @@
 #define Utiliity_hpp
 
 #include "AllInterfaces.h"
+#include "BlockingQueue.h"
 namespace pacman {namespace impl{
     
 struct DirectionDelta{

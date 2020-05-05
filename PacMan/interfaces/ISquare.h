@@ -26,9 +26,6 @@ namespace  pacman {
         virtual void setGift(IGiftPtr ptr) = 0;
         virtual IGiftPtr getGift() = 0;
         virtual void setSize(Dimension d) = 0;
-        
-        virtual void setOccupant(IPlayerPtr) = 0;
-        virtual IPlayerPtr getOccupant() = 0;
         virtual void setOwner(IPlayBoard* ) = 0;
         virtual IPlayBoard* getOwner() = 0;
         virtual void setRenderable(bool s) = 0;

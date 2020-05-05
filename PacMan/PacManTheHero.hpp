@@ -94,6 +94,9 @@ namespace pacman{namespace impl{
         
         void GetNotified(LiftData& data, const SettingsObservation& condition) override;
         
+        void addMovable(const Position& p) override;
+        virtual void addMovable(const Position& p, float speed)override;
+        
         void setState(GameState* st){
             mInternalState.setGameState(st);
         }

@@ -108,7 +108,7 @@ Position PacManTheHero::getPosition(){
 
 
 void PacManTheHero::create(){
-    Settings::getInstance()->getCopyRenderer()->addRenderered(this, RenderLayer::ForeGround);
+    //Settings::getInstance()->getCopyRenderer()->addRenderered(this, RenderLayer::ForeGround);
     sSquareDim = Settings::getInstance()->getSquareDimension();
     mInternalState.setSpeed(Settings::getInstance()->getPacManSpeed());
     
@@ -135,15 +135,17 @@ void PacManTheHero::resetShape(){
 
 
 void PacManTheHero::PacManTheHero::destroy(){
-    Settings::getInstance()->getCopyRenderer()->clearRendererd(this);
+    //Settings::getInstance()->getCopyRenderer()->clearRendererd(this);
 }
 
 void PacManTheHero::work(){
     if(mReady){
         mInternalState.move();
+        //mHead.setPosition(mInternalState.getRefPosition().col, mInternalState.getRefPosition().row);
         mReady = false;
     }
     //mInternalState.getGameState()->print();
+    addMovable(mInternalState.getRefPosition());
 }
 
 void PacManTheHero::renderComplete(){
@@ -200,12 +202,24 @@ void PacManTheHero::kill(){
 }
 
 bool PacManTheHero::canBeRendered(){
-    mHead.setPosition(mInternalState.getRefPosition().col, mInternalState.getRefPosition().row);
+    
     return mRenderable;
 }
 
 sf::Shape* PacManTheHero::getShape(){
     return &mHead;
+}
+
+void PacManTheHero::addMovable(const Position& p)
+{
+    RenderingJob j = {this, p, 0.0, false};
+    Settings::getInstance()->getCopyRenderer()->addMovable(j);
+}
+
+void PacManTheHero::addMovable(const Position& p, float speed)
+{
+    RenderingJob j = {this, p, speed, true};
+    Settings::getInstance()->getCopyRenderer()->addMovable(j);
 }
 
 void PacManTheHero::GetNotified(LiftData& data, const SettingsObservation& condition){

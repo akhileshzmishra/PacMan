@@ -61,6 +61,11 @@ public:
     virtual const std::vector<sf::Shape*>* getShapes() override{
         return nullptr;
     }
+        
+    void addMovable(const Position& p) override;
+    virtual void addMovable(const Position& p, float speed)override{
+        
+    }
 
     virtual void renderComplete() override;
     void GetNotified(LiftData& data, const SettingsObservation& condition) override;
