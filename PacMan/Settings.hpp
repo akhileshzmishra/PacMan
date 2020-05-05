@@ -66,7 +66,7 @@ class Settings: public SettingSubject{
     IRendererPtr mRenderer;
     SQMatrixData mData;
     
-    float    mPacManSpeed = 15.0;
+    float    mPacManSpeed = .10;
     float    mGhostSpeed = 1.0;
     
 public:

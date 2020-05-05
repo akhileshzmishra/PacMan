@@ -62,6 +62,7 @@ void GameManager::create(){
 void GameManager::destroy(){
     if(mCreated){
         stop();
+        mPacMan.destroy();
         if(mDisplay){
             mDisplay->destroy();
         }

@@ -14,8 +14,11 @@
 #include "GameState.hpp"
 #include "ElementalSignal.h"
 #include "Utiliity.hpp"
+#include "BlockingQueue.h"
 
 namespace pacman{namespace impl{
+    
+    typedef BlockingQueue<Directions> DirectionsBlockingQueue;
     
     class PacManState{
         ISquarePtr           currentSquare;
@@ -65,8 +68,13 @@ namespace pacman{namespace impl{
         bool                            mRenderable = true;
         PacManState                     mInternalState;
         BoolSignal                      mSignal;
+        DirectionsBlockingQueue         mQueue;
+        std::unique_ptr<std::thread>    mPacManThread;
+        bool                            mContinueThread = true;
+        bool                            mCreated = false;
     public:
         PacManTheHero();
+        ~PacManTheHero();
         virtual void setPosition(const Position& p)override;
         virtual Position getPosition() override;
         virtual void create()override;

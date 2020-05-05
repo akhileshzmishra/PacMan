@@ -96,6 +96,10 @@ PacManTheHero::PacManTheHero(){
     
 }
 
+PacManTheHero::~PacManTheHero(){
+    destroy();
+}
+
 void PacManTheHero::setPosition(const Position& p){
     mInternalState.setPosition(p);
     mHead.setPosition(p.col, p.row);
@@ -122,7 +126,27 @@ void PacManTheHero::create(){
     Register(KeyPressedLeft);
     Register(KeyPressedRight);
     Register(SquareDimensionChange);
-
+    
+    mPacManThread.reset(new std::thread([this]{
+        while(mContinueThread){
+            auto value = mQueue.pop();
+            if(!value.second){
+                continue;
+            }
+            mInternalState.setDirections(value.first);
+            int diff = 100;
+            for(int i = 0; i < diff; i++){
+               
+                mInternalState.move();
+                //mHead.setPosition(mInternalState.getRefPosition().col, mInternalState.getRefPosition().row);
+                mReady = false;
+                //mInternalState.getGameState()->print();
+                addMovable(mInternalState.getRefPosition());
+            }
+            mSignal.signal();
+        }
+    }));
+    mCreated = true;
     mReady = false;
 }
 
@@ -135,16 +159,15 @@ void PacManTheHero::resetShape(){
 
 
 void PacManTheHero::PacManTheHero::destroy(){
-    //Settings::getInstance()->getCopyRenderer()->clearRendererd(this);
+    if(mCreated){
+        mContinueThread = false;
+        mSignal.wait();
+        mPacManThread.release();
+    }
+    mCreated = false;
 }
 
 void PacManTheHero::work(){
-    if(mReady){
-        mInternalState.move();
-        //mHead.setPosition(mInternalState.getRefPosition().col, mInternalState.getRefPosition().row);
-        mReady = false;
-    }
-    //mInternalState.getGameState()->print();
     addMovable(mInternalState.getRefPosition());
 }
 
@@ -225,19 +248,19 @@ void PacManTheHero::addMovable(const Position& p, float speed)
 void PacManTheHero::GetNotified(LiftData& data, const SettingsObservation& condition){
     if(condition == KeyPressedUp){
         mReady = true;
-        mInternalState.setDirections(UpDir);
+        mQueue.push(UpDir);
     }
     else if(condition == KeyPressedDown){
         mReady = true;
-        mInternalState.setDirections(DownDir);
+        mQueue.push(DownDir);
     }
     else if(condition == KeyPressedLeft){
         mReady = true;
-        mInternalState.setDirections(LeftDir);
+        mQueue.push(LeftDir);
     }
     else if(condition == KeyPressedRight){
         mReady = true;
-        mInternalState.setDirections(RightDir);
+        mQueue.push(RightDir);
     }
     else{
         sSquareDim = Settings::getInstance()->getSquareDimension();
