@@ -25,7 +25,7 @@ namespace  pacman {
         }
         virtual bool allows() = 0;
         virtual void setCoin(ICoinPtr ptr) = 0;
-        virtual ICoinPtr getGift() = 0;
+        virtual ICoinPtr getCoin() = 0;
         virtual void setSize(Dimension d) = 0;
         virtual void setOwner(IPlayBoard* ) = 0;
         virtual IPlayBoard* getOwner() = 0;

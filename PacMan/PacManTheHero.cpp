@@ -76,10 +76,10 @@ bool PacManState::examineIfReached(){
         setCurrentSquare(nxtSquare);
         mGameState->movePlayer(cd, nextCd);
         setCoordinates(nextCd);
-        if(nxtSquare->getGift()){
-            int value = nxtSquare->getGift()->getValue();
+        if(nxtSquare->getCoin()){
+            int value = nxtSquare->getCoin()->getValue();
             mGameState->addScore(value);
-            nxtSquare->getGift()->destroy();
+            nxtSquare->getCoin()->destroy();
             nxtSquare->setCoin(nullptr);
         }
     }

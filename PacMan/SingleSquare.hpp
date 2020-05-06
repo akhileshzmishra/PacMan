@@ -33,7 +33,7 @@ public:
     virtual void setPosition(const Position& p)  override;
     virtual Position getPosition()  override;
     virtual void setCoin(ICoinPtr ptr)override;
-    virtual ICoinPtr getGift()override;
+    virtual ICoinPtr getCoin()override;
     
     virtual void create() override;
     virtual void destroy() override;

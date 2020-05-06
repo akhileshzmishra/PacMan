@@ -126,7 +126,7 @@ void SingleSquare::positionCoin(){
     }
 }
 
-ICoinPtr SingleSquare::getGift(){
+ICoinPtr SingleSquare::getCoin(){
     return mCoin;
 }
 
