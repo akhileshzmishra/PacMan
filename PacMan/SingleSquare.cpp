@@ -18,9 +18,15 @@ mBBox(){
 }
 
 
-void SingleSquare::setPosition(const Position& p){
-    mBBox.referencePos = p;
-    mRect.setPosition(p.col, p.row);
+void SingleSquare::setPosition(const Position& q){
+    mBBox.referencePos = q;
+    mRect.setPosition(q.col, q.row);
+    auto coinDim = Settings::getInstance()->getCoinDimension();
+    auto sqDim = Settings::getInstance()->getSquareDimension();
+    Position p = mBBox.referencePos;
+    p.row += (sqDim.length - coinDim.length)/2;
+    p.col += (sqDim.width - coinDim.width)/2;
+    mCoin->setPosition(p);
 }
 
 Position SingleSquare::getPosition(){
@@ -73,7 +79,7 @@ void SingleSquare::createEmpty(){
 }
 
 void SingleSquare::createWall(){
-    mColor = Colors::WhiteColor;
+    mColor = Colors::WallColor;
     mRect.setSize(sf::Vector2f(mBBox.dimension.width, mBBox.dimension.length));
     mRect.setFillColor(sf::Color(mColor.red, mColor.green, mColor.blue));
     mRect.setPosition(mBBox.referencePos.col, mBBox.referencePos.row);
@@ -91,11 +97,18 @@ sf::Shape* SingleSquare::getShape(){
     return &mRect;
 }
 
-void SingleSquare::setGift(IGiftPtr ptr){
+void SingleSquare::setCoin(ICoinPtr ptr){
     mCoin = ptr;
+    mCoin->create();
+    auto coinDim = Settings::getInstance()->getCoinDimension();
+    auto sqDim = Settings::getInstance()->getSquareDimension();
+    Position p = mBBox.referencePos;
+    p.row += (sqDim.length - coinDim.length)/2;
+    p.col += (sqDim.width - coinDim.width)/2;
+    mCoin->setPosition(p);
 }
 
-IGiftPtr SingleSquare::getGift(){
+ICoinPtr SingleSquare::getGift(){
     return mCoin;
 }
 

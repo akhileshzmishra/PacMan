@@ -9,18 +9,21 @@
 #ifndef IGift_HPPPDP___
 #define IGift_HPPPDP___
 #include "IStaticObjects.h"
+#include "IRenderer.h"
 
 namespace  pacman {
 
-    class IGift: public IStaticObjects{
+    class ICoin: public IStaticObjects, public IRenderered{
     public:
-        virtual ~IGift(){}
-        virtual int offer() = 0;
+        virtual ~ICoin(){}
+        virtual int getValue() = 0;
+        virtual void setValue(int s) = 0;
         virtual bool makeZombie() = 0;
         virtual void makeEmpty() = 0;
+        virtual void setRenderable(bool s) = 0;
     };
 
-    DECLARE_SHARED(IGift);
+    DECLARE_SHARED(ICoin);
 
 }
 

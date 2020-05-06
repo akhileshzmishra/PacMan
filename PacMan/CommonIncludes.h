@@ -170,7 +170,7 @@ struct ColorRGB{
 };
 namespace Colors{
     const static ColorRGB WhiteColor(225, 225, 225);
-    const static ColorRGB WallColor(50, 50, 50);
+    const static ColorRGB WallColor(0, 0, 0);
     const static ColorRGB EmptyColor(152,223,138);
     const static ColorRGB CoinColor(188,189,34);
     const static ColorRGB BorderColor(112,50,21);

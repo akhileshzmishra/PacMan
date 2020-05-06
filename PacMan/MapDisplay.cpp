@@ -44,6 +44,8 @@ void MapDisplay::create(){
                 mRowCol[i][j] = std::make_shared<SingleSquare>();
                 mRowCol[i][j]->setType(mPlan->getType(coord));
                 mRowCol[i][j]->setCoordinates(coord);
+                auto coin = ObjectFactory::getCoins();
+                mRowCol[i][j]->setCoin(coin);
                 mRowCol[i][j]->create();
                 mRowCol[i][j]->setOwner(this);
             }

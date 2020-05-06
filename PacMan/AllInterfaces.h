@@ -16,7 +16,7 @@
 #include "interfaces/IPlayBoard.h"
 #include "interfaces/IRenderer.h"
 #include "interfaces/ISquare.h"
-#include "interfaces/IGift.h"
+#include "interfaces/ICoin.h"
 #include "interfaces/IThreadWork.h"
 #include "GraphicIncludes.h"
 #include "PacManTexts.h"

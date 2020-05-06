@@ -82,6 +82,21 @@ bool PacManState::examineIfReached(){
     return reached;
 }
 
+void PacManState::setDirection(Directions dir){
+    if(direction == dir){
+        if(mDirTimes >= mMaxDirTimes){
+            mDirTimes = mMaxDirTimes;
+        }
+        else{
+            mSpeed += Settings::getInstance()->getPacManSpeed();
+        }
+    }
+    else{
+        mSpeed = Settings::getInstance()->getPacManSpeed();
+    }
+    direction = dir;
+}
+
 void PacManState::recalculatePosition(){
     auto square = getCopyCurrentSquare();
     if(square){
@@ -126,26 +141,6 @@ void PacManTheHero::create(){
     Register(KeyPressedLeft);
     Register(KeyPressedRight);
     Register(SquareDimensionChange);
-    
-    mPacManThread.reset(new std::thread([this]{
-        while(mContinueThread){
-            auto value = mQueue.pop();
-            if(!value.second){
-                continue;
-            }
-            mInternalState.setDirections(value.first);
-            int diff = 100;
-            for(int i = 0; i < diff; i++){
-               
-                mInternalState.move();
-                //mHead.setPosition(mInternalState.getRefPosition().col, mInternalState.getRefPosition().row);
-                mReady = false;
-                //mInternalState.getGameState()->print();
-                addMovable(mInternalState.getRefPosition());
-            }
-            mSignal.signal();
-        }
-    }));
     mCreated = true;
     mReady = false;
 }
@@ -161,13 +156,17 @@ void PacManTheHero::resetShape(){
 void PacManTheHero::PacManTheHero::destroy(){
     if(mCreated){
         mContinueThread = false;
-        mSignal.wait();
+        //mSignal.wait();
         mPacManThread.release();
     }
     mCreated = false;
 }
 
 void PacManTheHero::work(){
+    mInternalState.move();
+    //mHead.setPosition(mInternalState.getRefPosition().col, mInternalState.getRefPosition().row);
+    mReady = false;
+    //mInternalState.getGameState()->print();
     addMovable(mInternalState.getRefPosition());
 }
 
@@ -248,19 +247,19 @@ void PacManTheHero::addMovable(const Position& p, float speed)
 void PacManTheHero::GetNotified(LiftData& data, const SettingsObservation& condition){
     if(condition == KeyPressedUp){
         mReady = true;
-        mQueue.push(UpDir);
+        mInternalState.setDirection(UpDir);
     }
     else if(condition == KeyPressedDown){
         mReady = true;
-        mQueue.push(DownDir);
+        mInternalState.setDirection(DownDir);
     }
     else if(condition == KeyPressedLeft){
         mReady = true;
-        mQueue.push(LeftDir);
+        mInternalState.setDirection(LeftDir);
     }
     else if(condition == KeyPressedRight){
         mReady = true;
-        mQueue.push(RightDir);
+        mInternalState.setDirection(RightDir);
     }
     else{
         sSquareDim = Settings::getInstance()->getSquareDimension();

@@ -12,6 +12,7 @@
 #include "Ghost.hpp"
 #include "GhostUnchartedStrategy.hpp"
 #include "GameManager.hpp"
+#include "Consumable.hpp"
 
 using namespace pacman;
 using namespace pacman::impl;
@@ -40,4 +41,8 @@ IGhostMoveStrategyPtr ObjectFactory::getUnchartedMoveStrategy(GameState& st){
 GhostWorkerPtr ObjectFactory::getGhostWorker(IBluePrintPtr ptr)
 {
     return std::make_shared<GhostWorker>(ptr);
+}
+
+ICoinPtr ObjectFactory::getCoins(){
+    return std::make_shared<Consumable>();
 }

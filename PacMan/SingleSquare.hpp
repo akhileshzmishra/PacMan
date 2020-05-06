@@ -18,7 +18,7 @@ class SingleSquare: public ISquare{
     BoundingBox                               mBBox;
     sf::RectangleShape                        mRect;
     ColorRGB                                  mColor;
-    IGiftPtr                                  mCoin;
+    ICoinPtr                                  mCoin;
     bool                                      mCreate = false;
     IPlayBoard*                               mPlayBoard = nullptr;
     bool                                      mRenderable = true;
@@ -30,8 +30,8 @@ public:
     }
     virtual void setPosition(const Position& p)  override;
     virtual Position getPosition()  override;
-    virtual void setGift(IGiftPtr ptr)override;
-    virtual IGiftPtr getGift()override;
+    virtual void setCoin(ICoinPtr ptr)override;
+    virtual ICoinPtr getGift()override;
     
     virtual void create() override;
     virtual void destroy() override;

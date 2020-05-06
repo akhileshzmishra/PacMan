@@ -9,7 +9,7 @@
 #ifndef ISquare_h
 #define ISquare_h
 #include "IStaticObjects.h"
-#include "IGift.h"
+#include "ICoin.h"
 #include "IPlayer.h"
 #include "IRenderer.h"
 
@@ -24,8 +24,8 @@ namespace  pacman {
             return false;
         }
         virtual bool allows() = 0;
-        virtual void setGift(IGiftPtr ptr) = 0;
-        virtual IGiftPtr getGift() = 0;
+        virtual void setCoin(ICoinPtr ptr) = 0;
+        virtual ICoinPtr getGift() = 0;
         virtual void setSize(Dimension d) = 0;
         virtual void setOwner(IPlayBoard* ) = 0;
         virtual IPlayBoard* getOwner() = 0;

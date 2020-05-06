@@ -23,7 +23,7 @@ namespace pacman{namespace impl{
     class PacManState{
         ISquarePtr           currentSquare;
         Position             currentPosition;
-        Directions           direction;
+        Directions           direction = InvalidDir;
         float                mSpeed = 5.0;
         IPlayBoardWeakPtr    playboard;
         GameState*           mGameState;
@@ -31,15 +31,21 @@ namespace pacman{namespace impl{
         DirectionDeltaList   mDelta;
         Dimension            mPacmanDim;
         Coordinates          coordinates;
+        int                  mDirTimes = 1;
+        const int            mMaxDirTimes  = 5;
     public:
         PacManState();
         GENERIC_GETTER_SETTER(CurrentSquare,      currentSquare,      ISquarePtr)
-        GENERIC_GETTER_SETTER(Directions,         direction,          Directions)
         GENERIC_GETTER_SETTER(Speed,              mSpeed,             float)
         GENERIC_GETTER_SETPTR(GameState,          mGameState,         GameState)
         GENERIC_GETTER_SETTER(Dimension,          mBBox.dimension,    Dimension)
         GENERIC_GETTER_SETTER(Position,           currentPosition,    Position)
         GENERIC_GETTER_SETTER(Coordinates,        coordinates,        Coordinates)
+        
+        void setDirection(Directions dir);
+        Directions getDirection(){
+            return direction;
+        }
         void setPlayboard(IPlayBoardWeakPtr ptr){
             playboard = ptr;
         }

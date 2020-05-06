@@ -27,6 +27,7 @@ public:
     static IGhostPtr getGhost();
     static IGhostMoveStrategyPtr getUnchartedMoveStrategy(GameState& st);
     static GhostWorkerPtr getGhostWorker(IBluePrintPtr ptr);
+    static ICoinPtr getCoins();
 };
         
 }}

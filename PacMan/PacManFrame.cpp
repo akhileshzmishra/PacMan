@@ -37,7 +37,8 @@ void PacManFrame::run(){
         while (mWindow.pollEvent(event)){
             if ((event.type == sf::Event::Closed) ||
                 ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape))){
-                mWindow.close();
+                mGameEnded = true;
+                break;
             }
             else if(event.type == sf::Event::Resized){
                 setTotalSizes();
@@ -62,18 +63,17 @@ void PacManFrame::run(){
                 }
             }
         }
-        if(mGameEnded){
-            onGameEnded();
-            mWindow.close();
-            break;
-        }
-        else{
+        if(!mGameEnded){
             mPlayBoard->play();
             displayBackground();
             displayForeground();
             displayQueue();
+            mWindow.display();
         }
-        mWindow.display();
+        else{
+            onGameEnded();
+            mWindow.close();
+        }
     }
     destroy();
 }
@@ -119,21 +119,22 @@ void PacManFrame::displayForeground(){
 }
 
 void PacManFrame::onGameEnded(){
-    mWindow.draw(mGameEndedText);
     mWindow.draw(mEndRect);
+    mWindow.draw(mGameEndedText);
     mWindow.display();
-    std::this_thread::sleep_for(std::chrono::seconds(5));
+    std::this_thread::sleep_for(std::chrono::seconds(3));
 }
 
 void PacManFrame::create(){
     Settings::getInstance()->setRenderer(shared_from_this());
     Register(SettingsObservation::GameHasEnded);
     auto Winpos = Settings::getInstance()->getWindowDimension();
-    mGameEndedText.setPosition(0, 0);
+    mGameEndedText.setPosition(40, 40);
     mGameEndedText.setString(GAME_OVER);
     mEndRect.setSize(sf::Vector2f(Winpos.length, Winpos.width));
     mEndRect.setFillColor(sf::Color::Black);
     mGameEndedText.setFillColor(sf::Color::White);
+    mGameEndedText.setCharacterSize(10);
     
     mPlayBoard = ObjectFactory::getGameManager();
     mPlayBoard->create();

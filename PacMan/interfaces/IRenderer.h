@@ -20,8 +20,9 @@ DECLARE_SHARED(IRenderered);
 typedef std::vector<sf::Shape*> ShapeList;
 enum RenderLayer{
     Background = 0,
-    ForeGround = 1,
-    MaxLayer = 2
+    Middleground = 1,
+    ForeGround = 2,
+    MaxLayer = 3
 };
     
 struct RenderingJob{

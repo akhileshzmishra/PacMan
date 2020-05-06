@@ -105,7 +105,7 @@
 		1EB57EA6245E6EB100665D42 /* PacManTheHero.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PacManTheHero.cpp; sourceTree = "<group>"; };
 		1EB57EA7245E6EB100665D42 /* PacManTheHero.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PacManTheHero.hpp; sourceTree = "<group>"; };
 		1EB57EB7245F3CCC00665D42 /* IPlayBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPlayBoard.h; sourceTree = "<group>"; };
-		1EB57EB8245F3CCC00665D42 /* IGift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IGift.h; sourceTree = "<group>"; };
+		1EB57EB8245F3CCC00665D42 /* ICoin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICoin.h; sourceTree = "<group>"; };
 		1EB57EB9245F3CCC00665D42 /* IBluePrint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IBluePrint.h; sourceTree = "<group>"; };
 		1EB57EBA245F3CCC00665D42 /* PrimaryObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrimaryObject.h; sourceTree = "<group>"; };
 		1EB57EBC245F3CCC00665D42 /* ISquare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISquare.h; sourceTree = "<group>"; };
@@ -202,7 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				1EB57EB7245F3CCC00665D42 /* IPlayBoard.h */,
-				1EB57EB8245F3CCC00665D42 /* IGift.h */,
+				1EB57EB8245F3CCC00665D42 /* ICoin.h */,
 				1EB57EB9245F3CCC00665D42 /* IBluePrint.h */,
 				1EB57EBA245F3CCC00665D42 /* PrimaryObject.h */,
 				1EB57EBC245F3CCC00665D42 /* ISquare.h */,
