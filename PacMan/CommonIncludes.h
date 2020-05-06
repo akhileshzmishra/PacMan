@@ -174,6 +174,7 @@ namespace Colors{
     const static ColorRGB EmptyColor(152,223,138);
     const static ColorRGB CoinColor(188,189,34);
     const static ColorRGB BorderColor(112,50,21);
+    const static ColorRGB BlackColor(0, 0, 0);
 }
     
     

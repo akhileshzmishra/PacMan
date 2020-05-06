@@ -27,11 +27,11 @@ void Consumable::makeEmpty(){
 
 void Consumable::setPosition(const Position& p){
     mBBox.referencePos = p;
-    mCircleDisplay.setPosition(p.col, p.row);
+    createData();
 }
 
 bool Consumable::canBeRendered(){
-    return mRenderable;
+    return mRenderable || true;
 }
 
 const ShapeList* Consumable::getShapes(){
@@ -50,9 +50,11 @@ ZombieMakerConsumable::ZombieMakerConsumable(BoundingBox& dim){
 
 void Consumable::createData(){
     mColor = Colors::CoinColor;
-    mCircleDisplay.setRadius(mBBox.dimension.length);
+    mBBox.dimension = Settings::getInstance()->getCoinDimension();
+    mCircleDisplay.setRadius(mBBox.dimension.length/2);
     mCircleDisplay.setFillColor(sf::Color(mColor.red, mColor.green, mColor.blue));
     mCircleDisplay.setPosition(mBBox.referencePos.col, mBBox.referencePos.row);
+    mCircleDisplay.setOutlineThickness(2.0);
 }
 void Consumable::create(){
     if(mbCreate) return;

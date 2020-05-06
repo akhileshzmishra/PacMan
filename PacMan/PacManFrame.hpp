@@ -50,6 +50,7 @@ namespace pacman { namespace impl{
         void GetNotified(LiftData& data, const SettingsObservation& condition) override;
     private:
         void displayBackground();
+        void displayMiddleground();
         void displayForeground();
         void displayQueue();
         void setTotalSizes();

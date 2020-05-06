@@ -21,12 +21,8 @@ mBBox(){
 void SingleSquare::setPosition(const Position& q){
     mBBox.referencePos = q;
     mRect.setPosition(q.col, q.row);
-    auto coinDim = Settings::getInstance()->getCoinDimension();
-    auto sqDim = Settings::getInstance()->getSquareDimension();
-    Position p = mBBox.referencePos;
-    p.row += (sqDim.length - coinDim.length)/2;
-    p.col += (sqDim.width - coinDim.width)/2;
-    mCoin->setPosition(p);
+    mAnimatron.setPosition(q.col, q.row);
+    positionCoin();
 }
 
 Position SingleSquare::getPosition(){
@@ -79,10 +75,13 @@ void SingleSquare::createEmpty(){
 }
 
 void SingleSquare::createWall(){
-    mColor = Colors::WallColor;
+    mColor = Colors::WhiteColor;
     mRect.setSize(sf::Vector2f(mBBox.dimension.width, mBBox.dimension.length));
     mRect.setFillColor(sf::Color(mColor.red, mColor.green, mColor.blue));
     mRect.setPosition(mBBox.referencePos.col, mBBox.referencePos.row);
+    mAnimatron.setRadius(mBBox.dimension.length);
+    mAnimatron.setFillColor(sf::Color::Blue);
+    mAnimatron.setPosition(mBBox.referencePos.col, mBBox.referencePos.row);
 }
 
 bool SingleSquare::canBeRendered(){
@@ -94,18 +93,37 @@ void SingleSquare::setRenderable(bool s){
 }
 
 sf::Shape* SingleSquare::getShape(){
+    if(mCoinAnimation > 0){
+        mCoinAnimation--;
+        return &mAnimatron;
+    }
     return &mRect;
 }
 
 void SingleSquare::setCoin(ICoinPtr ptr){
+    if(!ptr){
+        mCoinAnimation = 10;
+    }
+    if(mCoin){
+        mCoin->destroy();
+    }
     mCoin = ptr;
-    mCoin->create();
+    if(mCoin){
+        mCoin->setRenderable(true);
+        mCoin->create();
+        positionCoin();
+    }
+}
+
+void SingleSquare::positionCoin(){
     auto coinDim = Settings::getInstance()->getCoinDimension();
     auto sqDim = Settings::getInstance()->getSquareDimension();
     Position p = mBBox.referencePos;
     p.row += (sqDim.length - coinDim.length)/2;
     p.col += (sqDim.width - coinDim.width)/2;
-    mCoin->setPosition(p);
+    if(mCoin){
+        mCoin->setPosition(p);
+    }
 }
 
 ICoinPtr SingleSquare::getGift(){

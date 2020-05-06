@@ -66,6 +66,7 @@ void PacManFrame::run(){
         if(!mGameEnded){
             mPlayBoard->play();
             displayBackground();
+            displayMiddleground();
             displayForeground();
             displayQueue();
             mWindow.display();
@@ -108,6 +109,19 @@ void PacManFrame::displayBackground(){
 void PacManFrame::displayForeground(){
     for(auto itr = mRenderedList[(int)RenderLayer::ForeGround].begin();
         itr != mRenderedList[(int)RenderLayer::ForeGround].end(); itr++){
+        if(itr->first->canBeRendered()){
+            auto shape = itr->first->getShape();
+            if(shape){
+                mWindow.draw(*shape);
+            }
+            itr->first->renderComplete();
+        }
+    }
+}
+
+void PacManFrame::displayMiddleground(){
+    for(auto itr = mRenderedList[(int)RenderLayer::Middleground].begin();
+        itr != mRenderedList[(int)RenderLayer::Middleground].end(); itr++){
         if(itr->first->canBeRendered()){
             auto shape = itr->first->getShape();
             if(shape){

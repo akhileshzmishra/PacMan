@@ -17,11 +17,13 @@ class SingleSquare: public ISquare{
     int                                       mType;
     BoundingBox                               mBBox;
     sf::RectangleShape                        mRect;
+    sf::CircleShape                           mAnimatron;
     ColorRGB                                  mColor;
     ICoinPtr                                  mCoin;
     bool                                      mCreate = false;
     IPlayBoard*                               mPlayBoard = nullptr;
     bool                                      mRenderable = true;
+    int                                       mCoinAnimation = 0;
 public:
     SingleSquare(int type = mapElements::Empty);
 
@@ -60,6 +62,8 @@ private:
     void createEmpty();
     void createWall();
     void createData();
+    void positionCoin();
+    void animation();
 };
 
 DECLARE_SHARED(SingleSquare);
