@@ -22,6 +22,10 @@ class Consumable: public ICoin, public SettingObserver{
     bool                                      mZombie = false;
     bool                                      mRenderable = true;
     bool                                      mbCreate = false;
+    int                                       manimatron = 100;
+    int                                       mCounter = 100;
+    float                                     mRadius = 12.0;
+    bool                                      mAnimationAllowed = true;
 public:
     Consumable();
     int getValue() override{
@@ -50,6 +54,10 @@ public:
     virtual const ShapeList* getShapes()override;
     virtual sf::Shape* getShape()override;
     virtual void renderComplete()override;
+    virtual void hasBeenTaken() override;
+    virtual void setAnimation(bool s) override{
+        mAnimationAllowed = s;
+    }
     
     void GetNotified(LiftData& data, const SettingsObservation& condition) override;
 private:

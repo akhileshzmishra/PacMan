@@ -12,11 +12,11 @@
 using namespace pacman;
 using namespace pacman::impl;
 
-static const float WindowDim = 1080.0;
+static const float WindowDim = 1400;
 static const float BorderDim = 2.0;
-static const float SquareDim = 50.0;
+static const float SquareDim = 70;
 static const float CoinDim = 20.0;
-static const float GhostDim = 25.0;
+static const float GhostDim = 35;
 
 Settings::Settings(){
     

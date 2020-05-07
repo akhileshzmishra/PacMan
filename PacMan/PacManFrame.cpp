@@ -45,21 +45,23 @@ void PacManFrame::run(){
                 mFullDisplay = true;
             }
             else{
-                switch(event.key.code){
-                    case sf::Keyboard::A:
-                        GetSubject()->NotifyToObservers(liftData, KeyPressedLeft);
-                        break;
-                    case sf::Keyboard::D:
-                        GetSubject()->NotifyToObservers(liftData, KeyPressedRight);
-                        break;
-                    case sf::Keyboard::W:
-                        GetSubject()->NotifyToObservers(liftData, KeyPressedUp);
-                        break;
-                    case sf::Keyboard::Z:
-                        GetSubject()->NotifyToObservers(liftData, KeyPressedDown);
-                        break;
-                    default:
-                        break;
+                if(event.type == sf::Event::KeyPressed){
+                    switch(event.key.code){
+                        case sf::Keyboard::A:
+                            GetSubject()->NotifyToObservers(liftData, KeyPressedLeft);
+                            break;
+                        case sf::Keyboard::D:
+                            GetSubject()->NotifyToObservers(liftData, KeyPressedRight);
+                            break;
+                        case sf::Keyboard::W:
+                            GetSubject()->NotifyToObservers(liftData, KeyPressedUp);
+                            break;
+                        case sf::Keyboard::Z:
+                            GetSubject()->NotifyToObservers(liftData, KeyPressedDown);
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         }
@@ -88,6 +90,22 @@ void PacManFrame::displayQueue(){
         auto& first = popValue.first;
         if(!first.ptr || !first.ptr->getShape()){
             continue;
+        }
+        if(first.steps > 0){
+            auto shapee = first.ptr->getShape();
+            auto currentPositionV = shapee->getPosition();
+            Position currentP;
+            currentP.row = currentPositionV.y;
+            currentP.col = currentPositionV.x;
+            float deltaRow = (first.pos.row - currentP.row)/first.steps;
+            float deltaCol = (first.pos.col - currentP.col)/first.steps;
+            for(int i = 0; i < first.steps; i++){
+                currentP.row += deltaRow;
+                currentP.col += deltaCol;
+                shapee->setPosition(currentP.col, currentP.row);
+                mWindow.draw(*shapee);
+                //std::this_thread::sleep_for(std::chrono::milliseconds(20));
+            }
         }
         first.ptr->getShape()->setPosition(first.pos.col, first.pos.row);
         mWindow.draw(*(first.ptr->getShape()));

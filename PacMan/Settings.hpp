@@ -67,7 +67,9 @@ class Settings: public SettingSubject{
     SQMatrixData mData;
     
     float    mPacManSpeed = 0.20;
-    float    mGhostSpeed = 0.7;
+    float    mGhostSpeed = 0.5;
+    
+    bool      coinAnimation = false;
     
 public:
     static Settings* getInstance();
@@ -88,8 +90,9 @@ public:
     ColorRGB getWallColor();
     ColorRGB getCoinColor();
     
-    GENERIC_GETTER_SETTER(BluePrint, mBluePrint, IBluePrintPtr);
-    GENERIC_GETTER_SETTER(Renderer,  mRenderer,  IRendererPtr);
+    GENERIC_GETTER_SETTER(BluePrint,       mBluePrint,      IBluePrintPtr);
+    GENERIC_GETTER_SETTER(Renderer,        mRenderer,       IRendererPtr);
+    GENERIC_GETTER_SETTER(coinAnimation,   coinAnimation,   bool);
     
     void setWindowDimension(const Dimension& d);
     

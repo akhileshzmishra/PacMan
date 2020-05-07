@@ -55,7 +55,7 @@ bool GhostStateOnBoard::hasReached(Directions dir){
 
 void GhostStateOnBoard::correctPosition(){
     currentPos = nextPos;
-    mGhost->addMovable(nextPos);
+    mGhost->setPosition(nextPos);
 }
 
 bool GhostStateOnBoard::hasReached(){
@@ -72,7 +72,7 @@ void GhostStateOnBoard::move(){
     }
     
     mDelta.addToPositionWithSpeed(currentPos, mSpeed, mDirection);
-    mGhost->addMovable(currentPos);
+    mGhost->setPosition(currentPos);
 }
 
 

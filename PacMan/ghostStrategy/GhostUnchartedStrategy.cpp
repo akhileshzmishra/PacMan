@@ -25,24 +25,31 @@ DirSuggestion GhostUnchartedStrategy::suggestNextMove(const Coordinates& coordin
     if(!mState.isGhost(coordinates) || mState.getNeighbors(coordinates) == 0){
         return suggestion;
     }
-    if(mState.canGoTo(coordinates, curDir) && mState.getNeighbors(coordinates) == 2){
-        Coordinates nxt;
-        nxt.row = mDirectionDelta[curDir].rowDelta + coordinates.row;
-        nxt.col = mDirectionDelta[curDir].colDelta + coordinates.col;
-        suggestion.first = curDir;
-        suggestion.second = nxt;
-        return suggestion;
+    const Coordinates& playerCord = mState.getPlayerPosition();
+    bool attackMode = false;
+    if(Utility::getManhattanDistance(playerCord, coordinates) < mPursueDistance){
+        attackMode = true;
     }
-    
-    if(mState.getNeighbors(coordinates) >= 3){
-        Directions xx = (Directions)(rand()%4);
-        if(mState.canGoTo(coordinates, xx)){
+    if(!attackMode){
+        if(mState.canGoTo(coordinates, curDir) && mState.getNeighbors(coordinates) == 2){
             Coordinates nxt;
             nxt.row = mDirectionDelta[curDir].rowDelta + coordinates.row;
             nxt.col = mDirectionDelta[curDir].colDelta + coordinates.col;
             suggestion.first = curDir;
             suggestion.second = nxt;
             return suggestion;
+        }
+        
+        if(mState.getNeighbors(coordinates) >= 3){
+            Directions xx = (Directions)(rand()%4);
+            if(mState.canGoTo(coordinates, xx)){
+                Coordinates nxt;
+                nxt.row = mDirectionDelta[curDir].rowDelta + coordinates.row;
+                nxt.col = mDirectionDelta[curDir].colDelta + coordinates.col;
+                suggestion.first = curDir;
+                suggestion.second = nxt;
+                return suggestion;
+            }
         }
     }
     Directions outDir = curDir;
@@ -66,11 +73,19 @@ DirSuggestion GhostUnchartedStrategy::suggestNextMove(const Coordinates& coordin
             suggestion.first = (Directions)i;
             return suggestion;
         }
-        
-        if(minVal > mState.getBoardNum(nxt)){
-            minVal = mState.getBoardNum(nxt);
-            outDir = (Directions)i;
-            //break;
+        if(!attackMode){
+            if(minVal > mState.getBoardNum(nxt)){
+                minVal = mState.getBoardNum(nxt);
+                outDir = (Directions)i;
+                //break;
+            }
+        }
+        else{
+            auto manDist = Utility::getManhattanDistance(nxt, playerCord);
+            if(minVal > manDist){
+                minVal = manDist;
+                outDir = (Directions)i;
+            }
         }
     }
     if(minVal == MinInitialValue) return suggestion;

@@ -20,7 +20,9 @@ namespace  pacman {
         virtual void setValue(int s) = 0;
         virtual bool makeZombie() = 0;
         virtual void makeEmpty() = 0;
+        virtual void hasBeenTaken() = 0;
         virtual void setRenderable(bool s) = 0;
+        virtual void setAnimation(bool ) = 0;
     };
 
     DECLARE_SHARED(ICoin);

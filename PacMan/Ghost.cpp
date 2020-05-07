@@ -45,7 +45,7 @@ void Ghost::renderComplete(){
 }
 
 void Ghost::create(){
-    //Settings::getInstance()->getCopyRenderer()->addRenderered(this, RenderLayer::ForeGround);
+    Settings::getInstance()->getCopyRenderer()->addRenderered(this, RenderLayer::ForeGround);
     mRow = mBluePrint->getRow();
     mCol = mBluePrint->getCol();
     createData();
@@ -56,13 +56,13 @@ void Ghost::createData(){
     mBBox.dimension = Settings::getInstance()->getGhostDimension();
     SQuareDimension = Settings::getInstance()->getSquareDimension();
     //mHead.setPointCount(8);
-    
+    auto color = Colors::GhostColor;
     mHead.setRadius(mBBox.dimension.length);
-    mHead.setFillColor(sf::Color::Black);
+    mHead.setFillColor(sf::Color(color.red, color.green,color.blue));
 }
 
 void Ghost::destroy(){
-    //Settings::getInstance()->getCopyRenderer()->clearRendererd(this);
+    Settings::getInstance()->getCopyRenderer()->clearRendererd(this);
     DeRegister(MainWindowDimensionChange);
 }
 
@@ -101,7 +101,7 @@ void Ghost::setCurrentSquare(ISquarePtr ptr){
 
 void Ghost::addMovable(const Position& p)
 {
-    RenderingJob j = {this, p, 0.0, false};
+    RenderingJob j = {this, p, 0};
     Settings::getInstance()->getCopyRenderer()->addMovable(j);
 }
 

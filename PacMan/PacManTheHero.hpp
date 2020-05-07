@@ -54,12 +54,9 @@ namespace pacman{namespace impl{
             return mDelta;
         }
         
-        void move();
+        bool move();
         
         void recalculatePosition();
-        
-    private:
-        bool examineIfReached();
         
     };
     class PacManTheHero: public IPacMan, public IThreadWork,
@@ -78,6 +75,7 @@ namespace pacman{namespace impl{
         std::unique_ptr<std::thread>    mPacManThread;
         bool                            mContinueThread = true;
         bool                            mCreated = false;
+        bool                            mMovable = false;
     public:
         PacManTheHero();
         ~PacManTheHero();
@@ -109,7 +107,6 @@ namespace pacman{namespace impl{
         void GetNotified(LiftData& data, const SettingsObservation& condition) override;
         
         void addMovable(const Position& p) override;
-        virtual void addMovable(const Position& p, float speed)override;
         
         void setState(GameState* st){
             mInternalState.setGameState(st);

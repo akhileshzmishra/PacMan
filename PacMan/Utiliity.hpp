@@ -40,6 +40,25 @@ public:
 class Utility{
 public:
     static DirectionDeltaList getDirectionsDelta();
+    static size_t getManhattanDistance(const Coordinates& a, const Coordinates& b){
+        size_t rres;
+        size_t cres;
+        if(a.row > b.row){
+            rres = a.row - b.row;
+        }
+        else{
+            rres = b.row - a.row;
+        }
+        
+        if(a.col > b.col){
+            cres = a.col - b.col;
+        }
+        else{
+            cres = b.col - a.col;
+        }
+        
+        return rres + cres;
+    }
 };
 
 }}

@@ -16,23 +16,16 @@ PacManState::PacManState(){
     mDelta = Utility::getDirectionsDelta();
 }
 
-void PacManState::move(){
+bool PacManState::move(){
     if(mGameState){
         setCoordinates(mGameState->getPlayerPosition());
     }
     const Coordinates& cd = getRefCoordinates();
     if(!mGameState->canGoTo(cd, direction) || direction == InvalidDir){
-        return;
+        return false;
     }
     
-    if(!examineIfReached()){
-        mDelta.addToPositionWithSpeed(currentPosition, mSpeed, direction);
-    }
-}
-
-bool PacManState::examineIfReached(){
     auto brd = getBoard().lock();
-    const Coordinates& cd = getRefCoordinates();
     Coordinates nextCd = currentSquare->getRefCoordinates();
     mDelta.addToCoordinate(nextCd, direction);
     ISquarePtr nxtSquare = brd->getSquare(nextCd);
@@ -40,52 +33,17 @@ bool PacManState::examineIfReached(){
         return false;
     }
     Position nxt = nxtSquare->getPosition();
-    Position currSqPos = currentSquare->getPosition();
-    bool reached = false;
-    Position speedPos;
-    mDelta.addToPositionWithSpeed(speedPos, mSpeed, direction);
-    switch(direction){
-        case UpDir:
-            if(currentPosition.row + sSquareDim.width + speedPos.row <= currSqPos.row){
-                setPosition(nxt);
-                reached = true;
-            }
-            break;
-        case LeftDir:
-            if(currentPosition.col + sSquareDim.length + speedPos.col <= currSqPos.col ){
-                setPosition(nxt);
-                reached = true;
-            }
-            break;
-        case DownDir:
-            if(currentPosition.row + speedPos.row >= nxt.row){
-                setPosition(nxt);
-                reached = true;
-            }
-            break;
-        case RightDir:
-            if(currentPosition.col + speedPos.col  >= nxt.col){
-                setPosition(nxt);
-                reached = true;
-            }
-            break;
-        default:
-            break;
+    
+    setCurrentSquare(nxtSquare);
+    setPosition(nxt);
+    mGameState->movePlayer(cd, nextCd);
+    setCoordinates(nextCd);
+    if(nxtSquare->getCoin()){
+        int value = nxtSquare->getCoin()->getValue();
+        mGameState->addScore(value);
+        nxtSquare->resetCoin();
     }
-    if(reached){
-        setCurrentSquare(nxtSquare);
-        mGameState->movePlayer(cd, nextCd);
-        setCoordinates(nextCd);
-        if(nxtSquare->getCoin()){
-            int value = nxtSquare->getCoin()->getValue();
-            mGameState->addScore(value);
-            nxtSquare->getCoin()->destroy();
-            nxtSquare->setCoin(nullptr);
-        }
-    }
-    //nxtSquare->setRenderable(true);
-    //currentSquare->setRenderable(true);
-    return reached;
+    return true;
 }
 
 void PacManState::setDirection(Directions dir){
@@ -169,11 +127,15 @@ void PacManTheHero::PacManTheHero::destroy(){
 }
 
 void PacManTheHero::work(){
-    mInternalState.move();
-    //mHead.setPosition(mInternalState.getRefPosition().col, mInternalState.getRefPosition().row);
-    mReady = false;
-    //mInternalState.getGameState()->print();
-    addMovable(mInternalState.getRefPosition());
+    if(mReady){
+        mInternalState.move();
+        mReady = false;
+        mMovable = true;
+        addMovable(mInternalState.getRefPosition());
+    }
+    else{
+        addMovable(mInternalState.getRefPosition());
+    }
 }
 
 void PacManTheHero::renderComplete(){
@@ -240,15 +202,14 @@ sf::Shape* PacManTheHero::getShape(){
 
 void PacManTheHero::addMovable(const Position& p)
 {
-    RenderingJob j = {this, p, 0.0, false};
+    int times = 0;
+    if(mMovable){
+        times = 4;
+    }
+    RenderingJob j = {this, p, times};
     Settings::getInstance()->getCopyRenderer()->addMovable(j);
 }
 
-void PacManTheHero::addMovable(const Position& p, float speed)
-{
-    RenderingJob j = {this, p, speed, true};
-    Settings::getInstance()->getCopyRenderer()->addMovable(j);
-}
 
 void PacManTheHero::GetNotified(LiftData& data, const SettingsObservation& condition){
     if(condition == KeyPressedUp){

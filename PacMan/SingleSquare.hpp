@@ -23,7 +23,7 @@ class SingleSquare: public ISquare{
     bool                                      mCreate = false;
     IPlayBoard*                               mPlayBoard = nullptr;
     bool                                      mRenderable = true;
-    int                                       mCoinAnimation = 0;
+    bool                                      mCoinAnimation = false;
 public:
     SingleSquare(int type = mapElements::Empty);
 
@@ -34,6 +34,8 @@ public:
     virtual Position getPosition()  override;
     virtual void setCoin(ICoinPtr ptr)override;
     virtual ICoinPtr getCoin()override;
+    
+    virtual void resetCoin() override;
     
     virtual void create() override;
     virtual void destroy() override;

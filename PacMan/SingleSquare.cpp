@@ -75,13 +75,10 @@ void SingleSquare::createEmpty(){
 }
 
 void SingleSquare::createWall(){
-    mColor = Colors::WhiteColor;
+    mColor = Colors::WallColor;
     mRect.setSize(sf::Vector2f(mBBox.dimension.width, mBBox.dimension.length));
     mRect.setFillColor(sf::Color(mColor.red, mColor.green, mColor.blue));
     mRect.setPosition(mBBox.referencePos.col, mBBox.referencePos.row);
-    mAnimatron.setRadius(mBBox.dimension.length);
-    mAnimatron.setFillColor(sf::Color::Blue);
-    mAnimatron.setPosition(mBBox.referencePos.col, mBBox.referencePos.row);
 }
 
 bool SingleSquare::canBeRendered(){
@@ -93,23 +90,21 @@ void SingleSquare::setRenderable(bool s){
 }
 
 sf::Shape* SingleSquare::getShape(){
-    if(mCoinAnimation > 0){
-        mCoinAnimation--;
-        return &mAnimatron;
-    }
     return &mRect;
 }
 
 void SingleSquare::setCoin(ICoinPtr ptr){
-    if(mCoin){
-        mCoin->destroy();
-        mCoinAnimation = 10;
-    }
     mCoin = ptr;
     if(mCoin){
         mCoin->setRenderable(true);
         mCoin->create();
         positionCoin();
+    }
+}
+
+void SingleSquare::resetCoin(){
+    if(mCoin){
+        mCoin->hasBeenTaken();
     }
 }
 

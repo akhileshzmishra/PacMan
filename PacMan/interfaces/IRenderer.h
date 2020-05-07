@@ -26,10 +26,9 @@ enum RenderLayer{
 };
     
 struct RenderingJob{
-    IRenderered* ptr = nullptr;
-    Position   pos;
-    float      speed = 0.2;
-    bool       ifSpeed = false;
+    IRenderered*   ptr = nullptr;
+    Position       pos;
+    int            steps = 0;
 };
 
 class IRenderer{
