@@ -101,11 +101,9 @@ sf::Shape* SingleSquare::getShape(){
 }
 
 void SingleSquare::setCoin(ICoinPtr ptr){
-    if(!ptr){
-        mCoinAnimation = 10;
-    }
     if(mCoin){
         mCoin->destroy();
+        mCoinAnimation = 10;
     }
     mCoin = ptr;
     if(mCoin){
