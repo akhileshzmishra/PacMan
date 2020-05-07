@@ -1,5 +1,7 @@
 # PacMan
 
+![playdesc](https://github.com/akhileshzmishra/PacMan/blob/master/images/displayPacman.png)
+
 ## Work Done as of now
 1. Score Calculation in progress
 2. Basic play is done.
