@@ -37,7 +37,7 @@ bool Consumable::canBeRendered(){
 const ShapeList* Consumable::getShapes(){
     return nullptr;
 }
-sf::Shape* Consumable::getShape(){
+DrawableObject* Consumable::getShape(){
     if(mAnimationAllowed){
         if(manimatron > 0){
             manimatron--;
@@ -71,6 +71,16 @@ void Consumable::hasBeenTaken(){
 ZombieMakerConsumable::ZombieMakerConsumable(){
     setZombie(true);
     setAnimation(true);
+}
+
+void Consumable::setRenderable(bool s){
+    mRenderable = s;
+    if(mRenderable){
+        Settings::getInstance()->getCopyRenderer()->addRenderered(this, Middleground);
+    }
+    else{
+        Settings::getInstance()->getCopyRenderer()->clearRendererd(this);
+    }
 }
 
 void Consumable::createData(){

@@ -113,7 +113,7 @@ namespace pacman{namespace impl{
         }
         
         virtual bool canBeRendered()override;
-        virtual sf::Shape* getShape()override;
+        virtual DrawableObject* getShape()override;
         void setRenderable(bool s)override{
             mRenderable = s;
         }

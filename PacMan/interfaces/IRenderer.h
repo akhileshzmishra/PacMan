@@ -17,7 +17,8 @@ class IRenderer;
 DECLARE_SHARED(IRenderer);
 DECLARE_SHARED(IRenderered);
     
-typedef std::vector<sf::Shape*> ShapeList;
+typedef sf::Drawable DrawableObject;
+typedef std::vector<DrawableObject*> ShapeList;
 enum RenderLayer{
     Background = 0,
     Middleground = 1,
@@ -45,7 +46,7 @@ public:
     virtual ~IRenderered(){}
     virtual bool canBeRendered() = 0;
     virtual const ShapeList* getShapes() = 0;
-    virtual sf::Shape* getShape() = 0;
+    virtual sf::Drawable* getShape() = 0;
     virtual void renderComplete() = 0;
 };
 

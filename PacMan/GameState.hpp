@@ -109,6 +109,7 @@ namespace pacman {namespace impl{
         size_t                        mRows;
         size_t                        mCols;
         std::recursive_mutex          mMutex;
+        int                           mLives = 0;
         typedef std::lock_guard<std::recursive_mutex> Lock;
         
     public:
@@ -216,8 +217,19 @@ namespace pacman {namespace impl{
             mScore += s;
         }
         
+        int getScore(){
+            return mScore;
+        }
+        
         bool isCoordinateOK(const Coordinates& c) const{
             return c.row < mRows && c.col < mCols;
+        }
+        
+        int getLives(){
+            return mLives;
+        }
+        void setLives(int s){
+            mLives = s;
         }
     private:
         void create(){

@@ -91,8 +91,12 @@ void PacManFrame::displayQueue(){
         if(!first.ptr || !first.ptr->getShape()){
             continue;
         }
+        auto drawable = first.ptr->getShape();
+        auto shapee = dynamic_cast<sf::Shape*>(drawable);
+        if(!shapee){
+            continue;
+        }
         if(first.steps > 0){
-            auto shapee = first.ptr->getShape();
             auto currentPositionV = shapee->getPosition();
             Position currentP;
             currentP.row = currentPositionV.y;
@@ -107,8 +111,8 @@ void PacManFrame::displayQueue(){
                 //std::this_thread::sleep_for(std::chrono::milliseconds(20));
             }
         }
-        first.ptr->getShape()->setPosition(first.pos.col, first.pos.row);
-        mWindow.draw(*(first.ptr->getShape()));
+        shapee->setPosition(first.pos.col, first.pos.row);
+        mWindow.draw(*shapee);
     }
 }
 

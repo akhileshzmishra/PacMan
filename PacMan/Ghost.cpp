@@ -16,7 +16,7 @@ bool Ghost::canBeRendered(){
     return mRenderable;
 }
 
-sf::Shape* Ghost::getShape(){
+DrawableObject* Ghost::getShape(){
     return &mHead;
 }
 

@@ -48,11 +48,11 @@ public:
     }
     
     void setZombie(bool s)                         {mZombie = s;}
-    void setRenderable(bool s)override             {mRenderable = s;}
+    void setRenderable(bool s)override;
     
     virtual bool canBeRendered()override;
     virtual const ShapeList* getShapes()override;
-    virtual sf::Shape* getShape()override;
+    virtual DrawableObject* getShape()override;
     virtual void renderComplete()override;
     virtual void hasBeenTaken() override;
     virtual void setAnimation(bool s) override{

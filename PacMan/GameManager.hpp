@@ -13,6 +13,7 @@
 #include "MapDisplay.hpp"
 #include "BluePrint.hpp"
 #include "PacManTheHero.hpp"
+#include "ScoreCard.hpp"
 
 namespace pacman {namespace impl{
 
@@ -28,6 +29,7 @@ class GameManager: public IGameManager{
     bool                                      mPause = false;
     BoolSignal                                mSignal;
     bool                                      mCreated = false;
+    ScoreCard                                 mScoreCard;
 public:
     GameManager();
     GENERIC_GETTER_SETTER(SquareDim,   mBBox,    BoundingBox);

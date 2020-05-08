@@ -54,11 +54,11 @@ public:
     virtual void died()override;
     
     virtual bool canBeRendered()override;
-    virtual sf::Shape* getShape()override;
+    virtual DrawableObject* getShape()override;
     void setRenderable(bool s) override{
         mRenderable = s;
     }
-    virtual const std::vector<sf::Shape*>* getShapes() override{
+    virtual const ShapeList* getShapes() override{
         return nullptr;
     }
         

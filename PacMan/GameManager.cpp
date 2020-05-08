@@ -55,7 +55,10 @@ void GameManager::create(){
     mGhostWorker->create();
     st = mGhostWorker->getState();
     mPacMan.setState(st);
+    mScoreCard.setGameState(st);
+    mScoreCard.create();
     createAndRun();
+    st->setLives(Settings::getInstance()->getCopyLives());
     mCreated = true;
 }
 
@@ -63,6 +66,7 @@ void GameManager::destroy(){
     if(mCreated){
         stop();
         mPacMan.destroy();
+        mScoreCard.destroy();
         if(mDisplay){
             mDisplay->destroy();
         }

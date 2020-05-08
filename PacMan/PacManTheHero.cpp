@@ -196,7 +196,7 @@ bool PacManTheHero::canBeRendered(){
     return mRenderable;
 }
 
-sf::Shape* PacManTheHero::getShape(){
+DrawableObject* PacManTheHero::getShape(){
     return &mHead;
 }
 

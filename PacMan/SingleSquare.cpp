@@ -89,7 +89,7 @@ void SingleSquare::setRenderable(bool s){
     mRenderable = s;
 }
 
-sf::Shape* SingleSquare::getShape(){
+DrawableObject* SingleSquare::getShape(){
     return &mRect;
 }
 
@@ -104,7 +104,7 @@ void SingleSquare::setCoin(ICoinPtr ptr){
 
 void SingleSquare::resetCoin(){
     if(mCoin){
-        mCoin->hasBeenTaken();
+        mCoin->setRenderable(false);
     }
 }
 

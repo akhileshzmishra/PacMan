@@ -70,7 +70,7 @@ class Settings: public SettingSubject{
     float    mGhostSpeed = 0.7;
     
     bool      coinAnimation = false;
-    
+    int       mTotalLives = 5;
 public:
     static Settings* getInstance();
     void start();
@@ -93,6 +93,7 @@ public:
     GENERIC_GETTER_SETTER(BluePrint,       mBluePrint,      IBluePrintPtr);
     GENERIC_GETTER_SETTER(Renderer,        mRenderer,       IRendererPtr);
     GENERIC_GETTER_SETTER(coinAnimation,   coinAnimation,   bool);
+    GENERIC_GETTER_SETTER(Lives,           mTotalLives,     int);
     
     void setWindowDimension(const Dimension& d);
     
