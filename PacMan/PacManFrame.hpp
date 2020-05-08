@@ -24,6 +24,7 @@ namespace pacman { namespace impl{
         sf::RenderWindow                mWindow;
         sf::RectangleShape              mEndRect;
         sf::Text                        mGameEndedText;
+        sf::Font                        mfont;
         RenderedList                    mRenderedList[RenderLayer::MaxLayer];
         IGameManagerPtr                 mPlayBoard;
         bool                            mFullDisplay = false;

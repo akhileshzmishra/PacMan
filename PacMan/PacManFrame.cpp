@@ -165,12 +165,14 @@ void PacManFrame::create(){
     Settings::getInstance()->setRenderer(shared_from_this());
     Register(SettingsObservation::GameHasEnded);
     auto Winpos = Settings::getInstance()->getWindowDimension();
-    mGameEndedText.setPosition(40, 40);
+    mGameEndedText.setPosition(Winpos.length/2, Winpos.width/2);
     mGameEndedText.setString(GAME_OVER);
     mEndRect.setSize(sf::Vector2f(Winpos.length, Winpos.width));
     mEndRect.setFillColor(sf::Color::Black);
+    mfont.loadFromFile("arial.ttf");
+    mGameEndedText.setFont(mfont);
     mGameEndedText.setFillColor(sf::Color::White);
-    mGameEndedText.setCharacterSize(10);
+    mGameEndedText.setCharacterSize(60);
     
     mPlayBoard = ObjectFactory::getGameManager();
     mPlayBoard->create();
