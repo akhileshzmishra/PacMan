@@ -67,7 +67,7 @@ class Settings: public SettingSubject{
     SQMatrixData mData;
     
     float    mPacManSpeed = 0.20;
-    float    mGhostSpeed = 0.5;
+    float    mGhostSpeed = 0.7;
     
     bool      coinAnimation = false;
     

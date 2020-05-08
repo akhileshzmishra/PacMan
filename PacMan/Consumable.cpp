@@ -41,15 +41,14 @@ sf::Shape* Consumable::getShape(){
     if(mAnimationAllowed){
         if(manimatron > 0){
             manimatron--;
-            if(manimatron%10 == 0){
-                mCounter--;
-            }
-            mCircleDisplay.setRadius(mRadius + 0.05*mCounter);
+            mCircleDisplay.setRadius(mRadius + 0.01*manimatron);
+        }
+        else if(manimatron <= -100){
+            manimatron = 100;
         }
         else{
-            mCircleDisplay.setRadius(mRadius);
-            manimatron = 100;
-            mCounter = 100;
+            manimatron--;
+            mCircleDisplay.setRadius(mRadius + 0.01*manimatron);
         }
     }
     return &mCircleDisplay;
@@ -69,8 +68,9 @@ void Consumable::hasBeenTaken(){
     Settings::getInstance()->getCopyRenderer()->clearRendererd(this);
 }
 
-ZombieMakerConsumable::ZombieMakerConsumable(BoundingBox& dim){
+ZombieMakerConsumable::ZombieMakerConsumable(){
     setZombie(true);
+    setAnimation(true);
 }
 
 void Consumable::createData(){
@@ -81,7 +81,7 @@ void Consumable::createData(){
     mCircleDisplay.setFillColor(sf::Color(mColor.red, mColor.green, mColor.blue));
     mCircleDisplay.setPosition(mBBox.referencePos.col, mBBox.referencePos.row);
     mCircleDisplay.setOutlineThickness(2.0);
-    mAnimationAllowed = Settings::getInstance()->getCopycoinAnimation();
+    //mAnimationAllowed = Settings::getInstance()->getCopycoinAnimation();
 }
 void Consumable::create(){
     if(mbCreate) return;

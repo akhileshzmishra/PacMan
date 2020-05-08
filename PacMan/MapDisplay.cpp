@@ -37,7 +37,7 @@ void MapDisplay::create(){
         mRows = mPlan->getRow();
         mCols = mPlan->getCol();
         mRowCol = RowCol(mRows, OneRow(mCols, nullptr));
-        
+        int count = 0;
         for(size_t i = 0; i < mRows; i++){
             for(size_t j = 0; j < mCols; j++){
                 Coordinates coord(i, j);
@@ -47,9 +47,16 @@ void MapDisplay::create(){
                 mRowCol[i][j]->create();
                 mRowCol[i][j]->setOwner(this);
                 if(!mPlan->isWall(coord)){
-                    auto coin = ObjectFactory::getCoins();
-                    mRowCol[i][j]->setCoin(coin);
+                    if(count%5 == 0){
+                        auto coin = ObjectFactory::getCoins(Mega);
+                        mRowCol[i][j]->setCoin(coin);
+                    }
+                    else{
+                        auto coin = ObjectFactory::getCoins(Regular);
+                        mRowCol[i][j]->setCoin(coin);
+                    }
                 }
+                count++;
             }
         }
         calculatePositions();

@@ -19,7 +19,7 @@ namespace pacman { namespace impl{
         const GameState&              mState;
         IBluePrintPtr                 mPrint;
         DirectionDeltaList            mDirectionDelta;
-        size_t                        mPursueDistance = 5;
+        size_t                        mPursueDistance = 9;
     public:
         GhostUnchartedStrategy(const GameState& st);
         virtual void setBluePrint(IBluePrintPtr ptr)override;

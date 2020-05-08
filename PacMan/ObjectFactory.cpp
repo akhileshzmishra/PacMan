@@ -43,6 +43,9 @@ GhostWorkerPtr ObjectFactory::getGhostWorker(IBluePrintPtr ptr)
     return std::make_shared<GhostWorker>(ptr);
 }
 
-ICoinPtr ObjectFactory::getCoins(){
-    return std::make_shared<Consumable>();
+ICoinPtr ObjectFactory::getCoins(CoinType t){
+    if (t == Regular){
+        return std::make_shared<Consumable>();
+    }
+    return std::make_shared<ZombieMakerConsumable>();
 }

@@ -25,7 +25,7 @@ class Consumable: public ICoin, public SettingObserver{
     int                                       manimatron = 100;
     int                                       mCounter = 100;
     float                                     mRadius = 12.0;
-    bool                                      mAnimationAllowed = true;
+    bool                                      mAnimationAllowed = false;
 public:
     Consumable();
     int getValue() override{
@@ -67,7 +67,7 @@ private:
 
 class ZombieMakerConsumable: public Consumable{
 public:
-    ZombieMakerConsumable(BoundingBox& dim);
+    ZombieMakerConsumable();
 };
     
 }}
