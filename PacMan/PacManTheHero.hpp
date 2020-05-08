@@ -18,7 +18,7 @@
 
 namespace pacman{namespace impl{
     
-    typedef BlockingQueue<Directions> DirectionsBlockingQueue;
+    typedef BlockingQueue<Directions, false> DirectionsBlockingQueue;
     
     class PacManState{
         ISquarePtr           currentSquare;

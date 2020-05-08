@@ -15,7 +15,7 @@
 
 namespace pacman {namespace impl{
     
-typedef BlockingQueue<RenderingJob> RenderingQueue;
+typedef BlockingQueue<RenderingJob, false> RenderingQueue;
 struct RenderedProperty{
     bool              active;
 };
