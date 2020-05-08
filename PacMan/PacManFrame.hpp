@@ -12,50 +12,34 @@
 #include "AllInterfaces.h"
 #include "Settings.hpp"
 #include "BlockingQueue.h"
+#include "MainGameWindow.hpp"
 
 namespace pacman { namespace impl{
-    typedef BlockingQueue<RenderingJob> RenderingQueue;
-    struct RenderedProperty{
-        bool              active;
-    };
-    typedef std::unordered_map<IRenderered*, RenderedProperty>  RenderedList;
-    class PacManFrame: public IRenderer, public SettingObserver,
-    public std::enable_shared_from_this<PacManFrame>{
+    
+    class PacManFrame: public SettingObserver, public IWindowStateMachine{
         sf::RenderWindow                mWindow;
-        sf::RectangleShape              mEndRect;
-        sf::Text                        mGameEndedText;
-        sf::Font                        mfont;
-        RenderedList                    mRenderedList[RenderLayer::MaxLayer];
-        IGameManagerPtr                 mPlayBoard;
-        bool                            mFullDisplay = false;
+        IWindowStatePtr                 mCurrentState;
         bool                            mGameEnded = false;
-        RenderingQueue                  mQueue;
-        bool                            mCreated = false;
+        bool                            mFullDisplay = false;
+        std::string                     mCurrentStatString;
     public:
         PacManFrame();
         ~PacManFrame();
-        virtual void addRenderered(IRenderered*  , RenderLayer layer)override;
-        virtual void clearRendererd(IRenderered* )override;
         void run();
         
         void create();
         
         void destroy();
         
-        void setGameManager(IGameManagerPtr board){
-            mPlayBoard = board;
-        }
-        
-        void addMovable(RenderingJob& j) override;
         
         void GetNotified(LiftData& data, const SettingsObservation& condition) override;
+        
+        virtual void goToNextState() override;
+        
     private:
-        void displayBackground();
-        void displayMiddleground();
-        void displayForeground();
-        void displayQueue();
         void setTotalSizes();
-        void onGameEnded();
+        IWindowStatePtr createWindow(const std::string& type);
+        void getNextState();
     };
     
     DECLARE_SHARED(PacManFrame);

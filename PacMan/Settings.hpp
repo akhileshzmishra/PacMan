@@ -71,6 +71,7 @@ class Settings: public SettingSubject{
     
     bool      coinAnimation = false;
     int       mTotalLives = 5;
+    int       mTotalScore = 0;
 public:
     static Settings* getInstance();
     void start();
@@ -94,6 +95,7 @@ public:
     GENERIC_GETTER_SETTER(Renderer,        mRenderer,       IRendererPtr);
     GENERIC_GETTER_SETTER(coinAnimation,   coinAnimation,   bool);
     GENERIC_GETTER_SETTER(Lives,           mTotalLives,     int);
+    GENERIC_GETTER_SETTER(Score,           mTotalScore,     int);
     
     void setWindowDimension(const Dimension& d);
     

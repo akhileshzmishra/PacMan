@@ -15,7 +15,7 @@
 namespace pacman {namespace impl{
 
 class Consumable: public ICoin, public SettingObserver{
-    int                                       mValue = 5;
+    int                                       mValue = 17;
     BoundingBox                               mBBox;
     sf::CircleShape                           mCircleDisplay;
     ColorRGB                                  mColor;

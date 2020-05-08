@@ -9,9 +9,14 @@
 #include "PacManFrame.hpp"
 #include "Settings.hpp"
 #include "ObjectFactory.hpp"
+#include "ScoreCardWindow.hpp"
 
 using namespace pacman;
 using namespace pacman::impl;
+
+PacManFrame::~PacManFrame(){
+    
+}
 
 PacManFrame::PacManFrame(){
     Dimension dim = Settings::getInstance()->getWindowDimension();
@@ -19,6 +24,7 @@ PacManFrame::PacManFrame(){
     //mWindow.setFramerateLimit(4);
     setTotalSizes();
     SetSubject(Settings::getInstance());
+    mCurrentStatString = "";
 }
 
 void PacManFrame::setTotalSizes(){
@@ -30,8 +36,7 @@ void PacManFrame::setTotalSizes(){
 void PacManFrame::run(){
     setTotalSizes();
     mFullDisplay = true;
-    pacman::impl::LiftData liftData;
-    
+    goToNextState();
     while (mWindow.isOpen()){
         sf::Event event;
         while (mWindow.pollEvent(event)){
@@ -46,171 +51,67 @@ void PacManFrame::run(){
             }
             else{
                 if(event.type == sf::Event::KeyPressed){
-                    switch(event.key.code){
-                        case sf::Keyboard::A:
-                            GetSubject()->NotifyToObservers(liftData, KeyPressedLeft);
-                            break;
-                        case sf::Keyboard::D:
-                            GetSubject()->NotifyToObservers(liftData, KeyPressedRight);
-                            break;
-                        case sf::Keyboard::W:
-                            GetSubject()->NotifyToObservers(liftData, KeyPressedUp);
-                            break;
-                        case sf::Keyboard::Z:
-                            GetSubject()->NotifyToObservers(liftData, KeyPressedDown);
-                            break;
-                        default:
-                            break;
-                    }
+                    mCurrentState->notifyKey(event);
                 }
             }
         }
         if(!mGameEnded){
-            mPlayBoard->play();
-            displayBackground();
-            displayMiddleground();
-            displayForeground();
-            displayQueue();
-            mWindow.display();
+            mCurrentState->play();
+            if(mCurrentState->doNeedToChangeState()){
+                goToNextState();
+            }
         }
         else{
-            onGameEnded();
             mWindow.close();
         }
     }
     destroy();
 }
 
-void PacManFrame::displayQueue(){
-    while(mQueue.size() > 0){
-        auto popValue = mQueue.pop();
-        if(!popValue.second){
-            return;
-        }
-        auto& first = popValue.first;
-        if(!first.ptr || !first.ptr->getShape()){
-            continue;
-        }
-        auto drawable = first.ptr->getShape();
-        auto shapee = dynamic_cast<sf::Shape*>(drawable);
-        if(!shapee){
-            continue;
-        }
-        if(first.steps > 0){
-            auto currentPositionV = shapee->getPosition();
-            Position currentP;
-            currentP.row = currentPositionV.y;
-            currentP.col = currentPositionV.x;
-            float deltaRow = (first.pos.row - currentP.row)/first.steps;
-            float deltaCol = (first.pos.col - currentP.col)/first.steps;
-            for(int i = 0; i < first.steps; i++){
-                currentP.row += deltaRow;
-                currentP.col += deltaCol;
-                shapee->setPosition(currentP.col, currentP.row);
-                mWindow.draw(*shapee);
-                //std::this_thread::sleep_for(std::chrono::milliseconds(20));
-            }
-        }
-        shapee->setPosition(first.pos.col, first.pos.row);
-        mWindow.draw(*shapee);
+void PacManFrame::goToNextState(){
+    if(mCurrentState){
+        mCurrentState->destroy();
+        mCurrentState = nullptr;
     }
+    getNextState();
+    mCurrentState = createWindow(mCurrentStatString);
 }
 
-void PacManFrame::displayBackground(){
-    for(auto itr = mRenderedList[(int)RenderLayer::Background].begin();
-        itr != mRenderedList[(int)RenderLayer::Background].end(); itr++){
-        if(itr->first->canBeRendered()){
-            auto shape = itr->first->getShape();
-            if(shape){
-                mWindow.draw(*shape);
-            }
-            itr->first->renderComplete();
-        }
+IWindowStatePtr PacManFrame::createWindow(const std::string& type){
+    IWindowStatePtr ptr;
+    if(type == MAINWINDOW){
+        ptr = std::make_shared<MainGameWindow>();
     }
-}
-void PacManFrame::displayForeground(){
-    for(auto itr = mRenderedList[(int)RenderLayer::ForeGround].begin();
-        itr != mRenderedList[(int)RenderLayer::ForeGround].end(); itr++){
-        if(itr->first->canBeRendered()){
-            auto shape = itr->first->getShape();
-            if(shape){
-                mWindow.draw(*shape);
-            }
-            itr->first->renderComplete();
-        }
+    else{
+        ptr = std::make_shared<ScoreCardWindow>();
     }
+    ptr->setDrawableWindow(&mWindow);
+    ptr->create();
+    return ptr;
 }
 
-void PacManFrame::displayMiddleground(){
-    for(auto itr = mRenderedList[(int)RenderLayer::Middleground].begin();
-        itr != mRenderedList[(int)RenderLayer::Middleground].end(); itr++){
-        if(itr->first->canBeRendered()){
-            auto shape = itr->first->getShape();
-            if(shape){
-                mWindow.draw(*shape);
-            }
-            itr->first->renderComplete();
-        }
+void PacManFrame::getNextState(){
+    if(mCurrentStatString == MAINWINDOW){
+        mCurrentStatString = SCOREWINDOW;
     }
-}
-
-void PacManFrame::onGameEnded(){
-    mWindow.draw(mEndRect);
-    mWindow.draw(mGameEndedText);
-    mWindow.display();
-    std::this_thread::sleep_for(std::chrono::seconds(3));
+    else if(mCurrentStatString == ""){
+        mCurrentStatString = MAINWINDOW;
+    }
 }
 
 void PacManFrame::create(){
-    Settings::getInstance()->setRenderer(shared_from_this());
-    Register(SettingsObservation::GameHasEnded);
-    auto Winpos = Settings::getInstance()->getWindowDimension();
-    mGameEndedText.setPosition(Winpos.length/2, Winpos.width/2);
-    mGameEndedText.setString(GAME_OVER);
-    mEndRect.setSize(sf::Vector2f(Winpos.length, Winpos.width));
-    mEndRect.setFillColor(sf::Color::Black);
-    mfont.loadFromFile("arial.ttf");
-    mGameEndedText.setFont(mfont);
-    mGameEndedText.setFillColor(sf::Color::White);
-    mGameEndedText.setCharacterSize(60);
-    
-    mPlayBoard = ObjectFactory::getGameManager();
-    mPlayBoard->create();
-    mCreated = true;
+    mCurrentState = std::make_shared<MainGameWindow>();
+    mCurrentState->setDrawableWindow(&mWindow);
+    mCurrentState->create();
 }
-
-void PacManFrame::addMovable(RenderingJob& p){
-    mQueue.push(p);
-}
-
-PacManFrame::~PacManFrame(){
-    destroy();
-}
-
 
 void PacManFrame::destroy(){
-    if(mCreated){
-        mPlayBoard->destroy();
-        for(int i = 0; i < (int)RenderLayer::MaxLayer; i++){
-            mRenderedList[i].clear();
-        }
-        Settings::getInstance()->setRenderer(nullptr);
+    if(mCurrentState){
+        mCurrentState->destroy();
     }
-    mCreated = false;
+    mCurrentState = nullptr;
 }
 
 void PacManFrame::GetNotified(LiftData& data, const SettingsObservation& condition){
-    if(condition == GameHasEnded){
-        mGameEnded = true;
-    }
-}
-
-void PacManFrame::addRenderered(IRenderered* ptr, RenderLayer layer){
-    mRenderedList[(int)layer][ptr] = RenderedProperty();
-    mRenderedList[(int)layer][ptr].active = false;
-}
-void PacManFrame::clearRendererd(IRenderered* ptr){
-    for(int i = 0; i < (int)RenderLayer::MaxLayer; i++){
-        mRenderedList[i].erase(ptr);
-    }
+    
 }

@@ -14,18 +14,66 @@
 #include "BlockingQueue.h"
 
 namespace pacman {namespace impl{
-
-class MainGameWindow: public IWindowState, public IRenderer{
-    sf::Window*                             mWindow = 0;
+    
+typedef BlockingQueue<RenderingJob> RenderingQueue;
+struct RenderedProperty{
+    bool              active;
+};
+typedef std::unordered_map<IRenderered*, RenderedProperty>  RenderedList;
+class MainGameWindow: public IWindowState, public IRenderer,
+    public std::enable_shared_from_this<MainGameWindow>,
+    public SettingObserver
+    {
+    sf::RenderWindow*                       mWindow = 0;
+    Position                                mPosition;
+    RenderedList                            mRenderedList[RenderLayer::MaxLayer];
+    IGameManagerPtr                         mPlayBoard;
+    sf::Event                               mEvent;
+    bool                                    mFullDisplay = false;
+    bool                                    mGameEnded = false;
+    RenderingQueue                          mQueue;
+    bool                                    mCreated = false;
+    WindowType                              mType;
 public:
-    virtual ~MainGameWindow(){}
-    virtual void setDrawableWindow(sf::Window* win)override{
+    MainGameWindow();
+    virtual ~MainGameWindow();
+    virtual void setDrawableWindow(sf::RenderWindow* win)override{
         mWindow = win;
     }
-    virtual WindowType getType() override;
-    virtual void draw() override;;
-    virtual void play()override = 0;
-    virtual bool doNeedToChangeState() override = 0;
+    virtual WindowType getType() override{
+        return mType;
+    }
+
+    virtual void play()override;
+    virtual bool doNeedToChangeState() override;
+    
+    virtual void setPosition(const Position& p)override{
+        mPosition = p;
+    }
+    virtual Position getPosition()override{
+        return mPosition;
+    }
+        
+    virtual void notifyKey(sf::Event& ev) override;
+    
+    virtual void create()override;
+    virtual void destroy()override;
+    
+    virtual void addRenderered(IRenderered*  , RenderLayer layer)override;
+    virtual void clearRendererd(IRenderered* )override;
+    
+    void setGameManager(IGameManagerPtr board){
+        mPlayBoard = board;
+    }
+    
+    void addMovable(RenderingJob& j) override;
+    void GetNotified(LiftData& data, const SettingsObservation& condition) override;
+private:
+    void displayBackground();
+    void displayMiddleground();
+    void displayForeground();
+    void displayQueue();
+    
     
 };
     

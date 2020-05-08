@@ -79,6 +79,7 @@ void Consumable::setRenderable(bool s){
         Settings::getInstance()->getCopyRenderer()->addRenderered(this, Middleground);
     }
     else{
+        hasBeenTaken();
         Settings::getInstance()->getCopyRenderer()->clearRendererd(this);
     }
 }

@@ -35,16 +35,14 @@ Position ScoreCard::getPosition(){
 }
 
 void ScoreCard::create(){
-    dimension.width = 40;
-    dimension.length = 100;
-    //mRect.setSize(sf::Vector2f(dimension.width, dimension.length));
-    //mRect.setFillColor(sf::Color(mColor.red, mColor.green, mColor.blue));
+    dimension = Settings::getInstance()->getSquareDimension();
     mfont.loadFromFile("arial.ttf");
     mRect.setFont(mfont);
     mRect.setPosition(position.col, position.row);
     mRect.setFillColor(sf::Color::White);
     mRect.setOutlineThickness(1.0);
-    mRect.setCharacterSize(20);
+    auto squareDim = Settings::getInstance()->getSquareDimension();
+    mRect.setCharacterSize(squareDim.length*0.5);
     mRect.setPosition(10.0, 10.0);
     mRect.setOutlineColor(sf::Color::Yellow);
     Settings::getInstance()->getCopyRenderer()->addRenderered(this, ForeGround);

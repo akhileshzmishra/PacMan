@@ -21,6 +21,7 @@
 #include "GraphicIncludes.h"
 #include "PacManTexts.h"
 #include "interfaces/IBluePrint.h"
+#include "interfaces/IStateMachine.h"
 #include "interfaces/IGhostMoveStrategy.h"
 
 #endif /* AllInterfaces_h */

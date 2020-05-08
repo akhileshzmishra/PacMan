@@ -44,6 +44,7 @@ bool PacManState::move(){
         nxtSquare->resetCoin();
     }
     mGameState->addScore(2);
+    Settings::getInstance()->setScore(mGameState->getScore());
     return true;
 }
 

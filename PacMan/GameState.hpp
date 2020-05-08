@@ -100,7 +100,7 @@ namespace pacman {namespace impl{
     typedef std::vector<GameNode>     GameNodeVec;
     typedef std::vector<GameNodeVec>  GameNodeTwoD;
     class GameState{
-        int                           mScore;
+        int                           mScore = 0;
         IBluePrintPtr                 mBluePrint;
         int                           mGhostCount = 0;
         int                           mPlayerCount = 0;

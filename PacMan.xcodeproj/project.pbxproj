@@ -10,6 +10,8 @@
 		1E4ADC912463FB6800AA70A2 /* Windows.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E4ADC8F2463FB6800AA70A2 /* Windows.cpp */; };
 		1E4ADC952464F70800AA70A2 /* ScoreCard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E4ADC932464F70800AA70A2 /* ScoreCard.cpp */; };
 		1E4ADC972464FFD400AA70A2 /* arial.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1E4ADC962464FEBB00AA70A2 /* arial.ttf */; };
+		1E4ADC9E2465E16B00AA70A2 /* MainGameWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E4ADC9D2465E16B00AA70A2 /* MainGameWindow.cpp */; };
+		1E4ADCA12465EDF600AA70A2 /* ScoreCardWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E4ADC9F2465EDF600AA70A2 /* ScoreCardWindow.cpp */; };
 		1EB57E28245DBB3300665D42 /* GhostWorker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EB57E26245DBB3300665D42 /* GhostWorker.cpp */; };
 		1EB57E2D245DBDCF00665D42 /* GhostUnchartedStrategy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EB57E2B245DBDCF00665D42 /* GhostUnchartedStrategy.cpp */; };
 		1EB57EA8245E6EB100665D42 /* PacManTheHero.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EB57EA6245E6EB100665D42 /* PacManTheHero.cpp */; };
@@ -106,6 +108,11 @@
 		1E4ADC932464F70800AA70A2 /* ScoreCard.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScoreCard.cpp; sourceTree = "<group>"; };
 		1E4ADC942464F70800AA70A2 /* ScoreCard.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScoreCard.hpp; sourceTree = "<group>"; };
 		1E4ADC962464FEBB00AA70A2 /* arial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = arial.ttf; path = images/font/arial.ttf; sourceTree = "<group>"; };
+		1E4ADC9B2465E15800AA70A2 /* IStateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IStateMachine.h; sourceTree = "<group>"; };
+		1E4ADC9C2465E16B00AA70A2 /* MainGameWindow.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MainGameWindow.hpp; path = windows/MainGameWindow.hpp; sourceTree = "<group>"; };
+		1E4ADC9D2465E16B00AA70A2 /* MainGameWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainGameWindow.cpp; path = windows/MainGameWindow.cpp; sourceTree = "<group>"; };
+		1E4ADC9F2465EDF600AA70A2 /* ScoreCardWindow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ScoreCardWindow.cpp; path = windows/ScoreCardWindow.cpp; sourceTree = "<group>"; };
+		1E4ADCA02465EDF600AA70A2 /* ScoreCardWindow.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ScoreCardWindow.hpp; path = windows/ScoreCardWindow.hpp; sourceTree = "<group>"; };
 		1EB57E26245DBB3300665D42 /* GhostWorker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GhostWorker.cpp; sourceTree = "<group>"; };
 		1EB57E27245DBB3300665D42 /* GhostWorker.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GhostWorker.hpp; sourceTree = "<group>"; };
 		1EB57E2B245DBDCF00665D42 /* GhostUnchartedStrategy.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GhostUnchartedStrategy.cpp; path = ghostStrategy/GhostUnchartedStrategy.cpp; sourceTree = "<group>"; };
@@ -210,8 +217,12 @@
 		1E4ADC8E2463FB2C00AA70A2 /* windows */ = {
 			isa = PBXGroup;
 			children = (
+				1E4ADC9D2465E16B00AA70A2 /* MainGameWindow.cpp */,
+				1E4ADC9C2465E16B00AA70A2 /* MainGameWindow.hpp */,
 				1E4ADC8F2463FB6800AA70A2 /* Windows.cpp */,
 				1E4ADC902463FB6800AA70A2 /* Windows.hpp */,
+				1E4ADC9F2465EDF600AA70A2 /* ScoreCardWindow.cpp */,
+				1E4ADCA02465EDF600AA70A2 /* ScoreCardWindow.hpp */,
 			);
 			name = windows;
 			sourceTree = "<group>";
@@ -219,6 +230,7 @@
 		1EB57EB6245F3CCC00665D42 /* interfaces */ = {
 			isa = PBXGroup;
 			children = (
+				1E4ADC9B2465E15800AA70A2 /* IStateMachine.h */,
 				1EB57EB7245F3CCC00665D42 /* IPlayBoard.h */,
 				1EB57EB8245F3CCC00665D42 /* ICoin.h */,
 				1EB57EB9245F3CCC00665D42 /* IBluePrint.h */,
@@ -387,6 +399,7 @@
 				1EF1BC332459EC7E002CF1A5 /* main.cpp in Sources */,
 				1EF1BC3F2459EEE3002CF1A5 /* GameManager.cpp in Sources */,
 				1EF1BC472459F055002CF1A5 /* ObjectFactory.cpp in Sources */,
+				1E4ADCA12465EDF600AA70A2 /* ScoreCardWindow.cpp in Sources */,
 				1EB57EA8245E6EB100665D42 /* PacManTheHero.cpp in Sources */,
 				1EB57E2D245DBDCF00665D42 /* GhostUnchartedStrategy.cpp in Sources */,
 				1E4ADC912463FB6800AA70A2 /* Windows.cpp in Sources */,
@@ -396,6 +409,7 @@
 				1EB57F2224603E5E00665D42 /* Utiliity.cpp in Sources */,
 				1EB57E28245DBB3300665D42 /* GhostWorker.cpp in Sources */,
 				1EF1BC5E2459FD28002CF1A5 /* MapDisplay.cpp in Sources */,
+				1E4ADC9E2465E16B00AA70A2 /* MainGameWindow.cpp in Sources */,
 				1EF1BCBB245B6F43002CF1A5 /* Settings.cpp in Sources */,
 				1EF1BCBE245B853D002CF1A5 /* PacManView.cpp in Sources */,
 				1EF1BCB4245B62A8002CF1A5 /* BluePrint.cpp in Sources */,

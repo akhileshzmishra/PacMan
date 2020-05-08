@@ -9,19 +9,20 @@
 #ifndef IStateMachine_h
 #define IStateMachine_h
 #include "CommonIncludes.h"
-#include "IRenderer.h"
+#include "PrimaryObject.h"
+#include "GraphicIncludes.h"
 
 namespace  pacman {
 
 struct WindowType{
-    int type = 0;
+    std::string type;
 };
 
-class IWindowState{
+class IWindowState: public IPrimaryObject{
 public:
-    virtual void setDrawableWindow(sf::Window* win) = 0;
+    virtual void setDrawableWindow(sf::RenderWindow* win) = 0;
     virtual WindowType getType() = 0;
-    virtual void draw() = 0;;
+    virtual void notifyKey(sf::Event& ) = 0;
     virtual void play() = 0;
     virtual bool doNeedToChangeState() = 0;
     
@@ -31,11 +32,7 @@ DECLARE_SHARED(IWindowState);
 
 class IWindowStateMachine{
 public:
-    virtual void addState(IWindowState* st) = 0;
-    virtual void registerChange(WindowType& from, WindowType& to) = 0;
-    
-    virtual void draw() = 0;
-    virtual void play() = 0;
+    virtual void goToNextState() = 0;
 };
 DECLARE_SHARED(IWindowStateMachine);
 
