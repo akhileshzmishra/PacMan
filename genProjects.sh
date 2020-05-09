@@ -7,6 +7,7 @@ Failure=${RED}Failed${NC}
 Err=${RED}Error${NC}
 
 sfmlVersion="2.4.1"
+buildConfiguaration="Debug"
 
 
 projectMake=$Failure
@@ -37,6 +38,8 @@ function cloneAndFixDirectories {
 	printf "Checking out version = $sfmlVersion\n"
 	git checkout $sfmlVersion
 
+	rm -rf "$smflInstallDir"
+	rm -rf "$smflBuildDir"
 	printf "making install and build directory\n"
 	mkdir build
 	mkdir install
@@ -63,7 +66,6 @@ function checkRequirements {
 }
 
 
-
 if ! [[ -z "$1" ]]
 then
 	if [[ $1 = "clean" ]]
@@ -73,25 +75,29 @@ then
 		cd "$rootDir"
 		rm -rf "$resourceDir"
 		exit 0
+	elif [[ $1 = "rebuildDebug" ]]
+	then
+		buildConfiguaration="Debug"
+	elif [[ $1 = "rebuildRelease" ]]
+	then
+		buildConfiguaration="Release"
 	else
-		checkRequirements
-		cloneAndFixDirectories
-
-		printf "Running CMake.\n"
+		
 		if [[ $1 = "release" ]]
 		then
-			cmake -DCMAKE_INSTALL_PREFIX=./build -DSFML_DEPENDENCIES_INSTALL_PREFIX=./install -DSFML_MISC_INSTALL_PREFIX=./install -DCMAKE_BUILD_TYPE="Release" -DBUILD_SHARED_LIBS=1 -DSFML_BUILD_GRAPHICS=1 -DSFML_BUILD_WINDOW=1
+			buildConfiguaration="Release"
 		else
-			cmake -DCMAKE_INSTALL_PREFIX=./build -DSFML_DEPENDENCIES_INSTALL_PREFIX=./install -DSFML_MISC_INSTALL_PREFIX=./install -DCMAKE_BUILD_TYPE="Debug" -DBUILD_SHARED_LIBS=1 -DSFML_BUILD_GRAPHICS=1 -DSFML_BUILD_WINDOW=1
+			buildConfiguaration="Debug"
 		fi
 	fi
 else
-	checkRequirements
-	cloneAndFixDirectories
-	printf "Running CMake.\n"
-	cmake -DCMAKE_INSTALL_PREFIX=./build -DSFML_DEPENDENCIES_INSTALL_PREFIX=./install -DSFML_MISC_INSTALL_PREFIX=./install -DCMAKE_BUILD_TYPE=Debug -DSFML_BUILD_GRAPHICS=1 -DSFML_BUILD_WINDOW=1
-
+	buildConfiguaration="Debug"
 fi
+
+printf "Running CMake.\n"
+checkRequirements
+cloneAndFixDirectories
+cmake -DCMAKE_INSTALL_PREFIX=./build -DSFML_DEPENDENCIES_INSTALL_PREFIX=./install -DSFML_MISC_INSTALL_PREFIX=./install -DCMAKE_BUILD_TYPE="$buildConfiguaration" -DBUILD_SHARED_LIBS=1 -DSFML_BUILD_GRAPHICS=1 -DSFML_BUILD_WINDOW=1
 
 if [[ $? == 0 ]]
 then
